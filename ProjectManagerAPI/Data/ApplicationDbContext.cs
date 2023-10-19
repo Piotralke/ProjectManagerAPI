@@ -10,10 +10,49 @@ namespace ProjectManagerAPI.Data
         {
                         
         }
-        public DbSet<User> Users { get; set; }
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.owner)
+                .WithOne(u => u.project)
+                .HasForeignKey<Project>(p => p.ownerUuid)
+                .IsRequired();
+
+			modelBuilder.Entity<Project>()
+				.HasMany(p => p.events)
+				.WithOne(e => e.project)
+				.HasForeignKey(e => e.projectUuid)
+				.IsRequired();
+
+
+			//modelBuilder.Entity<ProjectMembers>()
+			//	.HasKey(pm => new { pm.projectUuid, pm.userUuid }); // Definiuje klucz główny dla tabeli łączącej ???
+
+			modelBuilder.Entity<ProjectMembers>()
+				.HasOne(pm => pm.project)
+				.WithMany(p => p.members)
+				.HasForeignKey(pm => pm.projectUuid); // Definiuje relację między ProjectMember i Project
+
+			modelBuilder.Entity<ProjectMembers>()
+				.HasOne(pm => pm.user)
+				.WithMany(u => u.members)
+				.HasForeignKey(pm => pm.userUuid); // Definiuje relację między ProjectMember i User
+
+			modelBuilder.Entity<UserEvents>()
+				.HasOne(ue => ue.projectEvents)
+				.WithMany(p => p.userEvents)
+				.HasForeignKey(ue => ue.eventUuid);
+
+			modelBuilder.Entity<UserEvents>()
+				.HasOne(ue => ue.user)
+				.WithMany(p => p.events)
+				.HasForeignKey(ue => ue.userUuid);
+
+		}
+		public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<Chat> Chats { get; set; }
-        public DbSet<Message> Messages { get; set; }
+        //public DbSet<Chat> Chats { get; set; }
+        //public DbSet<Message> Messages { get; set; }
         //public DbSet<UserEvents> UserEvents { get; set; }
 
 
