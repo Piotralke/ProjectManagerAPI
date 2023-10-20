@@ -18,5 +18,8 @@ namespace ProjectManagerAPI.Models
 
 		public ICollection<ProjectMembers> members { get; set; }
 		public ICollection<ProjectEvents> events { get; set; }
+		public ICollection<GanntTasks> tasks { get; set; }
+
+		public Chat? chat { get; set; }
 	}
 }

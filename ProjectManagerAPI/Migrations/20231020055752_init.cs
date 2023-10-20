@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectManagerAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -100,6 +100,37 @@ namespace ProjectManagerAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserEvents",
+                columns: table => new
+                {
+                    uuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    eventUuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    userUuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserEventsuuid = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserEvents", x => x.uuid);
+                    table.ForeignKey(
+                        name: "FK_UserEvents_ProjectEvents_eventUuid",
+                        column: x => x.eventUuid,
+                        principalTable: "ProjectEvents",
+                        principalColumn: "uuid",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserEvents_UserEvents_UserEventsuuid",
+                        column: x => x.UserEventsuuid,
+                        principalTable: "UserEvents",
+                        principalColumn: "uuid");
+                    table.ForeignKey(
+                        name: "FK_UserEvents_Users_userUuid",
+                        column: x => x.userUuid,
+                        principalTable: "Users",
+                        principalColumn: "uuid",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectEvents_projectUuid",
                 table: "ProjectEvents",
@@ -120,16 +151,34 @@ namespace ProjectManagerAPI.Migrations
                 table: "Projects",
                 column: "ownerUuid",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserEvents_eventUuid",
+                table: "UserEvents",
+                column: "eventUuid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserEvents_UserEventsuuid",
+                table: "UserEvents",
+                column: "UserEventsuuid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserEvents_userUuid",
+                table: "UserEvents",
+                column: "userUuid");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProjectEvents");
+                name: "ProjectMembers");
 
             migrationBuilder.DropTable(
-                name: "ProjectMembers");
+                name: "UserEvents");
+
+            migrationBuilder.DropTable(
+                name: "ProjectEvents");
 
             migrationBuilder.DropTable(
                 name: "Projects");

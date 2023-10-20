@@ -147,6 +147,32 @@ namespace ProjectManagerAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("UserEventsuuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("eventUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("userUuid")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("UserEventsuuid");
+
+                    b.HasIndex("eventUuid");
+
+                    b.HasIndex("userUuid");
+
+                    b.ToTable("UserEvents");
+                });
+
             modelBuilder.Entity("ProjectManagerAPI.Models.Project", b =>
                 {
                     b.HasOne("ProjectManagerAPI.Models.User", "owner")
@@ -188,6 +214,29 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.UserEvents", null)
+                        .WithMany("events")
+                        .HasForeignKey("UserEventsuuid");
+
+                    b.HasOne("ProjectManagerAPI.Models.ProjectEvents", "projectEvents")
+                        .WithMany("userEvents")
+                        .HasForeignKey("eventUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectManagerAPI.Models.User", "user")
+                        .WithMany("events")
+                        .HasForeignKey("userUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("projectEvents");
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("ProjectManagerAPI.Models.Project", b =>
                 {
                     b.Navigation("events");
@@ -195,11 +244,23 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("members");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.ProjectEvents", b =>
+                {
+                    b.Navigation("userEvents");
+                });
+
             modelBuilder.Entity("ProjectManagerAPI.Models.User", b =>
                 {
+                    b.Navigation("events");
+
                     b.Navigation("members");
 
                     b.Navigation("project");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
+                {
+                    b.Navigation("events");
                 });
 #pragma warning restore 612, 618
         }
