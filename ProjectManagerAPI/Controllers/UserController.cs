@@ -1,43 +1,77 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using ProjectManagerAPI.Models;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace ProjectManagerAPI.Controllers
+[Route("users")]
+[ApiController]
+public class UserController : ControllerBase
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class UserController : ControllerBase
-	{
-		// GET: api/<ValuesController>
-		[HttpGet]
-		public IEnumerable<string> Get()
-		{
-			return new string[] { "value1", "value2" };
-		}
+    private readonly IUserService _userService;
 
-		// GET api/<ValuesController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
-		{
-			return "value";
-		}
+    public UserController(IUserService userService)
+    {
+        _userService = userService;
+    }
 
-		// POST api/<ValuesController>
-		[HttpPost]
-		public void Post([FromBody] string value)
-		{
-		}
+    [HttpGet]
+    public ActionResult<IEnumerable<User>> GetAllUsers()
+    {
+        var users = _userService.GetAllUsers();
+        return Ok(users);
+    }
 
-		// PUT api/<ValuesController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
+    [HttpGet("{userId}")]
+    public ActionResult<User> GetUser(Guid userId)
+    {
+        var user = _userService.GetUserById(userId);
+        if (user == null)
+        {
+            return NotFound();
+        }
+        return Ok(user);
+    }
 
-		// DELETE api/<ValuesController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-		}
-	}
+    [HttpPost]
+    public ActionResult<User> CreateUser(User user)
+    {
+        _userService.AddUser(user);
+        if (_userService.SaveChanges())
+        {
+            return CreatedAtAction("GetUser", new { userId = user.uuid }, user);
+        }
+        return BadRequest("Failed to create user.");
+    }
+
+    [HttpPut("{userId}")]
+    public ActionResult UpdateUser(Guid userId, User user)
+    {
+        var existingUser = _userService.GetUserById(userId);
+        if (existingUser == null)
+        {
+            return NotFound();
+        }
+        user.uuid = existingUser.uuid;
+        _userService.UpdateUser(user);
+        if (_userService.SaveChanges())
+        {
+            return NoContent();
+        }
+        return BadRequest("Failed to update user.");
+    }
+
+    [HttpDelete("{userId}")]
+    public ActionResult DeleteUser(Guid userId)
+    {
+        var existingUser = _userService.GetUserById(userId);
+        if (existingUser == null)
+        {
+            return NotFound();
+        }
+        _userService.DeleteUser(userId);
+        if (_userService.SaveChanges())
+        {
+            return NoContent();
+        }
+        return BadRequest("Failed to delete user.");
+    }
 }

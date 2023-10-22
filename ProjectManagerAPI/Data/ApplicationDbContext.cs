@@ -50,11 +50,11 @@ namespace ProjectManagerAPI.Data
 
 			modelBuilder.Entity<Chat>()
 				.HasOne(c => c.memberOne)
-				.WithOne(u => u.chat)
+				.WithOne(u => u.chatMemberOne)
 				.HasForeignKey<Chat>(c => c.memberOneUuid);
             modelBuilder.Entity<Chat>()
 			    .HasOne(c => c.memberTwo)
-				.WithOne(u => u.chat)
+				.WithOne(u => u.chatMemberTwo)
 			    .HasForeignKey<Chat>(c => c.memberTwoUuid);
 			modelBuilder.Entity<Chat>()
 				.HasOne(c => c.project)
