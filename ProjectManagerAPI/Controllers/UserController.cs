@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 
 [Route("users")]
@@ -14,14 +15,14 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<User>> GetAllUsers()
+    public ActionResult<IEnumerable<UserDto>> GetAllUsers()
     {
         var users = _userService.GetAllUsers();
         return Ok(users);
     }
 
     [HttpGet("{userId}")]
-    public ActionResult<User> GetUser(Guid userId)
+    public ActionResult<UserDto> GetUser(Guid userId)
     {
         var user = _userService.GetUserById(userId);
         if (user == null)
@@ -32,18 +33,18 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<User> CreateUser(User user)
+    public ActionResult<UserDto> CreateUser(CreateUserDto user)
     {
-        _userService.AddUser(user);
+        var createdUser = _userService.AddUser(user);
         if (_userService.SaveChanges())
         {
-            return CreatedAtAction("GetUser", new { userId = user.uuid }, user);
+            return CreatedAtAction("GetUser", new { userId = createdUser.uuid }, createdUser);
         }
         return BadRequest("Failed to create user.");
     }
 
     [HttpPut("{userId}")]
-    public ActionResult UpdateUser(Guid userId, User user)
+    public ActionResult UpdateUser(Guid userId, UserDto user)
     {
         var existingUser = _userService.GetUserById(userId);
         if (existingUser == null)

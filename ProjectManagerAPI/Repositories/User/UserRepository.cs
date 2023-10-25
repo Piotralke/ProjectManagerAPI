@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.Internal.TypeHandlers;
 using ProjectManagerAPI.Data; // Dodaj odpowiednią przestrzeń nazw związana z kontekstem bazy danych
+using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 
 public class UserRepository : IUserRepository
@@ -15,14 +17,18 @@ public class UserRepository : IUserRepository
     }
 
     public IEnumerable<User> GetAllUsers()
-    {
-        return _context.Users.Include(u => u.project).ToList();
-    }
+    {       
+        return _context.Users.ToList();
+	}
 
     public User GetUserById(Guid userId)
     {
-        return _context.Users.Include(u => u.project)
-                             .FirstOrDefault(u => u.uuid == userId);
+        var user = _context.Users.FirstOrDefault(u => u.uuid == userId);
+        if(user == null) 
+        {
+            throw new Exception("User not found");
+        }
+        return user;
     }
 
     public void AddUser(User user)

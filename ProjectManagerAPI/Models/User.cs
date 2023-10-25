@@ -23,9 +23,5 @@ namespace ProjectManagerAPI.Models
 		public Message? message { get; set; }
 		public Chat? chatMemberOne { get; set; }
 		public Chat? chatMemberTwo { get; set; }
-
-		public User() {
-			uuid = Guid.NewGuid();
-		}
 	}
 }

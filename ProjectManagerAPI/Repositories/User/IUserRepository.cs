@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 public interface IUserRepository
 {

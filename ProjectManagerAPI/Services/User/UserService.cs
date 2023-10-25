@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 
 public class UserService : IUserService
@@ -11,24 +12,77 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public IEnumerable<User> GetAllUsers()
+    public IEnumerable<UserDto> GetAllUsers()
     {
-        return _userRepository.GetAllUsers();
+        var users = _userRepository.GetAllUsers();
+		List<UserDto> result = new List<UserDto>();
+		foreach (var user in users)
+		{
+			UserDto userDto = new UserDto
+			{
+				uuid = user.uuid,
+				name = user.name,
+				surname = user.surname,
+				email = user.email,
+				createdAt = user.createdAt,
+				role = user.role
+			};
+			result.Add(userDto);
+		}
+        return result;
+
+	}
+
+    public UserDto GetUserById(Guid userId)
+    {
+        var user = _userRepository.GetUserById(userId);
+		UserDto userDto = new UserDto
+		{
+			uuid = user.uuid,
+			name = user.name,
+			surname = user.surname,
+			email = user.email,
+			createdAt = user.createdAt,
+			role = user.role
+		};
+		return userDto;
     }
 
-    public User GetUserById(Guid userId)
+    public UserDto AddUser(CreateUserDto user)
     {
-        return _userRepository.GetUserById(userId);
+		User newUser = new User
+		{
+			uuid = Guid.NewGuid(),
+			name = user.name,
+			surname = user.surname,
+			password = user.password,
+			email = user.email,
+			role = user.role,
+			createdAt = DateTime.UtcNow
+		};
+		_userRepository.AddUser(newUser);
+		return new UserDto { 
+			uuid = newUser.uuid,
+			name = newUser.name,
+			surname=newUser.surname,
+			email = newUser.email,
+			role = newUser.role,
+			createdAt = DateTime.UtcNow
+		};
     }
 
-    public void AddUser(User user)
+    public void UpdateUser(UserDto user)
     {
-        _userRepository.AddUser(user);
-    }
-
-    public void UpdateUser(User user)
-    {
-        _userRepository.UpdateUser(user);
+		User updatedUser = new User
+		{
+			uuid = user.uuid,
+			name = user.name,
+			surname = user.surname,
+			email = user.email,
+			role = user.role,
+			createdAt = user.createdAt
+		};
+		_userRepository.UpdateUser(updatedUser);
     }
 
     public void DeleteUser(Guid userId)
