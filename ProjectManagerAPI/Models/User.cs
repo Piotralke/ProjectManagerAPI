@@ -13,7 +13,7 @@ namespace ProjectManagerAPI.Models
 		public string password { get; set; }
 		public DateTime createdAt { get; set; }
 		public Role role { get; set; }
-		public Project? project { get; set; }
+		public ICollection<Project>? projects { get; set; }
 
 		public ICollection<ProjectMembers> members { get; set; }
 		public ICollection<UserEvents> events { get; set; }

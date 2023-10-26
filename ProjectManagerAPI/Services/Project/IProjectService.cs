@@ -6,8 +6,10 @@ public interface IProjectService
 {
 	IEnumerable<ProjectDto> GetAllProjects();
 	ProjectDto GetProjectById(Guid projectId);
-	void AddProject(CreateProjectDto project);
-	void UpdateProject(Project project);
+	ProjectDto AddProject(CreateProjectDto project);
+	void UpdateProject(UpdateProjectDto project);
 	void DeleteProject(Guid projectId);
 	bool SaveChanges();
+	void AddProjectMember(ProjectMembers member);
+	void RemoveProjectMember(Guid projectId, Guid memberId);
 }

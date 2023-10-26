@@ -38,4 +38,20 @@ public class ProjectRepository : IProjectRepository
 	{
 		return _context.SaveChanges() > 0;
 	}
+
+	public void AddProjectMember(ProjectMembers member)
+	{
+		_context.ProjectMembers.Add(member);
+	}
+	public void DeleteProjectMember(Guid projectId, Guid memberId)
+	{
+		var member = _context.ProjectMembers.FirstOrDefault(m => m.projectUuid == projectId && m.userUuid == memberId);
+		if (member != null)
+		{
+			_context.ProjectMembers.Remove(member);
+		}
+
+
+
+	}
 }

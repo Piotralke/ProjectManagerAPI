@@ -14,8 +14,8 @@ namespace ProjectManagerAPI.Data
 		{
             modelBuilder.Entity<Project>()
                 .HasOne(p => p.owner)
-                .WithOne(u => u.project)
-                .HasForeignKey<Project>(p => p.ownerUuid)
+                .WithMany(u => u.projects)
+                .HasForeignKey(p => p.ownerUuid)
                 .IsRequired();
 
 			modelBuilder.Entity<Project>()
@@ -88,6 +88,7 @@ namespace ProjectManagerAPI.Data
         }
 		public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
+		public DbSet<ProjectMembers> ProjectMembers { get; set; }
         //public DbSet<Chat> Chats { get; set; }
         //public DbSet<Message> Messages { get; set; }
         //public DbSet<UserEvents> UserEvents { get; set; }

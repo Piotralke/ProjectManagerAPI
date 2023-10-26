@@ -18,15 +18,7 @@ public class UserService : IUserService
 		List<UserDto> result = new List<UserDto>();
 		foreach (var user in users)
 		{
-			UserDto userDto = new UserDto
-			{
-				uuid = user.uuid,
-				name = user.name,
-				surname = user.surname,
-				email = user.email,
-				createdAt = user.createdAt,
-				role = user.role
-			};
+			UserDto userDto = new UserDto(user);
 			result.Add(userDto);
 		}
         return result;
@@ -39,15 +31,7 @@ public class UserService : IUserService
 	public UserDto GetUserById(Guid userId)
     {
         var user = _userRepository.GetUserById(userId);
-		UserDto userDto = new UserDto
-		{
-			uuid = user.uuid,
-			name = user.name,
-			surname = user.surname,
-			email = user.email,
-			createdAt = user.createdAt,
-			role = user.role
-		};
+		UserDto userDto = new UserDto(user);
 		return userDto;
     }
 
@@ -64,14 +48,7 @@ public class UserService : IUserService
 			createdAt = DateTime.UtcNow
 		};
 		_userRepository.AddUser(newUser);
-		return new UserDto { 
-			uuid = newUser.uuid,
-			name = newUser.name,
-			surname=newUser.surname,
-			email = newUser.email,
-			role = newUser.role,
-			createdAt = DateTime.UtcNow
-		};
+		return new UserDto(newUser);
     }
 
     public void UpdateUser(User user, UpdateUserDto updatedUser)

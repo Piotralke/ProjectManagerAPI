@@ -14,6 +14,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IUserService, UserService>(); // Przyk³ad
 builder.Services.AddScoped<IUserRepository, UserRepository>(); // Przyk³ad
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>(); // Przyk³ad
+builder.Services.AddScoped<IProjectService, ProjectService>(); // Przyk³ad
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -11,6 +11,15 @@ namespace ProjectManagerAPI.Dtos
 		public string email { get; set; }
 		public DateTime createdAt { get; set; }
 		public Role role { get; set; }
+
+		public UserDto(User user) {
+			uuid = user.uuid;
+			name = user.name;
+			surname = user.surname;
+			email = user.email;
+			role = user.role;
+			createdAt = user.createdAt;
+		}
 	}
 	public class CreateUserDto
 	{
