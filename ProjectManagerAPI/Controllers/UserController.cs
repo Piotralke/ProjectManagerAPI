@@ -44,15 +44,14 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{userId}")]
-    public ActionResult UpdateUser(Guid userId, UserDto user)
+    public ActionResult UpdateUser(Guid userId, UpdateUserDto user)
     {
-        var existingUser = _userService.GetUserById(userId);
+        var existingUser = _userService.GetFullUserByUuid(userId);
         if (existingUser == null)
         {
             return NotFound();
         }
-        user.uuid = existingUser.uuid;
-        _userService.UpdateUser(user);
+        _userService.UpdateUser(existingUser, user);
         if (_userService.SaveChanges())
         {
             return NoContent();

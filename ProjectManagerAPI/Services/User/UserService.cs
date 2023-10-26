@@ -32,8 +32,11 @@ public class UserService : IUserService
         return result;
 
 	}
-
-    public UserDto GetUserById(Guid userId)
+	public User GetFullUserByUuid(Guid userId)
+	{
+		return _userRepository.GetUserById(userId);
+	}
+	public UserDto GetUserById(Guid userId)
     {
         var user = _userRepository.GetUserById(userId);
 		UserDto userDto = new UserDto
@@ -71,19 +74,19 @@ public class UserService : IUserService
 		};
     }
 
-    public void UpdateUser(UserDto user)
+    public void UpdateUser(User user, UpdateUserDto updatedUser)
     {
-		User updatedUser = new User
+		user.name = updatedUser.name;
+		user.surname = updatedUser.surname;
+
+		if(updatedUser.newPassword!= null)
 		{
-			uuid = user.uuid,
-			name = user.name,
-			surname = user.surname,
-			email = user.email,
-			role = user.role,
-			createdAt = user.createdAt
-		};
-		_userRepository.UpdateUser(updatedUser);
-    }
+			user.password = updatedUser.newPassword;
+		}
+		_userRepository.UpdateUser(user);
+
+
+	}
 
     public void DeleteUser(Guid userId)
     {

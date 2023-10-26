@@ -1,5 +1,5 @@
-﻿//using ProjectManagerAPI.Models;
-//using ProjectManagerAPI.Repositories.Project;
+﻿//using ProjectManagerAPI.Dtos;
+//using ProjectManagerAPI.Models;
 
 //public class ProjectService : IProjectService
 //{
@@ -10,19 +10,19 @@
 //		_repository = repository;
 //	}
 
-//	public IEnumerable<Project> GetAllProjects()
+//	public IEnumerable<ProjectDto> GetAllProjects()
 //	{
 //		return
 //	}
-//	public Project GetProjectById(Guid projectId)
+//	public ProjectDto GetProjectById(Guid projectId)
 //	{
 
 //	}
-//	public void AddProject(Project project)
+//	public void AddProject(CreateProjectDto project)
 //	{
 
 //	}
-//	public void UpdateProject(Project project)
+//	public void UpdateProject(ProjectDto project)
 //	{
 
 //	}
@@ -32,6 +32,6 @@
 //	}
 //	public bool SaveChanges()
 //	{
-
+//		return true;
 //	}
 //}
