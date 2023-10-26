@@ -50,8 +50,5 @@ public class ProjectRepository : IProjectRepository
 		{
 			_context.ProjectMembers.Remove(member);
 		}
-
-
-
 	}
 }

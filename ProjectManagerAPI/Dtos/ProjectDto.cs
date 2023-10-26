@@ -40,4 +40,9 @@ namespace ProjectManagerAPI.Dtos
 		public string? gitLink { get; set; }
 		public bool? isPrivate { get; set; }
 	}
+	public class CreateProjectMemberDto
+	{
+		public Guid projectUuid { get; set; }
+		public Guid memberUuid { get; set; }
+	}
 }

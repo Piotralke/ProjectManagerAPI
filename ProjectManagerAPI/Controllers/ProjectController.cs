@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectManagerAPI.Dtos;
+using ProjectManagerAPI.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -70,6 +71,22 @@ namespace ProjectManagerAPI.Controllers
 			}
 			return BadRequest("Failed to delete project member");
 
+		}
+		[HttpPost("AddProjectMember")]
+		public ActionResult AddProjectMember([FromBody] CreateProjectMemberDto member)
+		{
+			ProjectMembers newMember = new ProjectMembers
+			{
+				uuid = new Guid(),
+				projectUuid = member.projectUuid,
+				userUuid = member.memberUuid
+			};
+			_projectService.AddProjectMember(newMember);
+			if (_projectService.SaveChanges())
+			{
+				return Ok();
+			}
+			return BadRequest("Failed to create user.");
 		}
 
 	}
