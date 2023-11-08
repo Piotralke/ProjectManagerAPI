@@ -48,19 +48,6 @@ namespace ProjectManagerAPI.Data
 				.WithMany(p => p.events)
 				.HasForeignKey(ue => ue.userUuid);
 
-			modelBuilder.Entity<Chat>()
-				.HasOne(c => c.memberOne)
-				.WithOne(u => u.chatMemberOne)
-				.HasForeignKey<Chat>(c => c.memberOneUuid);
-            modelBuilder.Entity<Chat>()
-			    .HasOne(c => c.memberTwo)
-				.WithOne(u => u.chatMemberTwo)
-			    .HasForeignKey<Chat>(c => c.memberTwoUuid);
-			modelBuilder.Entity<Chat>()
-				.HasOne(c => c.project)
-				.WithOne(p => p.chat)
-				.HasForeignKey<Chat>(c => c.projectUuid);
-
 			modelBuilder.Entity<Message>()
 				.HasOne(m => m.sender)
 				.WithOne(u => u.message)
@@ -68,9 +55,9 @@ namespace ProjectManagerAPI.Data
 				.IsRequired();
 
 			modelBuilder.Entity<Message>()
-				.HasOne(m => m.chat)
+				.HasOne(m => m.project)
 				.WithMany(c => c.messages)
-				.HasForeignKey(m => m.chatUuid)
+				.HasForeignKey(m => m.projectUuid)
 				.IsRequired();
 
 			modelBuilder.Entity<MessageAttachment>()
@@ -89,8 +76,11 @@ namespace ProjectManagerAPI.Data
 		public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
 		public DbSet<ProjectMembers> ProjectMembers { get; set; }
-        //public DbSet<Chat> Chats { get; set; }
-        //public DbSet<Message> Messages { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<MessageAttachment> MessageAttachments { get; set; }
+		public DbSet<GanntTasks> GanntTasks { get; set;}
+		public DbSet<ProjectEvents> ProjectEvents { get; set; }
+		public DbSet<UserEvents> UserEvents { get; set; }
         //public DbSet<UserEvents> UserEvents { get; set; }
 
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManagerAPI.Data;
@@ -11,9 +12,11 @@ using ProjectManagerAPI.Data;
 namespace ProjectManagerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231103105940_Chat")]
+    partial class Chat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,38 @@ namespace ProjectManagerAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.Chat", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("isGroupChat")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("memberOneUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("memberTwoUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("projectUuid")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("memberOneUuid")
+                        .IsUnique();
+
+                    b.HasIndex("memberTwoUuid")
+                        .IsUnique();
+
+                    b.HasIndex("projectUuid")
+                        .IsUnique();
+
+                    b.ToTable("Chats");
+                });
 
             modelBuilder.Entity("ProjectManagerAPI.Models.GanntTasks", b =>
                 {
@@ -61,15 +96,15 @@ namespace ProjectManagerAPI.Migrations
                     b.Property<Guid?>("Useruuid")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("chatUuid")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("content")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("hasAttachment")
                         .HasColumnType("boolean");
-
-                    b.Property<Guid>("projectUuid")
-                        .HasColumnType("uuid");
 
                     b.Property<Guid>("senderUuid")
                         .HasColumnType("uuid");
@@ -78,12 +113,12 @@ namespace ProjectManagerAPI.Migrations
 
                     b.HasIndex("Useruuid");
 
-                    b.HasIndex("projectUuid");
+                    b.HasIndex("chatUuid");
 
                     b.HasIndex("senderUuid")
                         .IsUnique();
 
-                    b.ToTable("Messages");
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("ProjectManagerAPI.Models.MessageAttachment", b =>
@@ -111,7 +146,7 @@ namespace ProjectManagerAPI.Migrations
 
                     b.HasIndex("messageUuid");
 
-                    b.ToTable("MessageAttachments");
+                    b.ToTable("MessageAttachment");
                 });
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Project", b =>
@@ -264,6 +299,27 @@ namespace ProjectManagerAPI.Migrations
                     b.ToTable("UserEvents");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.Chat", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.User", "memberOne")
+                        .WithOne("chatMemberOne")
+                        .HasForeignKey("ProjectManagerAPI.Models.Chat", "memberOneUuid");
+
+                    b.HasOne("ProjectManagerAPI.Models.User", "memberTwo")
+                        .WithOne("chatMemberTwo")
+                        .HasForeignKey("ProjectManagerAPI.Models.Chat", "memberTwoUuid");
+
+                    b.HasOne("ProjectManagerAPI.Models.Project", "project")
+                        .WithOne("chat")
+                        .HasForeignKey("ProjectManagerAPI.Models.Chat", "projectUuid");
+
+                    b.Navigation("memberOne");
+
+                    b.Navigation("memberTwo");
+
+                    b.Navigation("project");
+                });
+
             modelBuilder.Entity("ProjectManagerAPI.Models.GanntTasks", b =>
                 {
                     b.HasOne("ProjectManagerAPI.Models.Project", "project")
@@ -281,9 +337,9 @@ namespace ProjectManagerAPI.Migrations
                         .WithMany("messages")
                         .HasForeignKey("Useruuid");
 
-                    b.HasOne("ProjectManagerAPI.Models.Project", "project")
+                    b.HasOne("ProjectManagerAPI.Models.Chat", "chat")
                         .WithMany("messages")
-                        .HasForeignKey("projectUuid")
+                        .HasForeignKey("chatUuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -293,7 +349,7 @@ namespace ProjectManagerAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("project");
+                    b.Navigation("chat");
 
                     b.Navigation("sender");
                 });
@@ -373,6 +429,11 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.Chat", b =>
+                {
+                    b.Navigation("messages");
+                });
+
             modelBuilder.Entity("ProjectManagerAPI.Models.Message", b =>
                 {
                     b.Navigation("messageAttachment");
@@ -380,11 +441,11 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Project", b =>
                 {
+                    b.Navigation("chat");
+
                     b.Navigation("events");
 
                     b.Navigation("members");
-
-                    b.Navigation("messages");
 
                     b.Navigation("tasks");
                 });
@@ -396,6 +457,10 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("ProjectManagerAPI.Models.User", b =>
                 {
+                    b.Navigation("chatMemberOne");
+
+                    b.Navigation("chatMemberTwo");
+
                     b.Navigation("events");
 
                     b.Navigation("members");

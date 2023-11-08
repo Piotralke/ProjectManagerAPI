@@ -20,6 +20,6 @@ namespace ProjectManagerAPI.Models
 		public ICollection<ProjectEvents> events { get; set; }
 		public ICollection<GanntTasks> tasks { get; set; }
 
-		public Chat? chat { get; set; }
+		public ICollection<Message> messages { get; set; }
 	}
 }

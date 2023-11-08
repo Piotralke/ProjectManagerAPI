@@ -9,8 +9,8 @@ namespace ProjectManagerAPI.Models
 		public string content { get; set; }
 		[Required]
 		public bool hasAttachment { get; set; }
-		public Chat chat { get; set; }
-		public Guid chatUuid { get; set; }
+		public Project project { get; set; }
+		public Guid projectUuid { get; set; }
 		public User sender { get; set; }
 		public Guid senderUuid { get; set; }
 

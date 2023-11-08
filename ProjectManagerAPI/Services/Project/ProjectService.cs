@@ -4,10 +4,12 @@ using ProjectManagerAPI.Models;
 public class ProjectService : IProjectService
 {
 	private readonly IProjectRepository _repository;
+	private readonly IProjectMembersRepository _projectMembersRepository;
 
-	public ProjectService(IProjectRepository repository)
+	public ProjectService(IProjectRepository repository, IProjectMembersRepository projectMembersRepository)
 	{
 		_repository = repository;
+		_projectMembersRepository = projectMembersRepository;
 	}
 
 	public IEnumerable<ProjectDto> GetAllProjects()
@@ -39,7 +41,6 @@ public class ProjectService : IProjectService
 			createdAt = DateTime.UtcNow,
 			isPrivate = project.isPrivate,
 		};
-
 		project.members.Add(project.ownerUuid);
 		foreach (var member in project.members)
 		{
@@ -72,11 +73,15 @@ public class ProjectService : IProjectService
 
 	public void AddProjectMember(ProjectMembers members)
 	{
-		_repository.AddProjectMember(members);
+		_projectMembersRepository.AddProjectMember(members);
 	}
 	public void RemoveProjectMember(Guid projectId, Guid memberId) {
-		
-		_repository.DeleteProjectMember(projectId, memberId);
+
+		_projectMembersRepository.DeleteProjectMember(projectId, memberId);
+	}
+	public IEnumerable<ProjectMembers> GetProjectMembers(Guid projectId)
+	{
+		return _projectMembersRepository.GetProjectMembers(projectId);
 	}
 
 }

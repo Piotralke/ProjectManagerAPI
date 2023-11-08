@@ -12,4 +12,5 @@ public interface IProjectService
 	bool SaveChanges();
 	void AddProjectMember(ProjectMembers member);
 	void RemoveProjectMember(Guid projectId, Guid memberId);
+	IEnumerable<ProjectMembers> GetProjectMembers(Guid projectId);
 }

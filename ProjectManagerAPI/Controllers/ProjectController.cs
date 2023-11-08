@@ -17,7 +17,6 @@ namespace ProjectManagerAPI.Controllers
 			_projectService = projectService;
 		}
 
-		// GET: api/<ProjectController>
 		[HttpGet]
 		public ActionResult<IEnumerable<ProjectDto>> GetAllProjects()
 		{
@@ -25,7 +24,6 @@ namespace ProjectManagerAPI.Controllers
 			return Ok(projects);
 		}
 
-		// GET api/<ProjectController>/5
 		[HttpGet("{uuid}")]
 		public ActionResult<ProjectDto> GetProject(Guid uuid)
 		{
@@ -37,7 +35,6 @@ namespace ProjectManagerAPI.Controllers
 			return Ok(project);
 		}
 
-		// POST api/<ProjectController>
 		[HttpPost]
 		public ActionResult<ProjectDto> CreateProject(CreateProjectDto project)
 		{
@@ -49,13 +46,11 @@ namespace ProjectManagerAPI.Controllers
 			return BadRequest("Failed to create user.");
 		}
 
-		// PUT api/<ProjectController>/5
 		[HttpPut("{id}")]
 		public void Put(int id, [FromBody] string value)
 		{
 		}
 
-		// DELETE api/<ProjectController>/5
 		[HttpDelete("{id}")]
 		public void  Delete(int id)
 		{
@@ -89,5 +84,16 @@ namespace ProjectManagerAPI.Controllers
 			return BadRequest("Failed to create user.");
 		}
 
+		//Zwraca ProjectMember (user, project jako null) zrobic join gdy potrzebne
+		[HttpGet("{projectId}/GetProjectMembers")]	
+		public ActionResult<IEnumerable<ProjectMembers>> GetProjectMembers(Guid projectId)
+		{
+			var members = _projectService.GetProjectMembers(projectId);
+			if (members == null)
+			{
+				return NotFound();
+			}
+			return Ok(members);
+		}
 	}
 }

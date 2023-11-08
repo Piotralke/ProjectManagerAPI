@@ -12,11 +12,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseNpgsql(builder.Configuration["ConnectionString"]);
 });
 
-builder.Services.AddScoped<IUserService, UserService>(); // Przyk³ad
-builder.Services.AddScoped<IUserRepository, UserRepository>(); // Przyk³ad
-builder.Services.AddScoped<IProjectRepository, ProjectRepository>(); // Przyk³ad
-builder.Services.AddScoped<IProjectService, ProjectService>(); // Przyk³ad
-
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>(); 
+builder.Services.AddScoped<IProjectService, ProjectService>(); 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

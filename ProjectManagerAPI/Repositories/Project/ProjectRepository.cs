@@ -16,8 +16,13 @@ public class ProjectRepository : IProjectRepository
 	}
 	public Project GetProjectById(Guid projectId)
 	{
-		return _context.Projects.FirstOrDefault(p => p.uuid == projectId);
-	}
+		var project =  _context.Projects.FirstOrDefault(p => p.uuid == projectId);
+        if (project==null)
+        {
+			throw new Exception("Project not found");
+		}
+		return project;
+    }
 	public void AddProject(Project project)
 	{
 		_context.Projects.Add(project);
@@ -37,18 +42,5 @@ public class ProjectRepository : IProjectRepository
 	public bool SaveChanges()
 	{
 		return _context.SaveChanges() > 0;
-	}
-
-	public void AddProjectMember(ProjectMembers member)
-	{
-		_context.ProjectMembers.Add(member);
-	}
-	public void DeleteProjectMember(Guid projectId, Guid memberId)
-	{
-		var member = _context.ProjectMembers.FirstOrDefault(m => m.projectUuid == projectId && m.userUuid == memberId);
-		if (member != null)
-		{
-			_context.ProjectMembers.Remove(member);
-		}
 	}
 }
