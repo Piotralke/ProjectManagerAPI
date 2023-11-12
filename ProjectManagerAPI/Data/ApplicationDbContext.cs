@@ -69,10 +69,18 @@ namespace ProjectManagerAPI.Data
 				.HasOne(g => g.project)
 				.WithMany(p => p.tasks)
 				.HasForeignKey(g => g.projectUuid);
-				
-			
 
-        }
+			modelBuilder.Entity<GanntPreviousTask>()
+				.HasOne(p => p.previousTask)
+				.WithMany(g => g.previousTasks)
+				.HasForeignKey(p => p.previousTaskId);
+
+			modelBuilder.Entity<GanntPreviousTask>()
+				.HasOne(p => p.task)
+				.WithMany()
+				.HasForeignKey(p => p.taskId);
+
+		}
 		public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
 		public DbSet<ProjectMembers> ProjectMembers { get; set; }
@@ -81,9 +89,7 @@ namespace ProjectManagerAPI.Data
 		public DbSet<GanntTasks> GanntTasks { get; set;}
 		public DbSet<ProjectEvents> ProjectEvents { get; set; }
 		public DbSet<UserEvents> UserEvents { get; set; }
-        //public DbSet<UserEvents> UserEvents { get; set; }
-
-
+        public DbSet<GanntPreviousTask> GanntPreviousTasks { get; set; }
 
     }
 }

@@ -23,16 +23,16 @@ public class GanntTasksRepository : IGanntTasksRepository
 		}
 		return task;
 	}
-	public void AddGanntTaks(GanntTasks task)
+	public void AddGanntTask(GanntTasks task)
 	{
 		_context.GanntTasks.Add(task);
 	}
-	public void DeleteGanntTaks(Guid taskUuid)
+	public void DeleteGanntTask(Guid taskUuid)
 	{
 		var task = GetGanntTaskByUuid(taskUuid);
 		_context.GanntTasks.Remove(task);
 	}
-	public void UpdateGanntTaks(GanntTasks task)
+	public void UpdateGanntTask(GanntTasks task)
 	{
 		_context.GanntTasks.Update(task);
 	}

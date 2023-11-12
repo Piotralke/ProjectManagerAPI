@@ -4,8 +4,8 @@ public interface IGanntTasksRepository
 {
 	IEnumerable<GanntTasks> GetProjectGanntTasks(Guid projectUuid);
 	GanntTasks GetGanntTaskByUuid(Guid taskUuid);
-	void AddGanntTaks(GanntTasks task);
-	void DeleteGanntTaks(Guid taskUuid);
-	void UpdateGanntTaks(GanntTasks task);
+	void AddGanntTask(GanntTasks task);
+	void DeleteGanntTask(Guid taskUuid);
+	void UpdateGanntTask(GanntTasks task);
 	bool SaveChanges();
 }

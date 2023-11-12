@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManagerAPI.Data;
@@ -11,9 +12,11 @@ using ProjectManagerAPI.Data;
 namespace ProjectManagerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231112122938_PreviousGanntTasks")]
+    partial class PreviousGanntTasks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace ProjectManagerAPI.Migrations
 
                     b.HasIndex("taskId");
 
-                    b.ToTable("GanntPreviousTasks");
+                    b.ToTable("GanntPrevviousTasks");
                 });
 
             modelBuilder.Entity("ProjectManagerAPI.Models.GanntTasks", b =>
@@ -53,8 +56,8 @@ namespace ProjectManagerAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("endDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<long>("howLong")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("projectUuid")
                         .HasColumnType("uuid");

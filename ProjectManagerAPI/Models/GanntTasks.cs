@@ -8,9 +8,10 @@ namespace ProjectManagerAPI.Models
 		public Guid uuid { get; set; }
 		public string title { get; set; }
 		public string description { get; set; }
-		public uint howLong { get; set; }
 		public DateTime startDate { get; set; }
+		public DateTime endDate { get; set; }
 		public Project project { get; set; }
 		public Guid projectUuid { get; set; }
+		public ICollection<GanntPreviousTask> previousTasks { get; set; }
 	}
 }
