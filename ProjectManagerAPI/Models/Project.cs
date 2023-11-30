@@ -11,7 +11,6 @@ namespace ProjectManagerAPI.Models
 		public string description { get; set; }
 		public ProjectStatus status { get; set; }
 		public DateTime createdAt { get; set; }
-		public string gitLink { get; set; }
 		public bool isPrivate { get; set; }
 		public Guid ownerUuid { get; set; }
 		public User owner { get; set; }

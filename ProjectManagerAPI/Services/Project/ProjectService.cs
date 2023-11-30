@@ -36,7 +36,6 @@ public class ProjectService : IProjectService
 			uuid = Guid.NewGuid(),
 			title = project.title,
 			description = project.description,
-			gitLink = project.gitLink,
 			ownerUuid = project.ownerUuid,
 			createdAt = DateTime.UtcNow,
 			isPrivate = project.isPrivate,

@@ -10,7 +10,6 @@ namespace ProjectManagerAPI.Dtos
 		public string description { get; set; }
 		public ProjectStatus status { get; set; }
 		public DateTime createdAt { get; set; }
-		public string gitLink { get; set; }
 		public bool isPrivate { get; set; }
 
 		public ProjectDto(Project project)
@@ -20,7 +19,6 @@ namespace ProjectManagerAPI.Dtos
 			description = project.description;
 			status = project.status;
 			createdAt = project.createdAt;
-			gitLink = project.gitLink;
 			isPrivate = project.isPrivate;
 		}
 	}
@@ -28,7 +26,6 @@ namespace ProjectManagerAPI.Dtos
 	{
 		public string title { get; set; }
 		public string description { get; set; }
-		public string? gitLink { get; set; }
 		public Guid ownerUuid { get; set; }
 		public List<Guid> members { get; set; }
 		public bool isPrivate { get; set; }
@@ -37,7 +34,6 @@ namespace ProjectManagerAPI.Dtos
 	{
 		public string? title { get; set; }
 		public string? description { get; set; }
-		public string? gitLink { get; set; }
 		public bool? isPrivate { get; set; }
 	}
 	public class CreateProjectMemberDto
