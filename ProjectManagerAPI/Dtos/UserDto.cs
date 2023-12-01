@@ -1,5 +1,6 @@
 ﻿using ProjectManagerAPI.Data.Enum;
 using ProjectManagerAPI.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManagerAPI.Dtos
 {
@@ -13,11 +14,10 @@ namespace ProjectManagerAPI.Dtos
 		public Role role { get; set; }
 
 		public UserDto(User user) {
-			uuid = user.uuid;
+			uuid = user.Id;
 			name = user.name;
 			surname = user.surname;
-			email = user.email;
-			role = user.role;
+			email = user.Email;
 			createdAt = user.createdAt;
 		}
 	}
@@ -35,4 +35,14 @@ namespace ProjectManagerAPI.Dtos
 		public string surname { get; set;}
 		public string? newPassword { get; set; }
 	}
+	public class LoginDto
+	{
+		[Required]
+		[EmailAddress]
+		public string Email { get; set; }
+
+		[Required]
+		public string Password { get; set; }
+	}
+
 }

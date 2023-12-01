@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using ProjectManagerAPI.Dtos;
-using ProjectManagerAPI.Models;
-public interface IUserRepository
+﻿using ProjectManagerAPI.Models;
+using System;
+using System.Threading.Tasks;
+
+namespace ProjectManagerAPI.Repositories
 {
-    IEnumerable<User> GetAllUsers();
-    User GetUserById(Guid userId);
-    void AddUser(User user);
-    void UpdateUser(User user);
-    void DeleteUser(Guid userId);
-    bool SaveChanges();
+	public interface IUserRepository
+	{
+		Task<User> GetUserByIdAsync(Guid userId);
+		Task<User> GetUserByEmailAsync(string email);
+		Task CreateUserAsync(User user, string password);
+		Task UpdateUserAsync(User user);
+	}
 }

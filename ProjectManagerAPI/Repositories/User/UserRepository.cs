@@ -1,57 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Npgsql.Internal.TypeHandlers;
-using ProjectManagerAPI.Data; // Dodaj odpowiednią przestrzeń nazw związana z kontekstem bazy danych
-using ProjectManagerAPI.Dtos;
+﻿using Microsoft.AspNetCore.Identity;
 using ProjectManagerAPI.Models;
+using System;
+using System.Threading.Tasks;
+
+public interface IUserRepository
+{
+	Task<User> GetUserByIdAsync(Guid userId);
+	Task<User> GetUserByEmailAsync(string email);
+	Task<IdentityResult> CreateUserAsync(User user, string password);
+	Task UpdateUserAsync(User user);
+}
 
 public class UserRepository : IUserRepository
 {
-    private readonly ApplicationDbContext _context;
+	private readonly UserManager<User> _userManager;
 
-    public UserRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
-    public IEnumerable<User> GetAllUsers()
-    {       
-        return _context.Users.ToList();
+	public UserRepository(UserManager<User> userManager)
+	{
+		_userManager = userManager;
 	}
 
-    public User GetUserById(Guid userId)
-    {
-        var user = _context.Users.FirstOrDefault(u => u.uuid == userId);
-        if(user == null) 
-        {
-            throw new Exception("User not found");
-        }
-        return user;
-    }
+	public async Task<User> GetUserByIdAsync(Guid userId)
+	{
+		return await _userManager.FindByIdAsync(userId.ToString());
+	}
 
-    public void AddUser(User user)
-    {
-        _context.Users.Add(user);
-    }
+	public async Task<User> GetUserByEmailAsync(string email)
+	{
+		return await _userManager.FindByEmailAsync(email);
+	}
 
-    public void UpdateUser(User user)
-    {
-        _context.Users.Update(user);
-    }
+	public async Task<IdentityResult> CreateUserAsync(User user, string password)
+	{
+		var result = await _userManager.CreateAsync(user, password);
 
-    public void DeleteUser(Guid userId)
-    {
-        var user = _context.Users.FirstOrDefault(u => u.uuid == userId);
-        if (user != null)
-        {
-            _context.Users.Remove(user);
-        }
-    }
+		if (result.Succeeded)
+		{
+			Console.WriteLine(result);
+			// Tutaj możesz dodać dodatkowe akcje, jeśli rejestracja się powiodła.
+		}
 
-    public bool SaveChanges()
-    {
-        return _context.SaveChanges() > 0;
-    }
+		return result;
+	}
+
+	public async Task UpdateUserAsync(User user)
+	{
+		await _userManager.UpdateAsync(user);
+	}
 }

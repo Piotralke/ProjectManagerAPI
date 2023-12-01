@@ -1,5 +1,6 @@
 ﻿using ProjectManagerAPI.Data.Enum;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectManagerAPI.Models
 {
@@ -13,6 +14,7 @@ namespace ProjectManagerAPI.Models
 		public DateTime createdAt { get; set; }
 		public bool isPrivate { get; set; }
 		public Guid ownerUuid { get; set; }
+		[ForeignKey("ownerUuid")]
 		public User owner { get; set; }
 
 		public ICollection<ProjectMembers> members { get; set; }

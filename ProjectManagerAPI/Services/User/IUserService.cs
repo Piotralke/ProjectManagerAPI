@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
 using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
+using System;
+using System.Threading.Tasks;
 
-public interface IUserService
+namespace ProjectManagerAPI.Services
 {
-    IEnumerable<UserDto> GetAllUsers();
-    User GetFullUserByUuid(Guid userId);
-	UserDto GetUserById(Guid userId);
-    UserDto AddUser(CreateUserDto user);
-    void UpdateUser(User existingUser, UpdateUserDto user);
-    void DeleteUser(Guid userId);
-    bool SaveChanges();
+	public interface IUserService
+	{
+		Task<UserDto> GetUserByIdAsync(Guid userId);
+		Task<UserDto> GetUserByEmailAsync(string email);
+		Task<IdentityResult> CreateUserAsync(CreateUserDto createUserDto);
+		Task UpdateUserAsync(Guid userId, UpdateUserDto updateUserDto);
+		Task<User> ValidateUserAsync(string email, string password);
+	}
+
 }

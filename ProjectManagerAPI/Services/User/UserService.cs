@@ -1,77 +1,85 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
 using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
+using ProjectManagerAPI.Repositories;
+using ProjectManagerAPI.Services;
+using System;
+using System.Threading.Tasks;
 
 public class UserService : IUserService
 {
-    private readonly IUserRepository _userRepository;
+	private readonly IUserRepository _userRepository;
+	private readonly UserManager<User> _userManager;
+	private readonly SignInManager<User> _signInManager;
 
-    public UserService(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
-
-    public IEnumerable<UserDto> GetAllUsers()
-    {
-        var users = _userRepository.GetAllUsers();
-		List<UserDto> result = new List<UserDto>();
-		foreach (var user in users)
-		{
-			UserDto userDto = new UserDto(user);
-			result.Add(userDto);
-		}
-        return result;
-
-	}
-	public User GetFullUserByUuid(Guid userId)
+	public UserService(IUserRepository userRepository, UserManager<User> userManager, SignInManager<User> signInManager)
 	{
-		return _userRepository.GetUserById(userId);
+		_userRepository = userRepository;
+		_userManager = userManager;
+		_signInManager = signInManager;
 	}
-	public UserDto GetUserById(Guid userId)
-    {
-        var user = _userRepository.GetUserById(userId);
-		UserDto userDto = new UserDto(user);
-		return userDto;
-    }
 
-    public UserDto AddUser(CreateUserDto user)
-    {
-		User newUser = new User
+	public async Task<UserDto> GetUserByIdAsync(Guid userId)
+	{
+		var user = await _userRepository.GetUserByIdAsync(userId);
+		return new UserDto(user);
+	}
+
+	public async Task<UserDto> GetUserByEmailAsync(string email)
+	{
+		var user = await _userRepository.GetUserByEmailAsync(email);
+		return new UserDto(user);
+	}
+
+	public async Task<IdentityResult> CreateUserAsync(CreateUserDto createUserDto)
+	{
+		var user = new User
 		{
-			uuid = Guid.NewGuid(),
-			name = user.name,
-			surname = user.surname,
-			password = user.password,
-			email = user.email,
-			role = user.role,
-			createdAt = DateTime.UtcNow
+			UserName = createUserDto.email,
+			Email = createUserDto.email,
+			name = createUserDto.name,
+			surname = createUserDto.surname,
+			createdAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
 		};
-		_userRepository.AddUser(newUser);
-		return new UserDto(newUser);
-    }
 
-    public void UpdateUser(User user, UpdateUserDto updatedUser)
-    {
-		user.name = updatedUser.name;
-		user.surname = updatedUser.surname;
+		var result = await _userManager.CreateAsync(user, createUserDto.password);
 
-		if(updatedUser.newPassword!= null)
+		if (result.Succeeded)
 		{
-			user.password = updatedUser.newPassword;
+			// Przypisz rolę użytkownika
+			await _userManager.AddToRoleAsync(user, createUserDto.role.ToString());
 		}
-		_userRepository.UpdateUser(user);
 
-
+		return result;
 	}
 
-    public void DeleteUser(Guid userId)
-    {
-        _userRepository.DeleteUser(userId);
-    }
+	public async Task UpdateUserAsync(Guid userId, UpdateUserDto updateUserDto)
+	{
+		var user = await _userRepository.GetUserByIdAsync(userId);
 
-    public bool SaveChanges()
-    {
-        return _userRepository.SaveChanges();
-    }
+		if (user != null)
+		{
+			user.name = updateUserDto.name;
+			user.surname = updateUserDto.surname;
+
+			if (!string.IsNullOrEmpty(updateUserDto.newPassword))
+			{
+				await _userManager.RemovePasswordAsync(user);
+				await _userManager.AddPasswordAsync(user, updateUserDto.newPassword);
+			}
+
+			await _userRepository.UpdateUserAsync(user);
+		}
+	}
+	public async Task<User> ValidateUserAsync(string email, string password)
+	{
+		var user = await _userManager.FindByEmailAsync(email);
+		
+		if (user != null && await _userManager.CheckPasswordAsync(user, password))
+		{
+			return user;
+		}
+
+		return null;
+	}
 }

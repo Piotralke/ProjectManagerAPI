@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectManagerAPI.Models;
 
 namespace ProjectManagerAPI.Data
 {
-	public class ApplicationDbContext : DbContext
+	public class ApplicationDbContext : IdentityDbContext<User,IdentityRole<Guid>, Guid>
 	{
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -79,6 +82,18 @@ namespace ProjectManagerAPI.Data
 				.HasOne(p => p.task)
 				.WithMany()
 				.HasForeignKey(p => p.taskId);
+
+			//modelBuilder.Entity<User>()
+			//	.Property(u => u.Id)
+			//	.HasColumnName("uuid")
+			//	.HasConversion<StringToGuidConverter>();
+
+			//modelBuilder.Entity<User>()
+			//	.HasKey(u => u.uuid)
+			//	.HasName("PK_User");
+
+
+			base.OnModelCreating(modelBuilder);
 
 		}
 		public DbSet<User> Users { get; set; }
