@@ -26,9 +26,14 @@ public class Program
 		builder.Services.AddCors(options =>
 		{
 			options.AddDefaultPolicy(builder => builder
-				.WithOrigins("http://localhost:5048")  // Zaktualizuj na odpowiedni¹ adresy stron, z których bêdziesz korzystaæ
+				.WithOrigins("http://localhost:5048", "http://localhost:5173")  // Zaktualizuj na odpowiedni¹ adresy stron, z których bêdziesz korzystaæ
 				.AllowAnyHeader()
-				.AllowAnyMethod());
+				.AllowAnyMethod()
+				.AllowCredentials()
+				.SetIsOriginAllowed(origin=>true)
+				.SetIsOriginAllowedToAllowWildcardSubdomains()
+				
+				);	
 		});
 		builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 		{
@@ -41,21 +46,23 @@ public class Program
 		{
 			options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 			options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-			options.DefaultScheme = IdentityConstants.ApplicationScheme;
+			options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 		})
 		.AddJwtBearer(options =>
 		{
-			options.TokenValidationParameters = new TokenValidationParameters
+			options.SaveToken = true;
+			options.RequireHttpsMetadata = false;
+			options.TokenValidationParameters = new TokenValidationParameters()
 			{
 				ValidateIssuer = true,
 				ValidateAudience = true,
-				ValidateLifetime = true,
-				ValidateIssuerSigningKey = true,
-				ValidIssuer = "ProjectManagerBE",
-				ValidAudience = "ProjectManagerFE",
+				ValidIssuer = "http://localhost:5048",
+				ValidAudience = "http://localhost:5173",
+				ClockSkew = TimeSpan.Zero,
 				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenSecret"]))
 			};
 		});
+		
 
 		builder.Services.AddScoped<IUserService, UserService>();
 		builder.Services.AddScoped<IUserRepository, UserRepository>();

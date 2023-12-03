@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
-
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ProjectManagerAPI.Controllers
 {
 	[Route("projects")]
+	[Authorize]
 	[ApiController]
 	public class ProjectController : ControllerBase
 	{

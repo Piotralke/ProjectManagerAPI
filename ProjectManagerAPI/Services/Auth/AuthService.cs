@@ -36,8 +36,8 @@ namespace ProjectManagerAPI.Services.Auth
 			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 			var token = new JwtSecurityToken(
-				_configuration["ProjectManagerBE"],
-				_configuration["ProjectManagerBE"],
+				"http://localhost:5048",
+				"http://localhost:5173",
 				claims,
 				expires: DateTime.Now.AddMinutes(Convert.ToDouble(60)),
 				signingCredentials: creds
