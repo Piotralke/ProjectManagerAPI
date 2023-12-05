@@ -11,4 +11,5 @@ public class User : IdentityUser<Guid>
 	public ICollection<UserEvents> events { get; set; }
 	public ICollection<Message> messages { get; set; }
 	public Message? message { get; set; }
+	public string ProfilePicturePath { get; set; } = "default.jpeg";
 }

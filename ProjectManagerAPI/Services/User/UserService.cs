@@ -67,6 +67,11 @@ public class UserService : IUserService
 				await _userManager.RemovePasswordAsync(user);
 				await _userManager.AddPasswordAsync(user, updateUserDto.newPassword);
 			}
+			if (!string.IsNullOrEmpty(updateUserDto.ProfilePicturePath))
+			{
+				user.ProfilePicturePath = updateUserDto.ProfilePicturePath;
+				await _userRepository.UpdateUserAsync(user);
+			}
 
 			await _userRepository.UpdateUserAsync(user);
 		}

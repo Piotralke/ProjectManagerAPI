@@ -12,13 +12,14 @@ namespace ProjectManagerAPI.Dtos
 		public string email { get; set; }
 		public DateTime createdAt { get; set; }
 		public Role role { get; set; }
-
+		public string ProfilePicturePath { get; set; }
 		public UserDto(User user) {
 			uuid = user.Id;
 			name = user.name;
 			surname = user.surname;
 			email = user.Email;
 			createdAt = user.createdAt;
+			ProfilePicturePath = user.ProfilePicturePath;
 		}
 	}
 	public class CreateUserDto
@@ -34,6 +35,8 @@ namespace ProjectManagerAPI.Dtos
 		public string name { get; set; }
 		public string surname { get; set;}
 		public string? newPassword { get; set; }
+		public string? ProfilePicturePath { get; set; }
+		
 	}
 	public class LoginDto
 	{
