@@ -13,6 +13,7 @@ namespace ProjectManagerAPI.Dtos
 		public DateTime createdAt { get; set; }
 		public Role role { get; set; }
 		public string ProfilePicturePath { get; set; }
+		public Guid? pinnedProjectUuid { get; set; }
 		public UserDto(User user) {
 			uuid = user.Id;
 			name = user.name;
@@ -20,6 +21,7 @@ namespace ProjectManagerAPI.Dtos
 			email = user.Email;
 			createdAt = user.createdAt;
 			ProfilePicturePath = user.ProfilePicturePath;
+			pinnedProjectUuid = user.pinnedProjectUuid;
 		}
 	}
 	public class CreateUserDto

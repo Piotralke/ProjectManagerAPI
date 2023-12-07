@@ -12,8 +12,8 @@ using ProjectManagerAPI.Data;
 namespace ProjectManagerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231201132014_UserIdentityFix")]
-    partial class UserIdentityFix
+    [Migration("20231205135419_fix")]
+    partial class fix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -358,7 +358,58 @@ namespace ProjectManagerAPI.Migrations
                     b.ToTable("ProjectMembers");
                 });
 
-            modelBuilder.Entity("ProjectManagerAPI.Models.User", b =>
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("UserEventsuuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("eventUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("userUuid")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("UserEventsuuid");
+
+                    b.HasIndex("eventUuid");
+
+                    b.HasIndex("userUuid");
+
+                    b.ToTable("UserEvents");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserProjectNote", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("projectUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("userUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("projectUuid");
+
+                    b.HasIndex("userUuid");
+
+                    b.ToTable("ProjectNotes");
+                });
+
+            modelBuilder.Entity("User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -401,7 +452,7 @@ namespace ProjectManagerAPI.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("ProfileImageFileName")
+                    b.Property<string>("ProfilePicturePath")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -422,8 +473,8 @@ namespace ProjectManagerAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("role")
-                        .HasColumnType("integer");
+                    b.Property<Guid?>("pinnedProjectUuid")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("surname")
                         .IsRequired()
@@ -438,33 +489,9 @@ namespace ProjectManagerAPI.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("pinnedProjectUuid");
+
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
-                {
-                    b.Property<Guid>("uuid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("UserEventsuuid")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("eventUuid")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("userUuid")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("uuid");
-
-                    b.HasIndex("UserEventsuuid");
-
-                    b.HasIndex("eventUuid");
-
-                    b.HasIndex("userUuid");
-
-                    b.ToTable("UserEvents");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -478,7 +505,7 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("ProjectManagerAPI.Models.User", null)
+                    b.HasOne("User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -487,7 +514,7 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("ProjectManagerAPI.Models.User", null)
+                    b.HasOne("User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -502,7 +529,7 @@ namespace ProjectManagerAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectManagerAPI.Models.User", null)
+                    b.HasOne("User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -511,7 +538,7 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("ProjectManagerAPI.Models.User", null)
+                    b.HasOne("User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -550,7 +577,7 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Message", b =>
                 {
-                    b.HasOne("ProjectManagerAPI.Models.User", null)
+                    b.HasOne("User", null)
                         .WithMany("messages")
                         .HasForeignKey("UserId");
 
@@ -560,7 +587,7 @@ namespace ProjectManagerAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectManagerAPI.Models.User", "sender")
+                    b.HasOne("User", "sender")
                         .WithOne("message")
                         .HasForeignKey("ProjectManagerAPI.Models.Message", "senderUuid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -584,7 +611,7 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Project", b =>
                 {
-                    b.HasOne("ProjectManagerAPI.Models.User", "owner")
+                    b.HasOne("User", "owner")
                         .WithMany("projects")
                         .HasForeignKey("ownerUuid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -612,7 +639,7 @@ namespace ProjectManagerAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectManagerAPI.Models.User", "user")
+                    b.HasOne("User", "user")
                         .WithMany("members")
                         .HasForeignKey("userUuid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -635,7 +662,7 @@ namespace ProjectManagerAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectManagerAPI.Models.User", "user")
+                    b.HasOne("User", "user")
                         .WithMany("events")
                         .HasForeignKey("userUuid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -644,6 +671,34 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("projectEvents");
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserProjectNote", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.Project", "project")
+                        .WithMany("notes")
+                        .HasForeignKey("projectUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "user")
+                        .WithMany("projectNotes")
+                        .HasForeignKey("userUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("project");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.Project", "pinnedProject")
+                        .WithMany("pinnedUsers")
+                        .HasForeignKey("pinnedProjectUuid");
+
+                    b.Navigation("pinnedProject");
                 });
 
             modelBuilder.Entity("ProjectManagerAPI.Models.GanntTasks", b =>
@@ -664,6 +719,10 @@ namespace ProjectManagerAPI.Migrations
 
                     b.Navigation("messages");
 
+                    b.Navigation("notes");
+
+                    b.Navigation("pinnedUsers");
+
                     b.Navigation("tasks");
                 });
 
@@ -672,7 +731,12 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("userEvents");
                 });
 
-            modelBuilder.Entity("ProjectManagerAPI.Models.User", b =>
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
+                {
+                    b.Navigation("events");
+                });
+
+            modelBuilder.Entity("User", b =>
                 {
                     b.Navigation("events");
 
@@ -682,12 +746,9 @@ namespace ProjectManagerAPI.Migrations
 
                     b.Navigation("messages");
 
-                    b.Navigation("projects");
-                });
+                    b.Navigation("projectNotes");
 
-            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
-                {
-                    b.Navigation("events");
+                    b.Navigation("projects");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,11 +16,14 @@ namespace ProjectManagerAPI.Models
 		public Guid ownerUuid { get; set; }
 		[ForeignKey("ownerUuid")]
 		public User owner { get; set; }
-
+		public ICollection<User> pinnedUsers { get; set; }
 		public ICollection<ProjectMembers> members { get; set; }
 		public ICollection<ProjectEvents> events { get; set; }
 		public ICollection<GanntTasks> tasks { get; set; }
 
 		public ICollection<Message> messages { get; set; }
+
+		public ICollection<UserProjectNote> notes { get; set; }
+
 	}
 }

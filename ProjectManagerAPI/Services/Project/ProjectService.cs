@@ -52,7 +52,6 @@ public class ProjectService : IProjectService
 			AddProjectMember(projectMember);
 		}
 		_repository.AddProject(newProject);
-		_repository.SaveChanges();
 		ProjectDto result = new ProjectDto(newProject);
 		return result;
 

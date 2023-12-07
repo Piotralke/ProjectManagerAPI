@@ -381,6 +381,31 @@ namespace ProjectManagerAPI.Migrations
                     b.ToTable("UserEvents");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserProjectNote", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("projectUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("userUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("projectUuid");
+
+                    b.HasIndex("userUuid");
+
+                    b.ToTable("ProjectNotes");
+                });
+
             modelBuilder.Entity("User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -445,6 +470,9 @@ namespace ProjectManagerAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("pinnedProjectUuid")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("surname")
                         .IsRequired()
                         .HasColumnType("text");
@@ -457,6 +485,8 @@ namespace ProjectManagerAPI.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("pinnedProjectUuid");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -640,6 +670,34 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserProjectNote", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.Project", "project")
+                        .WithMany("notes")
+                        .HasForeignKey("projectUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "user")
+                        .WithMany("projectNotes")
+                        .HasForeignKey("userUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("project");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.Project", "pinnedProject")
+                        .WithMany("pinnedUsers")
+                        .HasForeignKey("pinnedProjectUuid");
+
+                    b.Navigation("pinnedProject");
+                });
+
             modelBuilder.Entity("ProjectManagerAPI.Models.GanntTasks", b =>
                 {
                     b.Navigation("previousTasks");
@@ -657,6 +715,10 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("members");
 
                     b.Navigation("messages");
+
+                    b.Navigation("notes");
+
+                    b.Navigation("pinnedUsers");
 
                     b.Navigation("tasks");
                 });
@@ -680,6 +742,8 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("message");
 
                     b.Navigation("messages");
+
+                    b.Navigation("projectNotes");
 
                     b.Navigation("projects");
                 });

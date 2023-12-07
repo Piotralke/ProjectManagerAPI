@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ProjectManagerAPI.Controllers
 {
-	[Route("projects")]
+	[Route("api/projects")]
 	[Authorize]
 	[ApiController]
 	public class ProjectController : ControllerBase
@@ -37,7 +37,7 @@ namespace ProjectManagerAPI.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult<ProjectDto> CreateProject(CreateProjectDto project)
+		public ActionResult<ProjectDto> CreateProject([FromBody] CreateProjectDto project)
 		{
 			var createdProject = _projectService.AddProject(project);
 			if (_projectService.SaveChanges())
