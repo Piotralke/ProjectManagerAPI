@@ -11,7 +11,7 @@ namespace ProjectManagerAPI.Dtos
 		public ProjectStatus status { get; set; }
 		public DateTime createdAt { get; set; }
 		public bool isPrivate { get; set; }
-
+		
 		public ProjectDto(Project project)
 		{
 			uuid = project.uuid;

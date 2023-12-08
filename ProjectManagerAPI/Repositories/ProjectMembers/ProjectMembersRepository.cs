@@ -10,7 +10,10 @@ public class ProjectMembersRepository : IProjectMembersRepository
 	{
 		_context = context;
 	}
-
+	public IEnumerable<ProjectMembers> GetProjectsForUser(Guid userId)
+	{
+		return _context.ProjectMembers.Where(m => m.userUuid == userId).ToList();
+	}
 	public IEnumerable<ProjectMembers> GetProjectMembers(Guid projectUuid)
 	{
 		return _context.ProjectMembers.Where(m => m.projectUuid == projectUuid).ToList();

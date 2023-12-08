@@ -9,9 +9,9 @@ public class UserEventsRepository : IUserEventsRepository
 		_context = context;
 	}
 
-	public IEnumerable<UserEvents> GetUserEvents(Guid userId)
+	public  IEnumerable<UserEvents> GetUserEvents(Guid userId)
 	{
-		return _context.UserEvents.Where(e=>e.userUuid == userId).ToList();
+		return  _context.UserEvents.Where(e=>e.userUuid == userId).ToList();
 	}
 	public UserEvents GetEventByUuid(Guid uuid)
 	{

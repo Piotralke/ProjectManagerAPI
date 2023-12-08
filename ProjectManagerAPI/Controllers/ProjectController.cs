@@ -35,6 +35,16 @@ namespace ProjectManagerAPI.Controllers
 			}
 			return Ok(project);
 		}
+		[HttpGet("get-for-user/{userId}")]
+		public ActionResult<List<ProjectDto>> GetUserProjects([FromRoute] Guid userId)
+		{
+			var projects = _projectService.GetUserProjects(userId);
+			if (projects == null)
+			{
+				return NotFound();
+			}
+			return Ok(projects);
+		}
 
 		[HttpPost]
 		public ActionResult<ProjectDto> CreateProject([FromBody] CreateProjectDto project)

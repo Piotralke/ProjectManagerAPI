@@ -39,7 +39,7 @@ namespace ProjectManagerAPI.Services.Auth
 				"http://localhost:5048",
 				"http://localhost:5173",
 				claims,
-				expires: DateTime.Now.AddMinutes(Convert.ToDouble(60)),
+				expires: DateTime.Now.AddMinutes(Convert.ToDouble(120)),
 				signingCredentials: creds
 			);
 

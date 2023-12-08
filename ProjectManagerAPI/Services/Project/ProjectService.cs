@@ -23,6 +23,17 @@ public class ProjectService : IProjectService
 		}
 		return result;
 	}
+	public IEnumerable<ProjectDto> GetUserProjects(Guid userId) 
+	{ 
+		var projectMembersList = _projectMembersRepository.GetProjectsForUser(userId);
+		List<ProjectDto> userProjects = new List<ProjectDto>();
+		foreach (var projectMember in projectMembersList)
+		{
+			var project = GetProjectById(projectMember.projectUuid);
+			userProjects.Add(project);
+		}
+		return userProjects;
+	}
 	public ProjectDto GetProjectById(Guid projectId)
 	{
 		var project = _repository.GetProjectById(projectId);

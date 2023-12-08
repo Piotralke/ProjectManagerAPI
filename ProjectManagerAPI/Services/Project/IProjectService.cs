@@ -5,6 +5,7 @@ using ProjectManagerAPI.Models;
 public interface IProjectService
 {
 	IEnumerable<ProjectDto> GetAllProjects();
+	IEnumerable<ProjectDto> GetUserProjects(Guid userUuid);
 	ProjectDto GetProjectById(Guid projectId);
 	ProjectDto AddProject(CreateProjectDto project);
 	void UpdateProject(UpdateProjectDto project);
