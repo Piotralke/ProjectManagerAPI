@@ -1,6 +1,6 @@
 ﻿using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
-public class GanntTaskService
+public class GanntTaskService : IGanntTaskService
 {
 	private readonly GanntPreviousTaskRepository _previousTaskRepository;
 	private readonly GanntTasksRepository _tasksRepository;

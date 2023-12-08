@@ -70,6 +70,9 @@ public class Program
 		builder.Services.AddScoped<IProjectService, ProjectService>();
 		builder.Services.AddScoped<IProjectMembersRepository, ProjectMembersRepository>();
 		builder.Services.AddScoped<IAuthService, AuthService>();
+		builder.Services.AddScoped<IUserProjectNoteRepository, UserProjectNoteRepository>();
+		builder.Services.AddScoped<IUserProjectNoteService, UserProjectNoteService>();
+
 
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 		builder.Services.AddEndpointsApiExplorer();

@@ -10,6 +10,6 @@ namespace ProjectManagerAPI.Models
 		public User user {  get; set; }
 		public Guid projectUuid { get; set; }
 		public Project project { get; set; }
-		public string value { get; set; }
+		public string? value { get; set; }
 	}
 }
