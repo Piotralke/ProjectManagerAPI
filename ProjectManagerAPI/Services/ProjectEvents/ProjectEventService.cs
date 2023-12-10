@@ -1,5 +1,6 @@
 ﻿using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
+using ProjectManagerAPI.Repositories.ProjectEvent;
 
 public class ProjectEventService : IProjectEventService
 {
@@ -8,18 +9,40 @@ public class ProjectEventService : IProjectEventService
     {
         _projectEventRepository = projectEventRepository;
     }
-    public IEnumerable<ProjectEvents> GetAllProjectEvents(Guid projectId)
+    public IEnumerable<ProjectEventDto> GetAllProjectEvents(Guid projectId)
     {
-        return _projectEventRepository.GetAllProjectEvents(projectId);
-    }
-    public IEnumerable<ProjectEvents> GetProjectEventsOnly(Guid projectId)
+		var projects = _projectEventRepository.GetAllProjectEvents(projectId);
+		List<ProjectEventDto> result = new List<ProjectEventDto>();
+		foreach (var project in projects)
+		{
+			ProjectEventDto newProject = new ProjectEventDto(project);
+			result.Add(newProject);
+		}
+		return result;
+	}
+    public IEnumerable<ProjectEventDto> GetProjectEventsOnly(Guid projectId)
     {
-        return _projectEventRepository.GetProjectEventsOnly(projectId);
-    }
-    public IEnumerable<ProjectEvents> GetProjectTasksOnly(Guid projectId)
+		var projects = _projectEventRepository.GetProjectEventsOnly(projectId);
+		List<ProjectEventDto> result = new List<ProjectEventDto>();
+		foreach (var project in projects)
+		{
+			ProjectEventDto newProject = new ProjectEventDto(project);
+			result.Add(newProject);
+		}
+		return result;
+	}
+    public IEnumerable<ProjectEventDto> GetProjectTasksOnly(Guid projectId)
     {
-        return _projectEventRepository.GetProjectTasksOnly(projectId);
-    }
+        var projects = _projectEventRepository.GetProjectTasksOnly(projectId);
+        List<ProjectEventDto> result = new List<ProjectEventDto>();
+        foreach (var project in projects)
+        {
+            ProjectEventDto newProject = new ProjectEventDto(project);
+            result.Add(newProject);
+        }
+        return result;
+
+	}
     public ProjectEventDto GetEventByUuid(Guid eventUuid)
     {
         var ev = _projectEventRepository.GetEventByUuid(eventUuid);
@@ -48,12 +71,24 @@ public class ProjectEventService : IProjectEventService
     }
     public void UpdateEvent(UpdateProjectEventDto projectEvent)
     {
-        
-    }
+        var ev = _projectEventRepository.GetEventByUuid(projectEvent.uuid);
+        if(ev==null)
+        {
+            throw new Exception("Event not found");
+        }
+        ev.title = projectEvent.title;
+        ev.description = projectEvent.description;
+        ev.dueTo = projectEvent.dueTo;
+        ev.startTime = projectEvent.startTime;
+        ev.status = projectEvent.status;
+		
+        _projectEventRepository.UpdateEvent(ev);
+
+	}
     public void DeleteEvent(Guid eventId)
     {
-
-    }
+        _projectEventRepository.DeleteEvent(eventId);
+	}
     public bool SaveChanges()
     {
         return _projectEventRepository.SaveChanges();

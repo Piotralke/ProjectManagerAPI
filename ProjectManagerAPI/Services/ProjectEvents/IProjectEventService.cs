@@ -3,12 +3,12 @@ using ProjectManagerAPI.Models;
 
 public interface IProjectEventService
 {
-    IEnumerable<ProjectEvents> GetAllProjectEvents(Guid projectId);
-    IEnumerable<ProjectEvents> GetProjectEventsOnly(Guid projectId);
-    IEnumerable<ProjectEvents> GetProjectTasksOnly(Guid projectId);
+    IEnumerable<ProjectEventDto> GetAllProjectEvents(Guid projectId);
+    IEnumerable<ProjectEventDto> GetProjectEventsOnly(Guid projectId);
+    IEnumerable<ProjectEventDto> GetProjectTasksOnly(Guid projectId);
     ProjectEventDto GetEventByUuid(Guid eventUuid);
-    void AddEvent(ProjectEventDto projectEvent);
-    void UpdateEvent(ProjectEvents projectEvent);
+    void AddEvent(CreateProjectEventDto projectEvent);
+    void UpdateEvent(UpdateProjectEventDto projectEvent);
     void DeleteEvent(Guid eventId);
     bool SaveChanges();
 }

@@ -2,6 +2,7 @@
 using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using ProjectManagerAPI.Data.Enum;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ProjectManagerAPI.Controllers
@@ -12,9 +13,11 @@ namespace ProjectManagerAPI.Controllers
 	public class ProjectController : ControllerBase
 	{
 		private readonly IProjectService _projectService;
-		public ProjectController(IProjectService projectService)
+		private readonly IProjectEventService _projectEventService;
+		public ProjectController(IProjectService projectService, IProjectEventService projectEventService)
 		{
 			_projectService = projectService;
+			_projectEventService = projectEventService;
 		}
 
 		[HttpGet]
@@ -104,6 +107,54 @@ namespace ProjectManagerAPI.Controllers
 				return NotFound();
 			}
 			return Ok(members);
+		}
+		[HttpGet("{$projectId}/GetProjectEvents")]
+		public ActionResult<IEnumerable<ProjectEventDto>> GetProjectEvents([FromRoute] Guid projectId, [FromQuery] EventType eventType)
+		{
+			switch (eventType)
+			{
+				case EventType.TASK:
+					return Ok(_projectEventService.GetProjectTasksOnly(projectId));
+				case EventType.EVENT:
+					return Ok(_projectEventService.GetProjectEventsOnly(projectId));
+				default:
+					return Ok(_projectEventService.GetAllProjectEvents(projectId));
+			}
+		}
+		[HttpGet("GetProjectEvent")]
+		public ActionResult<ProjectEventDto> GetProjectEvent([FromQuery] Guid eventId)
+		{
+			return _projectEventService.GetEventByUuid(eventId);
+		}
+		[HttpPost("AddProjectEvent")]
+		public ActionResult AddProjectEvent([FromBody]CreateProjectEventDto projectEvent) 
+		{
+			_projectEventService.AddEvent(projectEvent);
+			if(_projectEventService.SaveChanges())
+			{
+				return Ok();
+			}
+			return BadRequest("Failed to create event");
+		}
+		[HttpPut("UpdateProjectEvent")]
+		public ActionResult UpdateProjectEvent([FromBody]UpdateProjectEventDto updateProject)
+		{
+			_projectEventService.UpdateEvent(updateProject);
+			if (_projectEventService.SaveChanges())
+			{
+				return Ok();
+			}
+			return BadRequest("Failed to update event");
+		}
+		[HttpDelete("DeleteProjectEvent/{eventId}")]
+		public ActionResult DeleteProjectEvent([FromRoute] Guid eventId)	//jak beda podpieci uzytkownicy do zadania to trzeba sprawdzac i usuwac dowiazania
+		{
+			_projectEventService.DeleteEvent(eventId);
+			if( _projectEventService.SaveChanges())
+			{
+				return Ok();
+			}
+			return BadRequest("Failed to delete event");
 		}
 	}
 }
