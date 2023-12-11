@@ -5,11 +5,12 @@ public class ProjectService : IProjectService
 {
 	private readonly IProjectRepository _repository;
 	private readonly IProjectMembersRepository _projectMembersRepository;
-
-	public ProjectService(IProjectRepository repository, IProjectMembersRepository projectMembersRepository)
+	private readonly IUserRepository _userRepository;
+	public ProjectService(IProjectRepository repository, IProjectMembersRepository projectMembersRepository, IUserRepository userRepository)
 	{
 		_repository = repository;
 		_projectMembersRepository = projectMembersRepository;
+		_userRepository = userRepository;
 	}
 
 	public IEnumerable<ProjectDto> GetAllProjects()
@@ -88,9 +89,17 @@ public class ProjectService : IProjectService
 
 		_projectMembersRepository.DeleteProjectMember(projectId, memberId);
 	}
-	public IEnumerable<ProjectMembers> GetProjectMembers(Guid projectId)
+	public async Task<IEnumerable<UserDto>> GetProjectMembers(Guid projectId)
 	{
-		return _projectMembersRepository.GetProjectMembers(projectId);
+		var members = _projectMembersRepository.GetProjectMembers(projectId);
+		List<UserDto> result = new List<UserDto>();
+		foreach(var member in members)
+		{
+			var user = await _userRepository.GetUserByIdAsync(member.userUuid);
+			UserDto projectMember = new UserDto(user);
+			result.Add(projectMember);
+		}
+		return result;
 	}
 
 }
