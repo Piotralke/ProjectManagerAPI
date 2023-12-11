@@ -72,6 +72,10 @@ public class Program
 		builder.Services.AddScoped<IAuthService, AuthService>();
 		builder.Services.AddScoped<IUserProjectNoteRepository, UserProjectNoteRepository>();
 		builder.Services.AddScoped<IUserProjectNoteService, UserProjectNoteService>();
+		builder.Services.AddScoped<IProjectEventRepository, ProjectEventRepository>();
+		builder.Services.AddScoped<IProjectEventService, ProjectEventService>();
+		builder.Services.AddScoped<IUserEventsRepository, UserEventsRepository>();
+		builder.Services.AddScoped<IUserEventService, UserEventService>();
 
 
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

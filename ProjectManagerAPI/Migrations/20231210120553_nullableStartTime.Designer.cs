@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManagerAPI.Data;
@@ -11,9 +12,11 @@ using ProjectManagerAPI.Data;
 namespace ProjectManagerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231210120553_nullableStartTime")]
+    partial class nullableStartTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -361,6 +364,9 @@ namespace ProjectManagerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("UserEventsuuid")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("eventUuid")
                         .HasColumnType("uuid");
 
@@ -368,6 +374,8 @@ namespace ProjectManagerAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("uuid");
+
+                    b.HasIndex("UserEventsuuid");
 
                     b.HasIndex("eventUuid");
 
@@ -643,6 +651,10 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
                 {
+                    b.HasOne("ProjectManagerAPI.Models.UserEvents", null)
+                        .WithMany("events")
+                        .HasForeignKey("UserEventsuuid");
+
                     b.HasOne("ProjectManagerAPI.Models.ProjectEvents", "projectEvents")
                         .WithMany("userEvents")
                         .HasForeignKey("eventUuid")
@@ -716,6 +728,11 @@ namespace ProjectManagerAPI.Migrations
             modelBuilder.Entity("ProjectManagerAPI.Models.ProjectEvents", b =>
                 {
                     b.Navigation("userEvents");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
+                {
+                    b.Navigation("events");
                 });
 
             modelBuilder.Entity("User", b =>

@@ -3,7 +3,7 @@
 public class UserEventService : IUserEventService
 {
 	private readonly IUserEventsRepository _userEventsRepository;
-	UserEventService(IUserEventsRepository userEventsRepository)
+	public UserEventService(IUserEventsRepository userEventsRepository)
 	{
 		_userEventsRepository = userEventsRepository;
 	}

@@ -1,11 +1,10 @@
 ﻿using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
-using ProjectManagerAPI.Repositories.ProjectEvent;
 
 public class ProjectEventService : IProjectEventService
 {
-    private readonly ProjectEventRepository _projectEventRepository;
-    public ProjectEventService(ProjectEventRepository projectEventRepository)
+    private readonly IProjectEventRepository _projectEventRepository;
+    public ProjectEventService(IProjectEventRepository projectEventRepository)
     {
         _projectEventRepository = projectEventRepository;
     }

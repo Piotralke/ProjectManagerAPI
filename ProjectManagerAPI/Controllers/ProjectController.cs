@@ -14,10 +14,12 @@ namespace ProjectManagerAPI.Controllers
 	{
 		private readonly IProjectService _projectService;
 		private readonly IProjectEventService _projectEventService;
-		public ProjectController(IProjectService projectService, IProjectEventService projectEventService)
+		
+		public ProjectController(IProjectService projectService, IProjectEventService projectEventService, IUserEventService userEventService)
 		{
 			_projectService = projectService;
 			_projectEventService = projectEventService;
+
 		}
 
 		[HttpGet]
@@ -156,5 +158,6 @@ namespace ProjectManagerAPI.Controllers
 			}
 			return BadRequest("Failed to delete event");
 		}
+		
 	}
 }

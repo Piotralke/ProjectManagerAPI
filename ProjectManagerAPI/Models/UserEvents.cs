@@ -11,6 +11,5 @@ namespace ProjectManagerAPI.Models
 		public User user { get; set; }
 		public Guid userUuid { get; set; }
 
-		public ICollection<UserEvents> events { get; set; }
 	}
 }

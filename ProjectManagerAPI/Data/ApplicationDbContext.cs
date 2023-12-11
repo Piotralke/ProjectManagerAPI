@@ -122,6 +122,5 @@ namespace ProjectManagerAPI.Data
 		public DbSet<UserEvents> UserEvents { get; set; }
         public DbSet<GanntPreviousTask> GanntPreviousTasks { get; set; }
 		public DbSet<UserProjectNote> ProjectNotes { get; set; }
-
     }
 }
