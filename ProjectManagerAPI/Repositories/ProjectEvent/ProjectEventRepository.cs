@@ -1,6 +1,5 @@
 ﻿using ProjectManagerAPI.Data;
 using ProjectManagerAPI.Models;
-using ProjectManagerAPI.Repositories.ProjectEvent;
 
 public class ProjectEventRepository : IProjectEventRepository
 {
