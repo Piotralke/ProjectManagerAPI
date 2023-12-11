@@ -101,9 +101,9 @@ namespace ProjectManagerAPI.Controllers
 
 		//Zwraca ProjectMember (user, project jako null) zrobic join gdy potrzebne
 		[HttpGet("{projectId}/GetProjectMembers")]	
-		public ActionResult<IEnumerable<ProjectMembers>> GetProjectMembers(Guid projectId)
+		public async Task<ActionResult<IEnumerable<UserDto>>> GetProjectMembers(Guid projectId)
 		{
-			var members = _projectService.GetProjectMembers(projectId);
+			var members = await _projectService.GetProjectMembers(projectId);
 			if (members == null)
 			{
 				return NotFound();
