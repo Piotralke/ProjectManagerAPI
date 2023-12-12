@@ -14,12 +14,12 @@ namespace ProjectManagerAPI.Controllers
 	{
 		private readonly IProjectService _projectService;
 		private readonly IProjectEventService _projectEventService;
-		
+		private readonly IUserEventService _userEventService;
 		public ProjectController(IProjectService projectService, IProjectEventService projectEventService, IUserEventService userEventService)
 		{
 			_projectService = projectService;
 			_projectEventService = projectEventService;
-
+			_userEventService = userEventService;
 		}
 
 		[HttpGet]
@@ -110,7 +110,7 @@ namespace ProjectManagerAPI.Controllers
 			}
 			return Ok(members);
 		}
-		[HttpGet("{$projectId}/GetProjectEvents")]
+		[HttpGet("{projectId}/GetProjectEvents")]
 		public ActionResult<IEnumerable<ProjectEventDto>> GetProjectEvents([FromRoute] Guid projectId, [FromQuery] EventType eventType)
 		{
 			switch (eventType)
@@ -127,6 +127,79 @@ namespace ProjectManagerAPI.Controllers
 		public ActionResult<ProjectEventDto> GetProjectEvent([FromQuery] Guid eventId)
 		{
 			return _projectEventService.GetEventByUuid(eventId);
+		}
+		[HttpGet("{projectId}/GetNearestEvent")]
+		public ActionResult<ProjectEventDto> GetNearestEvent([FromRoute] Guid projectId, [FromQuery] Guid userId, [FromQuery] EventType eventType)
+		{
+			List<ProjectEventDto> projectEvents = new List<ProjectEventDto>();
+			
+			switch (eventType)
+			{
+				case EventType.TASK:
+					projectEvents.AddRange(_projectEventService.GetProjectTasksOnly(projectId));
+					break;
+				case EventType.EVENT:
+					projectEvents.AddRange(_projectEventService.GetProjectEventsOnly(projectId));
+					break;
+				default:
+					projectEvents.AddRange( _projectEventService.GetAllProjectEvents(projectId));
+					break;
+			}
+			var userEvents = _userEventService.GetUserEvents(userId);
+			var currentDate = DateTime.Now;
+
+			ProjectEventDto nearestEvent = null;
+			TimeSpan? nearestTimeDifference = null;
+
+			foreach (var userEvent in userEvents)
+			{
+				var projectEvent = projectEvents.FirstOrDefault(pe => pe.uuid == userEvent.eventUuid);
+
+				// Pomijaj wydarzenia, których nie ma w projekcie
+				if (projectEvent == null)
+				{
+					continue;
+				}
+
+				DateTime eventTime;
+
+				// Wybór odpowiedniego pola czasowego w zależności od typu wydarzenia
+				if (eventType == EventType.TASK)
+				{
+					eventTime = projectEvent.dueTo;
+				}
+				else if (eventType == EventType.EVENT)
+				{
+					if (!projectEvent.startTime.HasValue)
+					{
+						// Ignoruj wydarzenia bez ustalonej daty rozpoczęcia
+						continue;
+					}
+
+					eventTime = projectEvent.startTime.Value;
+				}
+				else
+				{
+					// Obsługa innych typów wydarzeń, jeśli są dostępne
+					continue;
+				}
+
+				// Sprawdzenie, czy wydarzenie jest po dzisiejszej dacie
+				if (eventTime > currentDate)
+				{
+					// Obliczenie różnicy czasu
+					var timeDifference = eventTime - currentDate;
+
+					// Aktualizacja najbliższego wydarzenia, jeśli jest bliższe niż poprzednie
+					if (!nearestTimeDifference.HasValue || timeDifference < nearestTimeDifference)
+					{
+						nearestTimeDifference = timeDifference;
+						nearestEvent = projectEvent;
+					}
+				}
+			}
+
+			return nearestEvent;
 		}
 		[HttpPost("AddProjectEvent")]
 		public ActionResult AddProjectEvent([FromBody]CreateProjectEventDto projectEvent) 

@@ -19,7 +19,7 @@ public class ProjectEventService : IProjectEventService
 		foreach (var project in projects)
 		{
 			ProjectEventDto newProject = new ProjectEventDto(project);
-			var proj = _projectRepository.GetProjectById(project.uuid);
+			var proj = _projectRepository.GetProjectById(project.projectUuid);
 			newProject.projectTitle = proj.title;
 			result.Add(newProject);
 		}
@@ -32,7 +32,7 @@ public class ProjectEventService : IProjectEventService
 		foreach (var project in projects)
 		{
 			ProjectEventDto newProject = new ProjectEventDto(project);
-			var proj = _projectRepository.GetProjectById(project.uuid);
+			var proj = _projectRepository.GetProjectById(project.projectUuid);
 			newProject.projectTitle = proj.title;
 			result.Add(newProject);
 		}
@@ -45,7 +45,7 @@ public class ProjectEventService : IProjectEventService
         foreach (var project in projects)
         {
             ProjectEventDto newProject = new ProjectEventDto(project);
-            var proj = _projectRepository.GetProjectById(project.uuid);
+            var proj = _projectRepository.GetProjectById(project.projectUuid);
             newProject.projectTitle = proj.title;
 			result.Add(newProject);
         }
