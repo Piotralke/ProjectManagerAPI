@@ -4,9 +4,13 @@ using ProjectManagerAPI.Models;
 public class ProjectEventService : IProjectEventService
 {
     private readonly IProjectEventRepository _projectEventRepository;
-    public ProjectEventService(IProjectEventRepository projectEventRepository)
+    private readonly IProjectRepository _projectRepository;
+    private readonly IUserEventsRepository _userEventsRepository;
+    public ProjectEventService(IProjectEventRepository projectEventRepository, IProjectRepository projectRepository,IUserEventsRepository userEventsRepository)
     {
         _projectEventRepository = projectEventRepository;
+        _projectRepository = projectRepository;
+        _userEventsRepository = userEventsRepository;
     }
     public IEnumerable<ProjectEventDto> GetAllProjectEvents(Guid projectId)
     {
@@ -15,6 +19,8 @@ public class ProjectEventService : IProjectEventService
 		foreach (var project in projects)
 		{
 			ProjectEventDto newProject = new ProjectEventDto(project);
+			var proj = _projectRepository.GetProjectById(project.uuid);
+			newProject.projectTitle = proj.title;
 			result.Add(newProject);
 		}
 		return result;
@@ -26,6 +32,8 @@ public class ProjectEventService : IProjectEventService
 		foreach (var project in projects)
 		{
 			ProjectEventDto newProject = new ProjectEventDto(project);
+			var proj = _projectRepository.GetProjectById(project.uuid);
+			newProject.projectTitle = proj.title;
 			result.Add(newProject);
 		}
 		return result;
@@ -37,7 +45,9 @@ public class ProjectEventService : IProjectEventService
         foreach (var project in projects)
         {
             ProjectEventDto newProject = new ProjectEventDto(project);
-            result.Add(newProject);
+            var proj = _projectRepository.GetProjectById(project.uuid);
+            newProject.projectTitle = proj.title;
+			result.Add(newProject);
         }
         return result;
 
@@ -66,7 +76,18 @@ public class ProjectEventService : IProjectEventService
             status = ProjectManagerAPI.Data.Enum.EventStatus.PLANNED,
             type = projectEvent.type
         };
-        _projectEventRepository.AddEvent(newEvent);
+		_projectEventRepository.AddEvent(newEvent);
+		foreach (var member in projectEvent.members)
+        {
+            UserEvents userEvent = new UserEvents
+            {
+                uuid = new Guid(),
+                eventUuid = newEvent.uuid,
+                userUuid = member
+            };
+            _userEventsRepository.AddUserEvents(userEvent);
+        }
+        
     }
     public void UpdateEvent(UpdateProjectEventDto projectEvent)
     {

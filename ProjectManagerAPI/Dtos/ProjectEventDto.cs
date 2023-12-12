@@ -16,7 +16,7 @@ namespace ProjectManagerAPI.Dtos
         public EventStatus status { get; set; }
         public EventType type { get; set; }
         public Guid projectUuid { get; set; }
-
+        public string? projectTitle { get; set; }
         public ProjectEventDto(ProjectEvents ev)
         {
             uuid= ev.uuid;
@@ -43,6 +43,8 @@ namespace ProjectManagerAPI.Dtos
 		public EventType type { get; set; }
 		[JsonPropertyName("projectUuid")]
 		public Guid projectUuid { get; set; }
+        [JsonPropertyName("members")]
+        public List<Guid> members { get; set; }
         public CreateProjectEventDto() { }
         //public CreateProjectEventDto(
         //    string title,
