@@ -84,7 +84,10 @@ public class UserService : IUserService
 		{
 			return user;
 		}
-
 		return null;
+	}
+	public async Task<IEnumerable<User>> SearchUsersAsync(string query)
+	{
+		return await _userRepository.SearchUsersAsync(query);
 	}
 }

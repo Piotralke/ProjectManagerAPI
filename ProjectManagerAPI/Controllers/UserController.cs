@@ -181,4 +181,10 @@ public class UserController : ControllerBase
 		await _userService.UpdateUserAsync(userId, updateUserDto);
 		return Ok();
 	}
+	[HttpGet]
+	public async Task<IActionResult> SearchUser([FromQuery] string searchCondition)
+	{
+		var users = await _userService.SearchUsersAsync(searchCondition);
+		return Ok(users);
+	}
 }

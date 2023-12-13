@@ -13,6 +13,7 @@ namespace ProjectManagerAPI.Services
 		Task<IdentityResult> CreateUserAsync(CreateUserDto createUserDto);
 		Task UpdateUserAsync(Guid userId, UpdateUserDto updateUserDto);
 		Task<User> ValidateUserAsync(string email, string password);
+		Task<IEnumerable<User>> SearchUsersAsync(string query);
 	}
 
 }

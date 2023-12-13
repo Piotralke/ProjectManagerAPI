@@ -1,5 +1,6 @@
 ﻿using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
+using ProjectManagerAPI.Repositories;
 
 public class ProjectService : IProjectService
 {
