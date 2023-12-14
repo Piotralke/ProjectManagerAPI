@@ -13,6 +13,11 @@ public class UserEventService : IUserEventService
 		var userEvents =  _userEventsRepository.GetUserEvents(userId).ToList();
 		return userEvents;
 	}
+	public List<UserEvents> GetEventUsers(Guid eventId)
+	{
+		var eventUsers = _userEventsRepository.GetEventUsers(eventId).ToList();
+		return eventUsers;
+	}
 	public UserEvents GetUserEventByUuid(Guid uuid)
 	{
 		var userEvent = _userEventsRepository.GetEventByUuid(uuid);

@@ -13,6 +13,10 @@ public class UserEventsRepository : IUserEventsRepository
 	{
 		return  _context.UserEvents.Where(e=>e.userUuid == userId).ToList();
 	}
+	public IEnumerable<UserEvents> GetEventUsers(Guid eventId)
+	{
+		return _context.UserEvents.Where(e=>e.eventUuid == eventId).ToList();
+	}
 	public UserEvents GetEventByUuid(Guid uuid)
 	{
 		var userEvent = _context.UserEvents.FirstOrDefault(e=>e.userUuid == uuid);

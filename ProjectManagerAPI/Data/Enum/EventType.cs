@@ -3,6 +3,7 @@
 	public enum EventType
 	{
 		TASK=0,
-		EVENT=1
+		EVENT=1,
+		Default
 	}
 }

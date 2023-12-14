@@ -111,7 +111,7 @@ namespace ProjectManagerAPI.Controllers
 			return Ok(members);
 		}
 		[HttpGet("{projectId}/GetProjectEvents")]
-		public ActionResult<IEnumerable<ProjectEventDto>> GetProjectEvents([FromRoute] Guid projectId, [FromQuery] EventType eventType)
+		public ActionResult<IEnumerable<ProjectEventDto>> GetProjectEvents([FromRoute] Guid projectId, [FromQuery] EventType eventType = EventType.Default)
 		{
 			switch (eventType)
 			{

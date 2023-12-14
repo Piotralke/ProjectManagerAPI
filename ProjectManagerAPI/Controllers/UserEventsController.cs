@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagerAPI.Dtos;
+using ProjectManagerAPI.Services;
 
 [Route("api/user-events")]
 [ApiController]
@@ -10,11 +11,14 @@ public class UserEventsController : ControllerBase
 	private readonly IUserEventService _userEventService;
 	private readonly IProjectEventService _projectEventService;
 	private readonly IProjectService _projectService;
-	public UserEventsController(IUserEventService userEventService, IProjectEventService projectEventService, IProjectService projectService)
+	private readonly IUserService _userService;
+	public UserEventsController(IUserEventService userEventService, IProjectEventService projectEventService, IProjectService projectService, IUserService userService)
 	{
 		_userEventService = userEventService;
 		_projectEventService = projectEventService;
 		_projectService = projectService;
+		_userService = userService;
+		
 	}
 	[HttpGet("get-events-for-user/{userId}")]
 	public ActionResult<IEnumerable<ProjectEventDto>> GetUserEvents([FromRoute] Guid userId)
@@ -30,5 +34,16 @@ public class UserEventsController : ControllerBase
 		}
 		return result;
 	}
-
+	[HttpGet("get-users-for-event/{eventId}")]
+	public async Task<ActionResult<IEnumerable<UserDto>>> GetEventUsers([FromRoute] Guid eventId) 
+	{
+		var eventUsers = _userEventService.GetEventUsers(eventId);
+		List<UserDto> result = new List<UserDto>();
+		foreach (var userEvent in eventUsers)
+		{
+			var user = await _userService.GetUserByIdAsync(userEvent.userUuid);
+			result.Add(user);
+		}
+		return result;
+	}
 }
