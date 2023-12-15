@@ -1,5 +1,6 @@
 ﻿
 using ProjectManagerAPI.Dtos;
+using ProjectManagerAPI.Models;
 
 public class MessageService : IMessageService
 {
@@ -48,5 +49,15 @@ public class MessageService : IMessageService
 			result.Add(messageDto);
 		}
 		return result;
+	}
+    public void SendMessage(CreateMessageDto message)
+	{
+		Message messageToSend = new Message(message);
+		_messageRepository.AddMessage(messageToSend);
+
+	}
+	public bool SaveChanges()
+	{
+		return _messageRepository.SaveChanges();
 	}
 }

@@ -8,11 +8,20 @@ namespace ProjectManagerAPI.Dtos
 		public Guid uuid { get; set; }
 		public string content { get; set; }
 		public bool hasAttachment { get; set; }
-		//public Guid projectUuid { get; set; }
+		public Guid projectUuid { get; set; }
 		public Guid senderUuid { get; set; }
 
 		public ICollection<MessageAttachmentDto>? messageAttachments { get; set; }
 	}
+	public class CreateMessageDto
+	{
+        public string content { get; set; }
+        public bool hasAttachment { get; set; }
+        public Guid projectUuid { get; set; }
+        public Guid senderUuid { get; set; }
+
+        public ICollection<MessageAttachmentDto>? messageAttachments { get; set; }
+    }
 	public class MessageAttachmentDto
 	{
 		public Guid uuid { get; set; }
