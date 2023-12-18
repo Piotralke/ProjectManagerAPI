@@ -76,7 +76,10 @@ public class Program
 		builder.Services.AddScoped<IProjectEventService, ProjectEventService>();
 		builder.Services.AddScoped<IUserEventsRepository, UserEventsRepository>();
 		builder.Services.AddScoped<IUserEventService, UserEventService>();
-
+		builder.Services.AddScoped<IMessageRepository,MessageRepository>();
+		builder.Services.AddScoped<IMessageAttachmentRepository,MessageAttachmentRepository>();
+		builder.Services.AddScoped<IMessageService, MessageService>();
+		
 
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 		builder.Services.AddEndpointsApiExplorer();

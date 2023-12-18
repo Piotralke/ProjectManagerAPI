@@ -22,7 +22,7 @@ namespace ProjectManagerAPI.Controllers
         [HttpGet("GetProjectMessages/{projectId}")]
         public ActionResult<IEnumerable<MessageDto>> GetProjectMessages([FromRoute] Guid projectId) 
         {
-            var messages = _messageService.GetProjectMessages(projectId);
+            var messages = _messageService.GetProjectMessagesAsync(projectId);
             if(messages== null)
             {
                 return NotFound("Messages not found");

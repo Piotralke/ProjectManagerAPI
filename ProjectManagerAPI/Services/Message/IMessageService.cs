@@ -2,7 +2,7 @@
 
 public interface IMessageService
 {
-	IEnumerable<MessageDto> GetProjectMessages(Guid projectUuid);
+	Task<IEnumerable<MessageDto>> GetProjectMessagesAsync(Guid projectUuid);
 	void SendMessage(CreateMessageDto message);
 	bool SaveChanges();
 }

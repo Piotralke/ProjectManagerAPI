@@ -10,7 +10,7 @@ namespace ProjectManagerAPI.Dtos
 		public bool hasAttachment { get; set; }
 		public Guid projectUuid { get; set; }
 		public Guid senderUuid { get; set; }
-
+		public UserDto sender { get; set; }
 		public ICollection<MessageAttachmentDto>? messageAttachments { get; set; }
 	}
 	public class CreateMessageDto

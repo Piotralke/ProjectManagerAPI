@@ -1,18 +1,21 @@
 ﻿
 using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
+using ProjectManagerAPI.Services;
 
 public class MessageService : IMessageService
 {
-	private readonly MessageRepository _messageRepository;
-	private readonly MessageAttachmentRepository _messageAttachmentRepository;
+	private readonly IMessageRepository _messageRepository;
+	private readonly IMessageAttachmentRepository _messageAttachmentRepository;
+	private readonly IUserService _userService;
 
-	public MessageService(MessageRepository messageRepository, MessageAttachmentRepository messageAttachmentRepository)
+	public MessageService(IMessageRepository messageRepository, IMessageAttachmentRepository messageAttachmentRepository, IUserService userService)
 	{
 		_messageAttachmentRepository = messageAttachmentRepository;
 		_messageRepository = messageRepository;
+		_userService = userService;
 	}
-	public IEnumerable<MessageDto> GetProjectMessages(Guid projectUuid)
+	public async Task<IEnumerable<MessageDto>> GetProjectMessagesAsync(Guid projectUuid)	//pobierać ifnormacje o uzytkowniku wysylajacym
 	{
 		List<MessageDto> result = new List<MessageDto>();
 		var messages = _messageRepository.GetProjectMessages(projectUuid);
@@ -22,15 +25,17 @@ public class MessageService : IMessageService
 		}
 		foreach(var message in messages)
 		{
-			MessageDto messageDto = new MessageDto
+			var sender = await _userService.GetUserByIdAsync(message.senderUuid);
+            MessageDto messageDto = new MessageDto
 			{
 				uuid = message.uuid,
 				content = message.content,
 				hasAttachment = message.hasAttachment,
 				senderUuid = message.senderUuid,
+				sender = sender,
 				messageAttachments = new List<MessageAttachmentDto>()
 			};
-
+			
 			if(message.hasAttachment)
 			{
 				var attachments = _messageAttachmentRepository.GetMessageAttachments(message.uuid);
