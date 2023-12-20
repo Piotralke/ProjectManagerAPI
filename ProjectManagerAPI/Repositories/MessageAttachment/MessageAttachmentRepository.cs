@@ -13,4 +13,8 @@ public class MessageAttachmentRepository : IMessageAttachmentRepository
 	{
 		return _context.MessageAttachments.Where(a=>a.messageUuid == messageUuid).ToList();
 	}
+	public void AddAttachment (MessageAttachment attachment)
+	{
+		_context.MessageAttachments.Add(attachment);
+	}
 }

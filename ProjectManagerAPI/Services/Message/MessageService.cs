@@ -32,6 +32,8 @@ public class MessageService : IMessageService
 				content = message.content,
 				hasAttachment = message.hasAttachment,
 				senderUuid = message.senderUuid,
+				projectUuid = message.projectUuid,
+				createdAt = message.createdAt,
 				sender = sender,
 				messageAttachments = new List<MessageAttachmentDto>()
 			};
@@ -55,10 +57,11 @@ public class MessageService : IMessageService
 		}
 		return result;
 	}
-    public void SendMessage(CreateMessageDto message)
+    public Message SendMessage(CreateMessageDto message)
 	{
 		Message messageToSend = new Message(message);
 		_messageRepository.AddMessage(messageToSend);
+		return messageToSend;
 
 	}
 	public bool SaveChanges()

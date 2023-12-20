@@ -14,7 +14,7 @@ namespace ProjectManagerAPI.Models
 		public Guid projectUuid { get; set; }
 		public User sender { get; set; }
 		public Guid senderUuid { get; set; }
-
+		public DateTime createdAt { get; set; }
 		public ICollection<MessageAttachment> ? messageAttachment { get; set; }
 		public Message() { }
 		public Message(CreateMessageDto createDto)
@@ -25,14 +25,8 @@ namespace ProjectManagerAPI.Models
 			hasAttachment = createDto.hasAttachment;
 			projectUuid = createDto.projectUuid;
 			senderUuid = createDto.senderUuid;
-			if(createDto.hasAttachment)
-			{
-				foreach(var attachment in createDto.messageAttachments)
-				{
-					MessageAttachment newAttachment = new MessageAttachment(attachment, messageUuid);
-					messageAttachment.Add(newAttachment);
-				}
-			}
+			createdAt = DateTime.UtcNow;
+			
 		}
 	}
 }

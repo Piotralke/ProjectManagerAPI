@@ -53,8 +53,8 @@ namespace ProjectManagerAPI.Data
 
 			modelBuilder.Entity<Message>()
 				.HasOne(m => m.sender)
-				.WithOne(u => u.message)
-				.HasForeignKey<Message>(m => m.senderUuid)
+				.WithMany(u => u.messages)
+				.HasForeignKey(m => m.senderUuid)
 				.IsRequired();
 
 			modelBuilder.Entity<Message>()

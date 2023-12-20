@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManagerAPI.Data;
@@ -11,9 +12,11 @@ using ProjectManagerAPI.Data;
 namespace ProjectManagerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231219144917_messagefix")]
+    partial class messagefix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,12 +212,12 @@ namespace ProjectManagerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("content")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("createdAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("hasAttachment")
                         .HasColumnType("boolean");
@@ -227,9 +230,12 @@ namespace ProjectManagerAPI.Migrations
 
                     b.HasKey("uuid");
 
+                    b.HasIndex("UserId");
+
                     b.HasIndex("projectUuid");
 
-                    b.HasIndex("senderUuid");
+                    b.HasIndex("senderUuid")
+                        .IsUnique();
 
                     b.ToTable("Messages");
                 });
@@ -565,6 +571,10 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Message", b =>
                 {
+                    b.HasOne("User", null)
+                        .WithMany("messages")
+                        .HasForeignKey("UserId");
+
                     b.HasOne("ProjectManagerAPI.Models.Project", "project")
                         .WithMany("messages")
                         .HasForeignKey("projectUuid")
@@ -572,8 +582,8 @@ namespace ProjectManagerAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("User", "sender")
-                        .WithMany("messages")
-                        .HasForeignKey("senderUuid")
+                        .WithOne("message")
+                        .HasForeignKey("ProjectManagerAPI.Models.Message", "senderUuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -716,6 +726,8 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("events");
 
                     b.Navigation("members");
+
+                    b.Navigation("message");
 
                     b.Navigation("messages");
 

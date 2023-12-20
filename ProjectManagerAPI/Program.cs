@@ -9,6 +9,7 @@ using ProjectManagerAPI.Models;
 using ProjectManagerAPI.Services;
 using ProjectManagerAPI.Repositories;
 using ProjectManagerAPI.Services.Auth;
+using System.Text.Json.Serialization;
 
 public class Program
 {
@@ -16,25 +17,29 @@ public class Program
 	{
 		var builder = WebApplication.CreateBuilder(args);
 
-		// Add services to the container.
-		builder.Services.AddControllers();
+		builder.Services.AddControllersWithViews()
+			.AddJsonOptions(options =>
+			{
+				options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+			});
 
 		builder.Services.AddDbContext<ApplicationDbContext>(options =>
 		{
 			options.UseNpgsql(builder.Configuration["ConnectionString"]);
 		});
+
 		builder.Services.AddCors(options =>
 		{
 			options.AddDefaultPolicy(builder => builder
-				.WithOrigins("http://localhost:5048", "http://localhost:5173")  // Zaktualizuj na odpowiedni¹ adresy stron, z których bêdziesz korzystaæ
+				.WithOrigins("http://localhost:5048", "http://localhost:5173")
 				.AllowAnyHeader()
 				.AllowAnyMethod()
 				.AllowCredentials()
-				.SetIsOriginAllowed(origin=>true)
+				.SetIsOriginAllowed(origin => true)
 				.SetIsOriginAllowedToAllowWildcardSubdomains()
-				
-				);	
+			);
 		});
+
 		builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 		{
 			// Konfiguracje opcji Identity
@@ -62,7 +67,7 @@ public class Program
 				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenSecret"]))
 			};
 		});
-		
+
 
 		builder.Services.AddScoped<IUserService, UserService>();
 		builder.Services.AddScoped<IUserRepository, UserRepository>();

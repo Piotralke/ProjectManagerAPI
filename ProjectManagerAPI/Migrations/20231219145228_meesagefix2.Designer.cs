@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManagerAPI.Data;
@@ -11,9 +12,11 @@ using ProjectManagerAPI.Data;
 namespace ProjectManagerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231219145228_meesagefix2")]
+    partial class meesagefix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,9 +215,6 @@ namespace ProjectManagerAPI.Migrations
                     b.Property<string>("content")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("createdAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("hasAttachment")
                         .HasColumnType("boolean");
