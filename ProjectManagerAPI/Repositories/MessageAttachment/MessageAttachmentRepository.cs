@@ -17,4 +17,8 @@ public class MessageAttachmentRepository : IMessageAttachmentRepository
 	{
 		_context.MessageAttachments.Add(attachment);
 	}
+	public MessageAttachment GetAttachmentByUuid(Guid messageUuid)
+	{
+		return _context.MessageAttachments.FirstOrDefault(a=>a.uuid == messageUuid);
+	}
 }

@@ -83,6 +83,7 @@ public class Program
 		builder.Services.AddScoped<IUserEventService, UserEventService>();
 		builder.Services.AddScoped<IMessageRepository,MessageRepository>();
 		builder.Services.AddScoped<IMessageAttachmentRepository,MessageAttachmentRepository>();
+		builder.Services.AddScoped<IMessageAttachmentService, MessageAttachmentService>();
 		builder.Services.AddScoped<IMessageService, MessageService>();
 		
 

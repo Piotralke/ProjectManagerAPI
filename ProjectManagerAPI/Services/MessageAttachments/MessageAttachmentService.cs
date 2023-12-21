@@ -16,4 +16,8 @@ public class MessageAttachmentService : IMessageAttachmentService
 	{
 		_messageAttachmentRepository.AddAttachment(attachment);
 	}
+	public MessageAttachment GetAttachment(Guid messageUuid)
+	{
+		return _messageAttachmentRepository.GetAttachmentByUuid(messageUuid);
+	}
 }

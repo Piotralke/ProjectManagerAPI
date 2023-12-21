@@ -17,12 +17,12 @@ namespace ProjectManagerAPI.Controllers
     public class ChatController : ControllerBase
     {
         private readonly IMessageService _messageService;
-        private readonly IMessageAttachmentRepository _attachmentRepository;
+        private readonly IMessageAttachmentService _attachmentService;
        
-        public ChatController(IMessageService messageService, IMessageAttachmentRepository messageAttachmentRepository)
+        public ChatController(IMessageService messageService, IMessageAttachmentService attachmentService)
         {
             _messageService = messageService;
-            _attachmentRepository = messageAttachmentRepository;
+			_attachmentService = attachmentService;
         }
 
         [HttpGet("GetProjectMessages/{projectId}")]
@@ -48,11 +48,11 @@ namespace ProjectManagerAPI.Controllers
                         uuid = new Guid(),
                         fileName = Path.GetFileNameWithoutExtension(attachment.FileName),
                         fileType = Path.GetExtension(attachment.FileName),
-                        filePath = "ProjectAttachments/" + message.projectUuid + "/" + attachment.FileName + "." + attachment.ContentType
+                        filePath = "ProjectAttachments\\" + message.projectUuid
 
                     };
                     MessageAttachment newAttachment = new MessageAttachment(attachmentDto, createdMessage.uuid);
-                    _attachmentRepository.AddAttachment(newAttachment);
+					_attachmentService.AddAttachment(newAttachment);
 					SaveFileAndGetPath(attachment, message.projectUuid);
 				}
             }
@@ -63,11 +63,13 @@ namespace ProjectManagerAPI.Controllers
             return BadRequest("Failed to send message");
         
         }
-		[HttpGet("GetAttachmentContext")]
-		public async Task<IActionResult> GetPicInfo([FromBody] MessageAttachmentDto attachment)
+		[HttpGet("GetAttachmentContext/{attachmentId}")]
+		public async Task<IActionResult> GetPicInfo([FromRoute] Guid attachmentId)
 		{
+            var attachment = _attachmentService.GetAttachment(attachmentId);
 
-			var imageFileStream = System.IO.File.OpenRead(attachment.filePath);
+            var imagePath = Path.Combine(attachment.filePath, attachment.fileName+attachment.fileType);
+			var imageFileStream = System.IO.File.OpenRead(imagePath);
 
 			using (MemoryStream memoryStream = new MemoryStream())
 			{
@@ -80,6 +82,28 @@ namespace ProjectManagerAPI.Controllers
 				// Zwróć base64 jako JSON
 				return Ok(base64Image);
 			}
+		}
+		[HttpGet("DownloadAttachment/{attachmentId}")]
+		public IActionResult GetAttachment([FromRoute] Guid attachmentId)
+		{
+			var attachment = _attachmentService.GetAttachment(attachmentId);
+
+			if (attachment == null)
+			{
+				return NotFound(); // Jeśli nie znaleziono załącznika, zwróć 404 Not Found
+			}
+
+			var filePath = Path.Combine(attachment.filePath, $"{attachment.fileName}{attachment.fileType}");
+			var fullPath = Path.GetFullPath(filePath);
+
+			// Sprawdź, czy plik istnieje
+			if (!System.IO.File.Exists(fullPath))
+			{
+				return NotFound(); // Jeśli plik nie istnieje, zwróć 404 Not Found
+			}
+
+			// Zwróć plik do pobrania
+			return PhysicalFile(fullPath, "application/octet-stream", enableRangeProcessing: true);
 		}
 		private void SaveFileAndGetPath(IFormFile file, Guid projectUuid)
 		{
