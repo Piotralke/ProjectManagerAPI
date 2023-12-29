@@ -12,6 +12,7 @@ namespace ProjectManagerAPI.Models
 		public DateTime endDate { get; set; }
 		public Project project { get; set; }
 		public Guid projectUuid { get; set; }
+		public string type { get; set; }
 		public ICollection<GanntPreviousTask> previousTasks { get; set; }
 	}
 }
