@@ -157,7 +157,7 @@ namespace ProjectManagerAPI.Data
 		public DbSet<Group> Groups { get; set; }
 		public DbSet<GroupMembers> GroupMembers { get; set; }
 		public DbSet<Subject> Subjects { get; set; }
-		public DbSet<ProjectProposal> Proposals { get; set; }
-		public DbSet<ProposalSquad> ProposalsSquad { get; set;}
+		public DbSet<ProjectProposal> ProjectProposals { get; set; }
+		public DbSet<ProposalSquad> ProposalSquads { get; set;}
     }
 }
