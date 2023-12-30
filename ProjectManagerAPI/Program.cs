@@ -85,6 +85,10 @@ public class Program
 		builder.Services.AddScoped<IMessageAttachmentRepository,MessageAttachmentRepository>();
 		builder.Services.AddScoped<IMessageAttachmentService, MessageAttachmentService>();
 		builder.Services.AddScoped<IMessageService, MessageService>();
+		builder.Services.AddScoped<IGanntPreviousTaskRepository, GanntPreviousTaskRepository>();
+		builder.Services.AddScoped<IGanntTasksRepository,GanntTasksRepository>();
+		builder.Services.AddScoped<IGanntTaskService, GanntTaskService>();
+
 		
 
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

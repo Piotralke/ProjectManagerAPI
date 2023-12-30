@@ -2,14 +2,15 @@
 using ProjectManagerAPI.Models;
 public class GanntTaskService : IGanntTaskService
 {
-	private readonly GanntPreviousTaskRepository _previousTaskRepository;
-	private readonly GanntTasksRepository _tasksRepository;
+	private readonly IGanntPreviousTaskRepository _previousTaskRepository;
+	private readonly IGanntTasksRepository _tasksRepository;
 
-	public GanntTaskService(GanntPreviousTaskRepository previousTaskRepository, GanntTasksRepository tasksRepository)
+	public GanntTaskService(IGanntPreviousTaskRepository previousTaskRepository, IGanntTasksRepository tasksRepository)
 	{
 		_previousTaskRepository = previousTaskRepository;
 		_tasksRepository = tasksRepository;
 	}
+
 	public IEnumerable<GanntTaskDto> GetProjectGanntTasks(Guid projectUuid)
 	{
 		List<GanntTaskDto> result = new List<GanntTaskDto>();
@@ -22,12 +23,13 @@ public class GanntTaskService : IGanntTaskService
 		foreach (var task in tasks)
 		{
 			var newTask = MapTaskDto(task);
-			newTask.previousTasks = GetPreviousTasksRecursive(task.uuid);
+			newTask.dependencies = GetPreviousTasks(task.uuid).ToList();
 			result.Add(newTask);
 		}
 
 		return result;
 	}
+
 	public void AddTask(CreateGanntTaskDto taskDto)
 	{
 		GanntTasks ganntTasks = new GanntTasks
@@ -38,11 +40,12 @@ public class GanntTaskService : IGanntTaskService
 			startDate = taskDto.startDate,
 			endDate = taskDto.endDate,
 			projectUuid = taskDto.projectUuid,
+			type = taskDto.type,
 		};
 		_tasksRepository.AddGanntTask(ganntTasks);
-		if(taskDto.previousTasksGuids.Count() > 0) 
-		{ 
-			foreach(var previousTaskUuid in taskDto.previousTasksGuids)
+		if (taskDto.previousTasksGuids.Count() > 0)
+		{
+			foreach (var previousTaskUuid in taskDto.previousTasksGuids)
 			{
 				GanntPreviousTask previousTask = new GanntPreviousTask
 				{
@@ -55,53 +58,51 @@ public class GanntTaskService : IGanntTaskService
 		}
 		_tasksRepository.SaveChanges();
 	}
+
 	public void DeleteTask(Guid taskUuid)
 	{
 		var taskToDelete = _tasksRepository.GetGanntTaskByUuid(taskUuid);
-		if(taskToDelete == null)
+		if (taskToDelete == null)
 		{
 			throw new Exception("Task not found");
 		}
-		foreach(var previousTask in taskToDelete.previousTasks)
+		foreach (var previousTask in taskToDelete.previousTasks)
 		{
 			_previousTaskRepository.RemoveGanntTask(previousTask.uuid);
 		}
 		var followingTasks = _previousTaskRepository.GetFollowingGanntTasks(taskUuid);
-		foreach(var followingTask in followingTasks)
+		foreach (var followingTask in followingTasks)
 		{
 			_previousTaskRepository.RemoveGanntTask(followingTask.uuid);
 		}
-		_tasksRepository.DeleteGanntTask(taskUuid); 
+		_tasksRepository.DeleteGanntTask(taskUuid);
 		_tasksRepository.SaveChanges();
 	}
 
-
-	private List<GanntTaskDto> GetPreviousTasksRecursive(Guid taskId)
+	private IEnumerable<Guid> GetPreviousTasks(Guid taskId)
 	{
-		var previousTasks = new List<GanntTaskDto>();
-		var tasks = _previousTaskRepository.GetPreviousGanntTasks(taskId);
-
-		foreach (var previousTask in tasks)
-		{
-			var task = _tasksRepository.GetGanntTaskByUuid(previousTask.previousTaskId);
-			var taskDto = MapTaskDto(task);
-			taskDto.previousTasks = GetPreviousTasksRecursive(task.uuid);
-			previousTasks.Add(taskDto);
-		}
-
-		return previousTasks;
+		return _previousTaskRepository
+			.GetPreviousGanntTasks(taskId)
+			.Select(previousTask => previousTask.previousTaskId);
 	}
+
 	private GanntTaskDto MapTaskDto(GanntTasks task)
 	{
 		return new GanntTaskDto
 		{
-			uuid = task.uuid,
-			title = task.title,
+			id = task.uuid,
+			name = task.title,
 			description = task.description,
-			startDate = task.startDate,
-			endDate = task.endDate,
+			start = task.startDate,
+			end = task.endDate,
 			projectUuid = task.projectUuid,
-			previousTasks = new List<GanntTaskDto>()
+			type = task.type,
+			dependencies = new List<Guid>()
 		};
+	}
+
+	public bool SaveChanges()
+	{
+		return _tasksRepository.SaveChanges();
 	}
 }

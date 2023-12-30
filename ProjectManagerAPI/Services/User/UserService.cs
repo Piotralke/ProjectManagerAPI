@@ -22,13 +22,15 @@ public class UserService : IUserService
 	public async Task<UserDto> GetUserByIdAsync(Guid userId)
 	{
 		var user = await _userRepository.GetUserByIdAsync(userId);
-		return new UserDto(user);
+		var role = await _userRepository.GetUserRole(user);
+		return new UserDto(user, role);
 	}
 
 	public async Task<UserDto> GetUserByEmailAsync(string email)
 	{
 		var user = await _userRepository.GetUserByEmailAsync(email);
-		return new UserDto(user);
+		var role = await _userRepository.GetUserRole(user);
+		return new UserDto(user, role);
 	}
 
 	public async Task<IdentityResult> CreateUserAsync(CreateUserDto createUserDto)
@@ -59,8 +61,10 @@ public class UserService : IUserService
 
 		if (user != null)
 		{
-			user.name = updateUserDto.name;
-			user.surname = updateUserDto.surname;
+			if (!string.IsNullOrEmpty(updateUserDto.name))
+				user.name = updateUserDto.name;
+			if (!string.IsNullOrEmpty(updateUserDto.surname))
+				user.surname = updateUserDto.surname;
 
 			if (!string.IsNullOrEmpty(updateUserDto.newPassword))
 			{
@@ -72,6 +76,9 @@ public class UserService : IUserService
 				user.ProfilePicturePath = updateUserDto.ProfilePicturePath;
 				await _userRepository.UpdateUserAsync(user);
 			}
+
+			if (updateUserDto.pinnedProjectUuid.HasValue)
+				user.pinnedProjectUuid = updateUserDto.pinnedProjectUuid;
 
 			await _userRepository.UpdateUserAsync(user);
 		}

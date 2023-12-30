@@ -11,10 +11,10 @@ namespace ProjectManagerAPI.Dtos
 		public string surname { get; set; }
 		public string email { get; set; }
 		public DateTime createdAt { get; set; }
-		public Role role { get; set; }
+		public string role { get; set; }
 		public string ProfilePicturePath { get; set; }
 		public Guid? pinnedProjectUuid { get; set; }
-		public UserDto(User user) {
+		public UserDto(User user,List<string> roles) {
 			uuid = user.Id;
 			name = user.name;
 			surname = user.surname;
@@ -22,7 +22,9 @@ namespace ProjectManagerAPI.Dtos
 			createdAt = user.createdAt;
 			ProfilePicturePath = user.ProfilePicturePath;
 			pinnedProjectUuid = user.pinnedProjectUuid;
+			role = roles[0];
 		}
+
 	}
 	public class CreateUserDto
 	{
@@ -34,10 +36,11 @@ namespace ProjectManagerAPI.Dtos
 	}
 	public class UpdateUserDto
 	{
-		public string name { get; set; }
-		public string surname { get; set;}
+		public string? name { get; set; }
+		public string? surname { get; set;}
 		public string? newPassword { get; set; }
 		public string? ProfilePicturePath { get; set; }
+		public Guid? pinnedProjectUuid { get;  set; }
 		
 	}
 	public class LoginDto

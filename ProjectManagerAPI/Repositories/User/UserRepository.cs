@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ProjectManagerAPI.Data.Enum;
 using ProjectManagerAPI.Models;
 using ProjectManagerAPI.Repositories;
 using System;
@@ -64,5 +65,10 @@ public class UserRepository : IUserRepository
 		var result = usersByEmail.Concat(usersByName).Distinct();
 
 		return result;
+	}
+	public async Task<List<string>> GetUserRole(User user)
+	{
+		var roles = await _userManager.GetRolesAsync(user);
+		return roles.ToList();
 	}
 }

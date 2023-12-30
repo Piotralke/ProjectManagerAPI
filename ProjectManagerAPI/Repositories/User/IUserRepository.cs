@@ -12,5 +12,6 @@ namespace ProjectManagerAPI.Repositories
 		Task<IdentityResult> CreateUserAsync(User user, string password);
 		Task UpdateUserAsync(User user);
 		Task<IEnumerable<User>> SearchUsersAsync(string query);
+		Task<List<string>> GetUserRole(User user);
 	}
 }

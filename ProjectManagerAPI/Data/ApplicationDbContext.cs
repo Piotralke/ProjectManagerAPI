@@ -97,8 +97,40 @@ namespace ProjectManagerAPI.Data
 				.HasOne(u => u.pinnedProject)
 				.WithMany(p => p.pinnedUsers)
 				.HasForeignKey(u => u.pinnedProjectUuid);
-				
-				
+
+			modelBuilder.Entity<Group>()
+				.HasMany(g => g.members)
+				.WithOne(m => m.group)
+				.HasForeignKey(m => m.groupUuid);
+
+			modelBuilder.Entity<Group>()
+				.HasMany(g => g.subjects)
+				.WithOne(s => s.group)
+				.HasForeignKey(s => s.groupUuid);
+
+			modelBuilder.Entity<User>()
+				.HasMany(u => u.groupMembers)
+				.WithOne(g => g.user)
+				.HasForeignKey(g => g.userUuid);
+
+			modelBuilder.Entity<User>()
+				.HasMany(t => t.subjects)
+				.WithOne(s => s.teacher)
+				.HasForeignKey(s => s.teacherUuid);
+
+			modelBuilder.Entity<ProjectProposal>()
+				.HasOne(p => p.subject)
+				.WithMany(s => s.proposals)
+				.HasForeignKey(p => p.subjectUuid);
+
+			modelBuilder.Entity<ProjectProposal>()
+				.HasMany(p => p.proposalSquad)
+				.WithOne(s => s.projectProposal)
+				.HasForeignKey(s => s.projectProposalUuid);
+			modelBuilder.Entity<ProposalSquad>()
+				.HasOne(p => p.user)
+				.WithMany(u => u.proposalSquads)
+				.HasForeignKey(p => p.userUuid);
 			//modelBuilder.Entity<User>()
 			//	.Property(u => u.Id)
 			//	.HasColumnName("uuid")
@@ -122,5 +154,10 @@ namespace ProjectManagerAPI.Data
 		public DbSet<UserEvents> UserEvents { get; set; }
         public DbSet<GanntPreviousTask> GanntPreviousTasks { get; set; }
 		public DbSet<UserProjectNote> ProjectNotes { get; set; }
+		public DbSet<Group> Groups { get; set; }
+		public DbSet<GroupMembers> GroupMembers { get; set; }
+		public DbSet<Subject> Subjects { get; set; }
+		public DbSet<ProjectProposal> Proposals { get; set; }
+		public DbSet<ProposalSquad> ProposalsSquad { get; set;}
     }
 }

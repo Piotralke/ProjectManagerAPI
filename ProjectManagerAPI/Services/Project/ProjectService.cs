@@ -1,4 +1,5 @@
-﻿using ProjectManagerAPI.Dtos;
+﻿using Microsoft.AspNetCore.Identity;
+using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 using ProjectManagerAPI.Repositories;
 
@@ -97,7 +98,8 @@ public class ProjectService : IProjectService
 		foreach(var member in members)
 		{
 			var user = await _userRepository.GetUserByIdAsync(member.userUuid);
-			UserDto projectMember = new UserDto(user);
+			var role = await _userRepository.GetUserRole(user);
+			UserDto projectMember = new UserDto(user,role);
 			result.Add(projectMember);
 		}
 		return result;

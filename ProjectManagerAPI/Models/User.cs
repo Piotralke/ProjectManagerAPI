@@ -8,8 +8,11 @@ public class User : IdentityUser<Guid>
 	public DateTime createdAt { get; set; }
 	public ICollection<Project>? projects { get; set; }
 	public ICollection<ProjectMembers> members { get; set; }
+	public ICollection<GroupMembers> groupMembers { get; set; }
 	public ICollection<UserEvents> events { get; set; }
 	public ICollection<Message> messages { get; set; }
+	public ICollection<Subject> subjects { get; set; }
+	public ICollection<ProposalSquad> proposalSquads { get; set; }
 	public ICollection<UserProjectNote> projectNotes { get; set; }
 	public string ProfilePicturePath { get; set; } = "default.jpeg";
 	public Project? pinnedProject { get; set; }

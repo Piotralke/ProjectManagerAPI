@@ -15,11 +15,13 @@ namespace ProjectManagerAPI.Controllers
 		private readonly IProjectService _projectService;
 		private readonly IProjectEventService _projectEventService;
 		private readonly IUserEventService _userEventService;
-		public ProjectController(IProjectService projectService, IProjectEventService projectEventService, IUserEventService userEventService)
+		private readonly IGanntTaskService _ganntTaskService;
+		public ProjectController(IProjectService projectService,IGanntTaskService ganntTaskService, IProjectEventService projectEventService, IUserEventService userEventService)
 		{
 			_projectService = projectService;
 			_projectEventService = projectEventService;
 			_userEventService = userEventService;
+			_ganntTaskService = ganntTaskService;
 		}
 
 		[HttpGet]
@@ -231,6 +233,27 @@ namespace ProjectManagerAPI.Controllers
 			}
 			return BadRequest("Failed to delete event");
 		}
-		
+
+		[HttpGet("GetProjectGanttTasks/{projectId}")]
+		public ActionResult<IEnumerable<GanntTaskDto>> GetProjectGanttTasks([FromRoute] Guid projectId)
+		{
+			var result = _ganntTaskService.GetProjectGanntTasks(projectId);
+			if(result == null)
+			{
+				return BadRequest("Tasks not found");
+			}
+			return Ok(result);
+		}
+		[HttpPost("AddGanttTask")]
+		public ActionResult AddGanttTask([FromBody]CreateGanntTaskDto createGanntTaskDto)
+		{
+			_ganntTaskService.AddTask(createGanntTaskDto);
+			if (_ganntTaskService.SaveChanges())
+			{
+				return Ok();
+			}
+			return BadRequest("Failed to add gantt task");
+			
+		}
 	}
 }

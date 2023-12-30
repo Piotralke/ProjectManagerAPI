@@ -187,4 +187,21 @@ public class UserController : ControllerBase
 		var users = await _userService.SearchUsersAsync(searchCondition);
 		return Ok(users);
 	}
+	[HttpPut("PinProject/{projectId}")]
+	public async Task<IActionResult> PinProject([FromRoute]Guid projectId)
+	{
+		UpdateUserDto updateUserDto = new UpdateUserDto()
+		{
+			pinnedProjectUuid = projectId
+		};
+		Guid targetUserId;
+		var userIdClaim = User.FindFirstValue("userId");
+		if (userIdClaim == null || !Guid.TryParse(userIdClaim, out targetUserId))
+		{
+			return Unauthorized("Unable to retrieve user information");
+		}
+		await UpdateUser(targetUserId, updateUserDto);
+		return Ok();
+
+}
 }
