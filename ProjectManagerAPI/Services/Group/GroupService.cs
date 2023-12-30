@@ -19,7 +19,7 @@ public class GroupService : IGroupService
 		return _groupRepository.GetGroup(groupId);
 	}
 
-	public void AddGroup(Group group)
+	public Group AddGroup(Group group)
 	{
 		_groupRepository.AddGroup(group);
 	}
@@ -27,20 +27,5 @@ public class GroupService : IGroupService
 	public bool SaveChanges()
 	{
 		return _groupRepository.SaveChanges();
-	}
-
-	IEnumerable<Group> IGroupService.GetUserGroups(Guid userId)
-	{
-		throw new NotImplementedException();
-	}
-
-	Group IGroupService.GetGroup(Guid groupId)
-	{
-		throw new NotImplementedException();
-	}
-
-	public void AddGroup(Group group)
-	{
-		throw new NotImplementedException();
 	}
 }
