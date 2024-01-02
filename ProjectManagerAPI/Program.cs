@@ -88,6 +88,12 @@ public class Program
 		builder.Services.AddScoped<IGanntPreviousTaskRepository, GanntPreviousTaskRepository>();
 		builder.Services.AddScoped<IGanntTasksRepository,GanntTasksRepository>();
 		builder.Services.AddScoped<IGanntTaskService, GanntTaskService>();
+		builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+		builder.Services.AddScoped<IGroupService, GroupService>();
+		builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+		builder.Services.AddScoped<ISubjectService, SubjectService>();
+		builder.Services.AddScoped<IProjectProposalRepository, ProjectProposalRepository>();
+		builder.Services.AddScoped<IProjectProposalService, ProjectProposalService>();
 
 		
 

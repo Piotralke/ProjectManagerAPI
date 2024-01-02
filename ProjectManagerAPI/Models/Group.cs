@@ -8,6 +8,6 @@ namespace ProjectManagerAPI.Models
 		public Guid uuid { get; set; }
 		public string name { get; set; }
 		public ICollection<GroupMembers> members { get; set; }
-		public ICollection<Subject> subjects { get; set; }
+		public ICollection<GroupSubjects> subjects { get; set; }
 	}
 }

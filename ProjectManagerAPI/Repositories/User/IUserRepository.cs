@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using ProjectManagerAPI.Data.Enum;
 using ProjectManagerAPI.Models;
-using System;
-using System.Threading.Tasks;
+
 
 namespace ProjectManagerAPI.Repositories
 {
@@ -13,5 +13,6 @@ namespace ProjectManagerAPI.Repositories
 		Task UpdateUserAsync(User user);
 		Task<IEnumerable<User>> SearchUsersAsync(string query);
 		Task<List<string>> GetUserRole(User user);
+		Task<IEnumerable<User>> GetUsersByRoleAsync(Role role);
 	}
 }

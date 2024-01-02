@@ -10,8 +10,7 @@ namespace ProjectManagerAPI.Models
 		public Guid teacherUuid { get; set; }
 		public User teacher { get; set; }
 		public string requirements { get; set; }
-		public Guid groupUuid { get; set; }
-		public Group group { get; set; }
+		public ICollection<GroupSubjects> group { get; set; }
 		public ICollection<ProjectProposal> proposals { get; set; }
 
 	}

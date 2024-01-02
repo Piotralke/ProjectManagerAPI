@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManagerAPI.Data;
@@ -11,9 +12,11 @@ using ProjectManagerAPI.Data;
 namespace ProjectManagerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240102131838_SubjectFix")]
+    partial class SubjectFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,27 +246,6 @@ namespace ProjectManagerAPI.Migrations
                     b.ToTable("GroupMembers");
                 });
 
-            modelBuilder.Entity("ProjectManagerAPI.Models.GroupSubjects", b =>
-                {
-                    b.Property<Guid>("uuid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("groupUuid")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("subjectUuid")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("uuid");
-
-                    b.HasIndex("groupUuid");
-
-                    b.HasIndex("subjectUuid");
-
-                    b.ToTable("GroupSubjects");
-                });
-
             modelBuilder.Entity("ProjectManagerAPI.Models.Message", b =>
                 {
                     b.Property<Guid>("uuid")
@@ -476,6 +458,9 @@ namespace ProjectManagerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("groupUuid")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -488,6 +473,8 @@ namespace ProjectManagerAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("uuid");
+
+                    b.HasIndex("groupUuid");
 
                     b.HasIndex("teacherUuid");
 
@@ -724,25 +711,6 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("ProjectManagerAPI.Models.GroupSubjects", b =>
-                {
-                    b.HasOne("ProjectManagerAPI.Models.Group", "group")
-                        .WithMany("subjects")
-                        .HasForeignKey("groupUuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProjectManagerAPI.Models.Subject", "subject")
-                        .WithMany("group")
-                        .HasForeignKey("subjectUuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("group");
-
-                    b.Navigation("subject");
-                });
-
             modelBuilder.Entity("ProjectManagerAPI.Models.Message", b =>
                 {
                     b.HasOne("ProjectManagerAPI.Models.Project", "project")
@@ -846,11 +814,19 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Subject", b =>
                 {
+                    b.HasOne("ProjectManagerAPI.Models.Group", "group")
+                        .WithMany("subjects")
+                        .HasForeignKey("groupUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("User", "teacher")
                         .WithMany("subjects")
                         .HasForeignKey("teacherUuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("group");
 
                     b.Navigation("teacher");
                 });
@@ -946,8 +922,6 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Subject", b =>
                 {
-                    b.Navigation("group");
-
                     b.Navigation("proposals");
                 });
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 using System;
@@ -64,10 +65,20 @@ public class SubjectController : ControllerBase
 			name = subject.Name,
 			teacherUuid = subject.TeacherUuid,
 			requirements = subject.Requirements,
-			groupUuid = subject.GroupUuid
 		};
 
 		_subjectService.AddSubject(createdSubject);
+		foreach(Guid groupId in subject.GroupUuids)
+		{
+			var groupSubjectEntry = new GroupSubjects
+			{
+				uuid = Guid.NewGuid(),
+				groupUuid = groupId,
+				subjectUuid = createdSubject.uuid,
+			};
+			_subjectService.AddSubjectGroup(groupSubjectEntry);
+		}
+
 		if (_subjectService.SaveChanges())
 		{
 			return CreatedAtAction("GetSubject", new { uuid = createdSubject.uuid }, createdSubject);

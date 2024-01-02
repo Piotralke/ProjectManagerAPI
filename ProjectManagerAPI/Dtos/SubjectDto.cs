@@ -13,6 +13,6 @@ namespace ProjectManagerAPI.Dtos
 		public string Requirements { get; set; }
 
 		[Required]
-		public Guid GroupUuid { get; set; }
+		public List<Guid> GroupUuids { get; set; }
 	}
 }

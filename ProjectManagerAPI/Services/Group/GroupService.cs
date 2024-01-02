@@ -1,4 +1,7 @@
-﻿using ProjectManagerAPI.Models;
+﻿using System;
+using System.Collections.Generic;
+using ProjectManagerAPI.Dtos;
+using ProjectManagerAPI.Models;
 
 public class GroupService : IGroupService
 {
@@ -18,14 +21,32 @@ public class GroupService : IGroupService
 	{
 		return _groupRepository.GetGroup(groupId);
 	}
-
-	public Group AddGroup(Group group)
+	public IEnumerable<Group> GetAllGroups()
 	{
-		_groupRepository.AddGroup(group);
+		return _groupRepository.GetAllGroups();
+	}
+	public void AddGroup(CreateGroupDto group)
+	{
+		Group newGroup = new Group {
+			uuid = Guid.NewGuid(),
+			name = group.name,
+		};
+		_groupRepository.AddGroup(newGroup);
+		_groupRepository.AddGroupMembers(newGroup.uuid, group.members);
 	}
 
 	public bool SaveChanges()
 	{
 		return _groupRepository.SaveChanges();
+	}
+
+	public IEnumerable<Group> GetTeacherGroups(Guid teacherId)
+	{
+		return _groupRepository.GetTeacherGroups(teacherId);
+	}
+
+	public IEnumerable<Group> GetGroupsBySubject(Guid subjectId)
+	{
+		return _groupRepository.GetGroupsBySubject(subjectId);
 	}
 }

@@ -48,4 +48,8 @@ public class SubjectService : ISubjectService
 	{
 		return _subjectRepository.SaveChanges();
 	}
+	public void AddSubjectGroup(GroupSubjects subjectGroup)
+	{
+		_subjectRepository.AddSubjectGroup(subjectGroup);
+	}
 }

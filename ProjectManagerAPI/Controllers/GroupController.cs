@@ -16,7 +16,12 @@ namespace ProjectManagerAPI.Controllers
 		{
 			_groupService = groupService;
 		}
-
+		[HttpGet("get-all")]
+		public ActionResult<IEnumerable<Group>> GetAllGroups()
+		{
+			var userGroups = _groupService.GetAllGroups();
+			return Ok(userGroups);
+		}
 		[HttpGet("user/{userId}")]
 		public ActionResult<IEnumerable<Group>> GetUserGroups(Guid userId)
 		{
@@ -35,17 +40,29 @@ namespace ProjectManagerAPI.Controllers
 			return Ok(group);
 		}
 
-		[HttpPost]
-		public ActionResult<Group> CreateGroup([FromBody] Group groupDto)
+		[HttpGet("get-teacher-groups/{teacherId}")]
+		public ActionResult<IEnumerable<Group>> GetTeacherGroups([FromRoute] Guid teacherId)
+		{
+			var teacherGroups = _groupService.GetTeacherGroups(teacherId);
+			return Ok(teacherGroups);
+		}
+
+		[HttpGet("get-groups-by-subject/{subjectId}")]
+		public ActionResult<IEnumerable<Group>> GetGroupsBySubject([FromRoute] Guid subjectId)
+		{
+			var groupsBySubject = _groupService.GetGroupsBySubject(subjectId);
+			return Ok(groupsBySubject);
+		}
+
+		[HttpPost("create-group")]
+		public ActionResult<Group> CreateGroup([FromBody] CreateGroupDto groupDto)
 		{
 			_groupService.AddGroup(groupDto);
 			if (_groupService.SaveChanges())
 			{
-				return CreatedAtAction("GetGroup", new { groupId = groupDto.uuid }, groupDto);
+				return Ok(groupDto);
 			}
 			return BadRequest("Failed to create group.");
 		}
-
-		
 	}
 }

@@ -202,6 +202,18 @@ public class UserController : ControllerBase
 		}
 		await UpdateUser(targetUserId, updateUserDto);
 		return Ok();
+	}
+	[HttpGet("students")]
+	public async Task<IActionResult> GetStudents()
+	{
+		var students = await _userService.GetStudentsAsync();
+		return Ok(students);
+	}
 
-}
+	[HttpGet("teachers")]
+	public async Task<IActionResult> GetTeachers()
+	{
+		var teachers = await _userService.GetTeachersAsync();
+		return Ok(teachers);
+	}
 }

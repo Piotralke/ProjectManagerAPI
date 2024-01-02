@@ -32,9 +32,12 @@ public class SubjectRepository : ISubjectRepository
 	}
 	public IEnumerable<Subject> GetGroupSubjects(Guid groupId)
 	{
-		return _context.Subjects
-			.Where(s => s.groupUuid == groupId)
-			.ToList();
+		var subjects = _context.GroupSubjects
+		.Where(gs => gs.groupUuid == groupId)
+		.Select(gs => gs.subject)
+		.ToList();
+
+		return subjects;
 	}
 	public void AddSubject(Subject subject)
 	{
@@ -58,5 +61,9 @@ public class SubjectRepository : ISubjectRepository
 	public bool SaveChanges()
 	{
 		return _context.SaveChanges() > 0;
+	}
+	public void AddSubjectGroup(GroupSubjects subjectGroup)
+	{
+		_context.GroupSubjects.Add(subjectGroup);
 	}
 }

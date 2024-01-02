@@ -10,4 +10,5 @@ public interface ISubjectService
 	void UpdateSubject(Subject subject);
 	void DeleteSubject(Guid subjectId);
 	bool SaveChanges();
+	void AddSubjectGroup(GroupSubjects subjectGroup);
 }

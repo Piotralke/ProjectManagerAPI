@@ -71,4 +71,11 @@ public class UserRepository : IUserRepository
 		var roles = await _userManager.GetRolesAsync(user);
 		return roles.ToList();
 	}
+	public async Task<IEnumerable<User>> GetUsersByRoleAsync(Role role)
+	{
+		// Pobierz użytkowników o określonej roli
+		var users = await _userManager.GetUsersInRoleAsync(role.ToString());
+
+		return users;
+	}
 }

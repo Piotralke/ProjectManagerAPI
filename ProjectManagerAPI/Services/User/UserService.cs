@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using ProjectManagerAPI.Data.Enum;
 using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 using ProjectManagerAPI.Repositories;
@@ -96,5 +97,20 @@ public class UserService : IUserService
 	public async Task<IEnumerable<User>> SearchUsersAsync(string query)
 	{
 		return await _userRepository.SearchUsersAsync(query);
+	}
+	public async Task<IEnumerable<UserDto>> GetStudentsAsync()
+	{
+		var students = await _userRepository.GetUsersByRoleAsync(Role.STUDENT);
+		List<string> value = new List<string>();
+		value.Add("STUDENT");
+		return students.Select(u => new UserDto(u, value));
+	}
+
+	public async Task<IEnumerable<UserDto>> GetTeachersAsync()
+	{
+		var teachers = await _userRepository.GetUsersByRoleAsync(Role.TEACHER);
+		List<string> value = new List<string>();
+		value.Add("TEACHER");
+		return teachers.Select(u => new UserDto(u, value));
 	}
 }
