@@ -24,6 +24,17 @@ public class SubjectRepository : ISubjectRepository
 		}
 		return subject;
 	}
+	public IEnumerable<Subject> GetStudentSubjects(Guid studentId)
+	{
+		var groupIds = _context.GroupMembers.Where(m=>m.userUuid == studentId).ToList();
+		List<Subject> subjects = new List<Subject>();
+		foreach (var group in groupIds)
+		{
+			var result = GetGroupSubjects(group.groupUuid);
+			subjects.AddRange(result);
+		}
+		return subjects;
+	}
 	public IEnumerable<Subject> GetTeacherSubjects(Guid teacherId)
 	{
 		return _context.Subjects

@@ -34,6 +34,17 @@ public class SubjectController : ControllerBase
 		return Ok(subject);
 	}
 
+	[HttpGet("get-student-subjects/{studentId}")]
+	public ActionResult<List<Subject>> GetStudentSubjects([FromRoute] Guid studentId)
+	{
+		var subjects = _subjectService.GetStudentSubjects(studentId);
+		if (subjects == null)
+		{
+			return NotFound();
+		}
+		return Ok(subjects);
+	}
+
 	[HttpGet("get-teacher-subjects/{teacherId}")]
 	public ActionResult<List<Subject>> GetTeacherSubjects([FromRoute] Guid teacherId)
 	{

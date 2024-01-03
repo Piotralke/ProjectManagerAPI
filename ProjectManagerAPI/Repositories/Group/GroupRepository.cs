@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ProjectManagerAPI.Data;
 using ProjectManagerAPI.Models;
 
@@ -46,6 +47,10 @@ public class GroupRepository : IGroupRepository
 	public IEnumerable<Group> GetTeacherGroups(Guid teacherId)
 	{
 		return _context.Groups
+			.Include(g => g.members) // Dołącz dane z tabeli GroupMembers
+			.Include(g => g.subjects) // Dołącz dane z tabeli GroupSubjects
+				.ThenInclude(gs => gs.subject) // Dołącz dane z tabeli Subject
+					.ThenInclude(s => s.teacher) // Dołącz dane z tabeli User (nauczyciel)
 			.Where(g => g.subjects.Any(s => s.subject.teacherUuid == teacherId))
 			.ToList();
 	}

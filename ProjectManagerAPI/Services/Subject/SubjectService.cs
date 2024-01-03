@@ -18,7 +18,10 @@ public class SubjectService : ISubjectService
 	{
 		return _subjectRepository.GetSubjectById(subjectId);
 	}
-
+	public IEnumerable<Subject> GetStudentSubjects(Guid studentId)
+	{
+		return _subjectRepository.GetStudentSubjects(studentId);
+	}
 	public IEnumerable<Subject> GetTeacherSubjects(Guid teacherId)
 	{
 		return _subjectRepository.GetTeacherSubjects(teacherId);

@@ -5,6 +5,7 @@ public interface ISubjectRepository
 	IEnumerable<Subject> GetAllSubjects();
 	IEnumerable<Subject> GetTeacherSubjects(Guid teacherId);
 	IEnumerable<Subject> GetGroupSubjects(Guid groupId);
+	IEnumerable<Subject> GetStudentSubjects(Guid studentId);
 	Subject GetSubjectById(Guid subjectId);
 	void AddSubject(Subject subject);
 	void UpdateSubject(Subject subject);
