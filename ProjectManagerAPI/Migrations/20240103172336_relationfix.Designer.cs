@@ -12,8 +12,8 @@ using ProjectManagerAPI.Data;
 namespace ProjectManagerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231210120553_nullableStartTime")]
-    partial class nullableStartTime
+    [Migration("20240103172336_relationfix")]
+    partial class relationfix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -199,11 +199,72 @@ namespace ProjectManagerAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("uuid");
 
                     b.HasIndex("projectUuid");
 
                     b.ToTable("GanntTasks");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.Group", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("uuid");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.GroupMembers", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("groupUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("userUuid")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("groupUuid");
+
+                    b.HasIndex("userUuid");
+
+                    b.ToTable("GroupMembers");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.GroupSubjects", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("groupUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("subjectUuid")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("groupUuid");
+
+                    b.HasIndex("subjectUuid");
+
+                    b.ToTable("GroupSubjects");
                 });
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Message", b =>
@@ -212,12 +273,12 @@ namespace ProjectManagerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("content")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("hasAttachment")
                         .HasColumnType("boolean");
@@ -230,12 +291,9 @@ namespace ProjectManagerAPI.Migrations
 
                     b.HasKey("uuid");
 
-                    b.HasIndex("UserId");
-
                     b.HasIndex("projectUuid");
 
-                    b.HasIndex("senderUuid")
-                        .IsUnique();
+                    b.HasIndex("senderUuid");
 
                     b.ToTable("Messages");
                 });
@@ -281,6 +339,9 @@ namespace ProjectManagerAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("groupSubjectUuid")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("isPrivate")
                         .HasColumnType("boolean");
 
@@ -295,6 +356,8 @@ namespace ProjectManagerAPI.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("uuid");
+
+                    b.HasIndex("groupSubjectUuid");
 
                     b.HasIndex("ownerUuid");
 
@@ -358,13 +421,88 @@ namespace ProjectManagerAPI.Migrations
                     b.ToTable("ProjectMembers");
                 });
 
-            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
+            modelBuilder.Entity("ProjectManagerAPI.Models.ProjectProposal", b =>
                 {
                     b.Property<Guid>("uuid")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("UserEventsuuid")
+                    b.Property<DateTime>("cretedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("editedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("state")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("subjectUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("subjectUuid");
+
+                    b.ToTable("ProjectProposals");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.ProposalSquad", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("projectProposalUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("userUuid")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("projectProposalUuid");
+
+                    b.HasIndex("userUuid");
+
+                    b.ToTable("ProposalSquads");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.Subject", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("requirements")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("teacherUuid")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("teacherUuid");
+
+                    b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("eventUuid")
@@ -374,8 +512,6 @@ namespace ProjectManagerAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("uuid");
-
-                    b.HasIndex("UserEventsuuid");
 
                     b.HasIndex("eventUuid");
 
@@ -574,12 +710,46 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("project");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.GroupMembers", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.Group", "group")
+                        .WithMany("members")
+                        .HasForeignKey("groupUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "user")
+                        .WithMany("groupMembers")
+                        .HasForeignKey("userUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("group");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.GroupSubjects", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.Group", "group")
+                        .WithMany("subjects")
+                        .HasForeignKey("groupUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectManagerAPI.Models.Subject", "subject")
+                        .WithMany("group")
+                        .HasForeignKey("subjectUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("group");
+
+                    b.Navigation("subject");
+                });
+
             modelBuilder.Entity("ProjectManagerAPI.Models.Message", b =>
                 {
-                    b.HasOne("User", null)
-                        .WithMany("messages")
-                        .HasForeignKey("UserId");
-
                     b.HasOne("ProjectManagerAPI.Models.Project", "project")
                         .WithMany("messages")
                         .HasForeignKey("projectUuid")
@@ -587,8 +757,8 @@ namespace ProjectManagerAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("User", "sender")
-                        .WithOne("message")
-                        .HasForeignKey("ProjectManagerAPI.Models.Message", "senderUuid")
+                        .WithMany("messages")
+                        .HasForeignKey("senderUuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -610,11 +780,17 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Project", b =>
                 {
+                    b.HasOne("ProjectManagerAPI.Models.GroupSubjects", "groupSubject")
+                        .WithMany("projects")
+                        .HasForeignKey("groupSubjectUuid");
+
                     b.HasOne("User", "owner")
                         .WithMany("projects")
                         .HasForeignKey("ownerUuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("groupSubject");
 
                     b.Navigation("owner");
                 });
@@ -649,12 +825,49 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.ProjectProposal", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.Subject", "subject")
+                        .WithMany("proposals")
+                        .HasForeignKey("subjectUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("subject");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.ProposalSquad", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.ProjectProposal", "projectProposal")
+                        .WithMany("proposalSquad")
+                        .HasForeignKey("projectProposalUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "user")
+                        .WithMany("proposalSquads")
+                        .HasForeignKey("userUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("projectProposal");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.Subject", b =>
+                {
+                    b.HasOne("User", "teacher")
+                        .WithMany("subjects")
+                        .HasForeignKey("teacherUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("teacher");
+                });
+
             modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
                 {
-                    b.HasOne("ProjectManagerAPI.Models.UserEvents", null)
-                        .WithMany("events")
-                        .HasForeignKey("UserEventsuuid");
-
                     b.HasOne("ProjectManagerAPI.Models.ProjectEvents", "projectEvents")
                         .WithMany("userEvents")
                         .HasForeignKey("eventUuid")
@@ -705,6 +918,18 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("previousTasks");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.Group", b =>
+                {
+                    b.Navigation("members");
+
+                    b.Navigation("subjects");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.GroupSubjects", b =>
+                {
+                    b.Navigation("projects");
+                });
+
             modelBuilder.Entity("ProjectManagerAPI.Models.Message", b =>
                 {
                     b.Navigation("messageAttachment");
@@ -730,24 +955,35 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("userEvents");
                 });
 
-            modelBuilder.Entity("ProjectManagerAPI.Models.UserEvents", b =>
+            modelBuilder.Entity("ProjectManagerAPI.Models.ProjectProposal", b =>
                 {
-                    b.Navigation("events");
+                    b.Navigation("proposalSquad");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.Subject", b =>
+                {
+                    b.Navigation("group");
+
+                    b.Navigation("proposals");
                 });
 
             modelBuilder.Entity("User", b =>
                 {
                     b.Navigation("events");
 
-                    b.Navigation("members");
+                    b.Navigation("groupMembers");
 
-                    b.Navigation("message");
+                    b.Navigation("members");
 
                     b.Navigation("messages");
 
                     b.Navigation("projectNotes");
 
                     b.Navigation("projects");
+
+                    b.Navigation("proposalSquads");
+
+                    b.Navigation("subjects");
                 });
 #pragma warning restore 612, 618
         }

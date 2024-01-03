@@ -16,8 +16,8 @@ namespace ProjectManagerAPI.Models
 		public Guid ownerUuid { get; set; }
 		[ForeignKey("ownerUuid")]
 		public User owner { get; set; }
-		public Guid? subjectUuid { get; set; }
-	
+		public Guid? groupSubjectUuid { get; set; }
+		public GroupSubjects? groupSubject { get; set; }
 		public ICollection<User> pinnedUsers { get; set; }
 		public ICollection<ProjectMembers> members { get; set; }
 		public ICollection<ProjectEvents> events { get; set; }

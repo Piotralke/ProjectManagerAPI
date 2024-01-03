@@ -253,7 +253,17 @@ namespace ProjectManagerAPI.Controllers
 				return Ok();
 			}
 			return BadRequest("Failed to add gantt task");
-			
+
+		}
+		[HttpGet("GetGroupSubjectProjects")]
+		public ActionResult<IEnumerable<ProjectDto>> GetGroupSubjectProjects([FromRoute] Guid GroupId, [FromRoute] Guid SubjectId)
+		{
+			var result = _projectService.GetGroupSubjectProjects(GroupId, SubjectId);
+			if (result == null)
+			{
+				return BadRequest("Projeccts not found");
+			}
+			return Ok(result);
 		}
 	}
 }

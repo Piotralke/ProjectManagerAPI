@@ -23,6 +23,14 @@ public class ProjectRepository : IProjectRepository
 		}
 		return project;
     }
+	public IEnumerable<Project> GetGroupSubjectProjects(Guid groupId, Guid subjectId)
+	{
+		var groupSubject = _context.GroupSubjects
+			.Where(g=>g.groupUuid == groupId && g.subjectUuid == subjectId)
+			.FirstOrDefault();
+		return _context.Projects
+			.Where(p => p.groupSubjectUuid == groupSubject.uuid).ToList();
+	}
 	public void AddProject(Project project)
 	{
 		_context.Projects.Add(project);

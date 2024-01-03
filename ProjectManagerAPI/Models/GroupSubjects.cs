@@ -10,5 +10,6 @@ namespace ProjectManagerAPI.Models
 		public Group group { get; set; }
 		public Guid subjectUuid { get; set; }
 		public Subject subject { get; set; }
+		public ICollection<Project> projects { get; set; }
 	}
 }

@@ -336,6 +336,9 @@ namespace ProjectManagerAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("groupSubjectUuid")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("isPrivate")
                         .HasColumnType("boolean");
 
@@ -345,14 +348,13 @@ namespace ProjectManagerAPI.Migrations
                     b.Property<int>("status")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("subjectUuid")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("title")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("uuid");
+
+                    b.HasIndex("groupSubjectUuid");
 
                     b.HasIndex("ownerUuid");
 
@@ -775,11 +777,17 @@ namespace ProjectManagerAPI.Migrations
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Project", b =>
                 {
+                    b.HasOne("ProjectManagerAPI.Models.GroupSubjects", "groupSubject")
+                        .WithMany("projects")
+                        .HasForeignKey("groupSubjectUuid");
+
                     b.HasOne("User", "owner")
                         .WithMany("projects")
                         .HasForeignKey("ownerUuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("groupSubject");
 
                     b.Navigation("owner");
                 });
@@ -912,6 +920,11 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("members");
 
                     b.Navigation("subjects");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.GroupSubjects", b =>
+                {
+                    b.Navigation("projects");
                 });
 
             modelBuilder.Entity("ProjectManagerAPI.Models.Message", b =>

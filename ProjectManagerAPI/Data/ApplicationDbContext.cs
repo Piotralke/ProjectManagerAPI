@@ -136,6 +136,11 @@ namespace ProjectManagerAPI.Data
 				.HasMany(s => s.group)
 				.WithOne(u => u.subject)
 				.HasForeignKey(s => s.subjectUuid);
+
+			modelBuilder.Entity<Project>()
+				.HasOne(p => p.groupSubject)
+				.WithMany(g => g.projects)
+				.HasForeignKey(p => p.groupSubjectUuid);
 			//modelBuilder.Entity<User>()
 			//	.Property(u => u.Id)
 			//	.HasColumnName("uuid")

@@ -43,6 +43,17 @@ public class ProjectService : IProjectService
 		ProjectDto result = new ProjectDto(project);
 		return result;
 	}
+	public IEnumerable<ProjectDto> GetGroupSubjectProjects(Guid groupId, Guid subjectId)
+	{
+		var projects = _repository.GetGroupSubjectProjects(groupId, subjectId);
+		List<ProjectDto> result = new List<ProjectDto>();
+		foreach (var project in projects)
+		{
+			ProjectDto dto = new ProjectDto(project);
+			result.Add(dto);
+		}
+		return result;
+	}
 	public ProjectDto AddProject(CreateProjectDto project)
 	{
 		Project newProject = new Project

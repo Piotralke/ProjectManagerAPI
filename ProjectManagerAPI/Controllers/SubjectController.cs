@@ -55,7 +55,6 @@ public class SubjectController : ControllerBase
 		}
 		return Ok(subjects);
 	}
-
 	[HttpGet("get-group-subjects/{groupId}")]
 	public ActionResult<List<Subject>> GetGroupSubjects([FromRoute] Guid groupId)
 	{

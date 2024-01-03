@@ -27,6 +27,18 @@ namespace ProjectManagerAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Groups",
+                columns: table => new
+                {
+                    uuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groups", x => x.uuid);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -103,7 +115,7 @@ namespace ProjectManagerAPI.Migrations
                     surname = table.Column<string>(type: "text", nullable: false),
                     createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ProfilePicturePath = table.Column<string>(type: "text", nullable: false),
-                    pinnedProjectUuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    pinnedProjectUuid = table.Column<Guid>(type: "uuid", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -145,6 +157,99 @@ namespace ProjectManagerAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GroupMembers",
+                columns: table => new
+                {
+                    uuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    groupUuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    userUuid = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupMembers", x => x.uuid);
+                    table.ForeignKey(
+                        name: "FK_GroupMembers_AspNetUsers_userUuid",
+                        column: x => x.userUuid,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GroupMembers_Groups_groupUuid",
+                        column: x => x.groupUuid,
+                        principalTable: "Groups",
+                        principalColumn: "uuid",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subjects",
+                columns: table => new
+                {
+                    uuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    teacherUuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    requirements = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subjects", x => x.uuid);
+                    table.ForeignKey(
+                        name: "FK_Subjects_AspNetUsers_teacherUuid",
+                        column: x => x.teacherUuid,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupSubjects",
+                columns: table => new
+                {
+                    uuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    groupUuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    subjectUuid = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupSubjects", x => x.uuid);
+                    table.ForeignKey(
+                        name: "FK_GroupSubjects_Groups_groupUuid",
+                        column: x => x.groupUuid,
+                        principalTable: "Groups",
+                        principalColumn: "uuid",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GroupSubjects_Subjects_subjectUuid",
+                        column: x => x.subjectUuid,
+                        principalTable: "Subjects",
+                        principalColumn: "uuid",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectProposals",
+                columns: table => new
+                {
+                    uuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    subjectUuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    cretedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    editedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    title = table.Column<string>(type: "text", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: false),
+                    state = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectProposals", x => x.uuid);
+                    table.ForeignKey(
+                        name: "FK_ProjectProposals_Subjects_subjectUuid",
+                        column: x => x.subjectUuid,
+                        principalTable: "Subjects",
+                        principalColumn: "uuid",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -154,7 +259,8 @@ namespace ProjectManagerAPI.Migrations
                     status = table.Column<int>(type: "integer", nullable: false),
                     createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     isPrivate = table.Column<bool>(type: "boolean", nullable: false),
-                    ownerUuid = table.Column<Guid>(type: "uuid", nullable: false)
+                    ownerUuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    groupSubjectUuid = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -164,6 +270,36 @@ namespace ProjectManagerAPI.Migrations
                         column: x => x.ownerUuid,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Projects_GroupSubjects_groupSubjectUuid",
+                        column: x => x.groupSubjectUuid,
+                        principalTable: "GroupSubjects",
+                        principalColumn: "uuid");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProposalSquads",
+                columns: table => new
+                {
+                    uuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    projectProposalUuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    userUuid = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProposalSquads", x => x.uuid);
+                    table.ForeignKey(
+                        name: "FK_ProposalSquads_AspNetUsers_userUuid",
+                        column: x => x.userUuid,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProposalSquads_ProjectProposals_projectProposalUuid",
+                        column: x => x.projectProposalUuid,
+                        principalTable: "ProjectProposals",
+                        principalColumn: "uuid",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -176,7 +312,8 @@ namespace ProjectManagerAPI.Migrations
                     description = table.Column<string>(type: "text", nullable: false),
                     startDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     endDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    projectUuid = table.Column<Guid>(type: "uuid", nullable: false)
+                    projectUuid = table.Column<Guid>(type: "uuid", nullable: false),
+                    type = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -198,16 +335,11 @@ namespace ProjectManagerAPI.Migrations
                     hasAttachment = table.Column<bool>(type: "boolean", nullable: false),
                     projectUuid = table.Column<Guid>(type: "uuid", nullable: false),
                     senderUuid = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
+                    createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Messages", x => x.uuid);
-                    table.ForeignKey(
-                        name: "FK_Messages_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Messages_AspNetUsers_senderUuid",
                         column: x => x.senderUuid,
@@ -230,7 +362,7 @@ namespace ProjectManagerAPI.Migrations
                     title = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
                     dueTo = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    startTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    startTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     status = table.Column<int>(type: "integer", nullable: false),
                     type = table.Column<int>(type: "integer", nullable: false),
                     projectUuid = table.Column<Guid>(type: "uuid", nullable: false)
@@ -278,7 +410,7 @@ namespace ProjectManagerAPI.Migrations
                     uuid = table.Column<Guid>(type: "uuid", nullable: false),
                     userUuid = table.Column<Guid>(type: "uuid", nullable: false),
                     projectUuid = table.Column<Guid>(type: "uuid", nullable: false),
-                    value = table.Column<string>(type: "text", nullable: false)
+                    value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -349,8 +481,7 @@ namespace ProjectManagerAPI.Migrations
                 {
                     uuid = table.Column<Guid>(type: "uuid", nullable: false),
                     eventUuid = table.Column<Guid>(type: "uuid", nullable: false),
-                    userUuid = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserEventsuuid = table.Column<Guid>(type: "uuid", nullable: true)
+                    userUuid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -367,11 +498,6 @@ namespace ProjectManagerAPI.Migrations
                         principalTable: "ProjectEvents",
                         principalColumn: "uuid",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserEvents_UserEvents_UserEventsuuid",
-                        column: x => x.UserEventsuuid,
-                        principalTable: "UserEvents",
-                        principalColumn: "uuid");
                 });
 
             migrationBuilder.CreateIndex(
@@ -432,6 +558,26 @@ namespace ProjectManagerAPI.Migrations
                 column: "projectUuid");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GroupMembers_groupUuid",
+                table: "GroupMembers",
+                column: "groupUuid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupMembers_userUuid",
+                table: "GroupMembers",
+                column: "userUuid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupSubjects_groupUuid",
+                table: "GroupSubjects",
+                column: "groupUuid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupSubjects_subjectUuid",
+                table: "GroupSubjects",
+                column: "subjectUuid");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MessageAttachments_messageUuid",
                 table: "MessageAttachments",
                 column: "messageUuid");
@@ -444,13 +590,7 @@ namespace ProjectManagerAPI.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_senderUuid",
                 table: "Messages",
-                column: "senderUuid",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_UserId",
-                table: "Messages",
-                column: "UserId");
+                column: "senderUuid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectEvents_projectUuid",
@@ -478,19 +618,40 @@ namespace ProjectManagerAPI.Migrations
                 column: "userUuid");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProjectProposals_subjectUuid",
+                table: "ProjectProposals",
+                column: "subjectUuid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_groupSubjectUuid",
+                table: "Projects",
+                column: "groupSubjectUuid",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Projects_ownerUuid",
                 table: "Projects",
                 column: "ownerUuid");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProposalSquads_projectProposalUuid",
+                table: "ProposalSquads",
+                column: "projectProposalUuid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProposalSquads_userUuid",
+                table: "ProposalSquads",
+                column: "userUuid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subjects_teacherUuid",
+                table: "Subjects",
+                column: "teacherUuid");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserEvents_eventUuid",
                 table: "UserEvents",
                 column: "eventUuid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserEvents_UserEventsuuid",
-                table: "UserEvents",
-                column: "UserEventsuuid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserEvents_userUuid",
@@ -526,8 +687,7 @@ namespace ProjectManagerAPI.Migrations
                 table: "AspNetUsers",
                 column: "pinnedProjectUuid",
                 principalTable: "Projects",
-                principalColumn: "uuid",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "uuid");
         }
 
         /// <inheritdoc />
@@ -536,6 +696,10 @@ namespace ProjectManagerAPI.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Projects_AspNetUsers_ownerUuid",
                 table: "Projects");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Subjects_AspNetUsers_teacherUuid",
+                table: "Subjects");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -556,6 +720,9 @@ namespace ProjectManagerAPI.Migrations
                 name: "GanntPreviousTasks");
 
             migrationBuilder.DropTable(
+                name: "GroupMembers");
+
+            migrationBuilder.DropTable(
                 name: "MessageAttachments");
 
             migrationBuilder.DropTable(
@@ -563,6 +730,9 @@ namespace ProjectManagerAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProjectNotes");
+
+            migrationBuilder.DropTable(
+                name: "ProposalSquads");
 
             migrationBuilder.DropTable(
                 name: "UserEvents");
@@ -577,6 +747,9 @@ namespace ProjectManagerAPI.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
+                name: "ProjectProposals");
+
+            migrationBuilder.DropTable(
                 name: "ProjectEvents");
 
             migrationBuilder.DropTable(
@@ -584,6 +757,15 @@ namespace ProjectManagerAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Projects");
+
+            migrationBuilder.DropTable(
+                name: "GroupSubjects");
+
+            migrationBuilder.DropTable(
+                name: "Groups");
+
+            migrationBuilder.DropTable(
+                name: "Subjects");
         }
     }
 }
