@@ -9,7 +9,7 @@ namespace ProjectManagerAPI.Models
 		public Guid uuid { get; set; }
 		public Guid subjectUuid { get; set; }
 		public DateTime cretedAt { get; set; }
-		public DateTime editedAt { get; set; }
+		public DateTime? editedAt { get; set; }
 		public Subject subject { get; set; }
 		public string title { get; set; }
 		public string description { get; set; }

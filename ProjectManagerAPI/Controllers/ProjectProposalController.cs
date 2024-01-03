@@ -32,7 +32,16 @@ public class ProjectProposalController : ControllerBase
 		}
 		return Ok(projectProposal);
 	}
-
+	[HttpGet("get-user-proposal-for-subject")]
+	public ActionResult<ProjectProposal> GetSubjectProposalForUser([FromQuery]Guid subjectId, [FromQuery]Guid userId)
+	{
+		var result = _projectProposalService.GetSubjectProposalForUser(subjectId, userId);
+		if (result == null)
+		{
+			return NotFound();
+		}
+		return Ok(result);
+	}
 	[HttpGet("get-by-subject/{subjectId}")]
 	public ActionResult<IEnumerable<ProjectProposal>> GetProjectProposalsBySubject([FromRoute] Guid subjectId)
 	{
@@ -65,6 +74,8 @@ public class ProjectProposalController : ControllerBase
 			subjectUuid = projectProposalDto.SubjectUuid,
 			title = projectProposalDto.Title,
 			description = projectProposalDto.Description,
+			cretedAt = DateTime.UtcNow,
+			editedAt = null,
 			state = 0,
 			// ... inne pola
 		};

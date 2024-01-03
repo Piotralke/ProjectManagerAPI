@@ -26,7 +26,16 @@ public class ProjectProposalRepository : IProjectProposalRepository
 			.Include(p => p.proposalSquad)
 			.FirstOrDefault(p => p.uuid == proposalId);
 	}
+	public ProjectProposal GetSubjectProposalForUser(Guid subjectId, Guid userId)
+	{
+		var proposal = _context.ProjectProposals
+			.Include(p => p.proposalSquad)
+			.ThenInclude(ps => ps.user)
+			.FirstOrDefault(p => p.subjectUuid == subjectId &&
+								 p.proposalSquad.Any(ps => ps.userUuid == userId));
 
+		return proposal;
+	}
 	public IEnumerable<ProjectProposal> GetProjectProposalsBySubject(Guid subjectId)
 	{
 		return _context.ProjectProposals

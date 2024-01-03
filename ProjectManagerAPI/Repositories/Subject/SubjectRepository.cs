@@ -24,6 +24,7 @@ public class SubjectRepository : ISubjectRepository
 			.ThenInclude(g=>g.members)
 			.ThenInclude(g=>g.user)
 			.Include(s => s.proposals)
+			.Include(s=>s.teacher)
 			.FirstOrDefault(s => s.uuid == subjectId);
 		if (subject == null)
 		{

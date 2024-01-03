@@ -18,7 +18,10 @@ public class ProjectProposalService : IProjectProposalService
 	{
 		return _projectProposalRepository.GetProjectProposalById(proposalId);
 	}
-
+	public ProjectProposal GetSubjectProposalForUser(Guid subjectId, Guid userId)
+	{
+		return _projectProposalRepository.GetSubjectProposalForUser(subjectId, userId);
+	}
 	public IEnumerable<ProjectProposal> GetProjectProposalsBySubject(Guid subjectId)
 	{
 		return _projectProposalRepository.GetProjectProposalsBySubject(subjectId);
