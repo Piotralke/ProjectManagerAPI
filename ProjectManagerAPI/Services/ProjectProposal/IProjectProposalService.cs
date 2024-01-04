@@ -1,4 +1,5 @@
-﻿using ProjectManagerAPI.Models;
+﻿using ProjectManagerAPI.Dtos;
+using ProjectManagerAPI.Models;
 
 public interface IProjectProposalService
 {
@@ -10,7 +11,7 @@ public interface IProjectProposalService
 	IEnumerable<ProposalSquad> GetProposalSquadsByProjectProposal(Guid projectProposalId);
 	void AddProjectProposalSquad(ProposalSquad proposalSquad);
 	void AddProjectProposal(ProjectProposal proposal);
-	void UpdateProjectProposal(ProjectProposal proposal);
+	void UpdateProjectProposal(UpdateProjectProposalDto proposal);
 	void DeleteProjectProposal(Guid proposalId);
 	bool SaveChanges();
 }

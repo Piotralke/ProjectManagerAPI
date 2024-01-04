@@ -1,4 +1,6 @@
-﻿using ProjectManagerAPI.Models;
+﻿using Microsoft.IdentityModel.Tokens;
+using ProjectManagerAPI.Dtos;
+using ProjectManagerAPI.Models;
 
 public class ProjectProposalService : IProjectProposalService
 {
@@ -43,9 +45,21 @@ public class ProjectProposalService : IProjectProposalService
 		_projectProposalRepository.AddProjectProposal(proposal);
 	}
 
-	public void UpdateProjectProposal(ProjectProposal proposal)
+	public void UpdateProjectProposal(UpdateProjectProposalDto proposal)
 	{
-		_projectProposalRepository.UpdateProjectProposal(proposal);
+		var proposalToUpdate = GetProjectProposalById(proposal.uuid);
+		if(proposalToUpdate == null)
+		{
+			throw new Exception("Could not find project with given ID");
+		}
+		if (!proposal.title.IsNullOrEmpty())
+			proposalToUpdate.title = proposal.title;
+		if (!proposal.description.IsNullOrEmpty())
+			proposalToUpdate.description = proposal.description;
+		proposalToUpdate.state = proposal.state;
+		proposalToUpdate.editedAt = DateTime.UtcNow;
+
+		_projectProposalRepository.UpdateProjectProposal(proposalToUpdate);
 	}
 
 	public void DeleteProjectProposal(Guid proposalId)

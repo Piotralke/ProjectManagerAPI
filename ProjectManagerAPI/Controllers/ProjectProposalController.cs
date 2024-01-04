@@ -118,6 +118,16 @@ public class ProjectProposalController : ControllerBase
 		return BadRequest("Failed to create project proposal.");
 	}
 
+	[HttpPut]
+	public ActionResult UpdateProjectProposal([FromBody]UpdateProjectProposalDto projectProposal)
+	{
+		_projectProposalService.UpdateProjectProposal(projectProposal);
+		if (!_projectProposalService.SaveChanges() )
+		{
+			return BadRequest("Could not update the proposal");
+		}
+		return Ok();
+	}
 
 
 	[HttpDelete("{proposalId}")]

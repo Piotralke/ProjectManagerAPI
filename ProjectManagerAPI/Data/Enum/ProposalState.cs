@@ -4,6 +4,7 @@
 	{
 		SENT=0,
 		ACCEPTED=1,
-		REJECTED=2
+		REJECTED=2,
+		EDITED=3
 	}
 }

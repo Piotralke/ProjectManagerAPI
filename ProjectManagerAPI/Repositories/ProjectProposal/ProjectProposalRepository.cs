@@ -41,14 +41,16 @@ public class ProjectProposalRepository : IProjectProposalRepository
 		return _context.ProjectProposals
 			.Include(p => p.subject)
 			.Include(p => p.proposalSquad)
+			.ThenInclude(s=>s.user)
 			.Where(p => p.subjectUuid == subjectId)
 			.ToList();
 	}
-	IEnumerable<ProjectProposal> GetAllTeacherProposals(Guid teacherId)
+	public IEnumerable<ProjectProposal> GetAllTeacherProposals(Guid teacherId)
 	{
 		return _context.ProjectProposals
 			.Include(p=>p.subject)
 			.Include(p=>p.proposalSquad)
+			.ThenInclude(s => s.user)
 			.Where(p=>p.subject.teacherUuid == teacherId)
 			.ToList();
 	}
