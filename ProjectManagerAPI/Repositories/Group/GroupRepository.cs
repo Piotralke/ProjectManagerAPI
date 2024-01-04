@@ -27,7 +27,10 @@ public class GroupRepository : IGroupRepository
 	}
 	public IEnumerable<Group> GetAllGroups()
 	{
-		return _context.Groups.ToList();
+		return _context.Groups.Include(g => g.members) // Dołącz dane z tabeli GroupMembers
+			.Include(g => g.subjects) // Dołącz dane z tabeli GroupSubjects
+				.ThenInclude(gs => gs.subject) // Dołącz dane z tabeli Subject
+					.ThenInclude(s => s.teacher).ToList(); // Dołącz dane z tabeli User (nauczyciel)
 	}
 	public Group GetGroup(Guid groupId)
 	{

@@ -43,6 +43,10 @@ public class SubjectRepository : ISubjectRepository
 		}
 		return subjects.Distinct().ToList();
 	}
+	//public GroupSubjects GetGroupSubjectForUsersSubject(List<Guid> usersIds,Guid subjectId)
+	//{
+		
+	//}
 	public IEnumerable<Subject> GetTeacherSubjects(Guid teacherId)
 	{
 		return _context.Subjects

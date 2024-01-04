@@ -37,6 +37,12 @@ public class ProjectService : IProjectService
 		}
 		return userProjects;
 	}
+	public ProjectDto GetUserProjectForSubject(Guid userId,Guid SubjectId) 
+	{
+		var project = _repository.GetUserProjectForSubject(userId,SubjectId);
+		ProjectDto result = new ProjectDto(project);
+		return result;
+	}
 	public ProjectDto GetProjectById(Guid projectId)
 	{
 		var project = _repository.GetProjectById(projectId);
@@ -64,6 +70,7 @@ public class ProjectService : IProjectService
 			ownerUuid = project.ownerUuid,
 			createdAt = DateTime.UtcNow,
 			isPrivate = project.isPrivate,
+			groupSubjectUuid = project.groupSubjectUuid,
 		};
 		project.members.Add(project.ownerUuid);
 		foreach (var member in project.members)

@@ -7,6 +7,7 @@ public interface IProjectService
 	IEnumerable<ProjectDto> GetAllProjects();
 	IEnumerable<ProjectDto> GetUserProjects(Guid userUuid);
 	IEnumerable<ProjectDto> GetGroupSubjectProjects(Guid groupId, Guid subjectId);
+	ProjectDto GetUserProjectForSubject(Guid userId, Guid SubjectId);
 	ProjectDto GetProjectById(Guid projectId);
 	ProjectDto AddProject(CreateProjectDto project);
 	void UpdateProject(UpdateProjectDto project);

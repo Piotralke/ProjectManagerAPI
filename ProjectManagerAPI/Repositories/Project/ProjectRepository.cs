@@ -1,4 +1,5 @@
-﻿using ProjectManagerAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectManagerAPI.Data;
 using ProjectManagerAPI.Models;
 
 public class ProjectRepository : IProjectRepository
@@ -23,6 +24,16 @@ public class ProjectRepository : IProjectRepository
 		}
 		return project;
     }
+	public Project GetUserProjectForSubject(Guid userId,Guid SubjectId)
+	{
+		var project = _context.Projects
+		.Where(p => p.members.Any(pm => pm.userUuid == userId))
+		.Where(p => p.groupSubject.subjectUuid == SubjectId)
+		.Select(p=>p)
+		.FirstOrDefault();
+
+		return project;
+	}
 	public IEnumerable<Project> GetGroupSubjectProjects(Guid groupId, Guid subjectId)
 	{
 		var groupSubject = _context.GroupSubjects

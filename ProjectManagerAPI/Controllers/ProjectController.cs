@@ -265,5 +265,15 @@ namespace ProjectManagerAPI.Controllers
 			}
 			return Ok(result);
 		}
+		[HttpGet("GetUserProjectForSubject")]
+		public ActionResult<ProjectDto> GetUserProjectForSubject([FromQuery] Guid userId, [FromQuery] Guid subjectId)
+		{
+			var result =  _projectService.GetUserProjectForSubject(userId, subjectId);
+			if( result == null)
+			{
+				return NotFound();
+			}
+			return Ok(result);
+		}
 	}
 }

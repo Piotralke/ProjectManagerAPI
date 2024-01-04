@@ -29,6 +29,7 @@ namespace ProjectManagerAPI.Dtos
 		public Guid ownerUuid { get; set; }
 		public List<Guid> members { get; set; }
 		public bool isPrivate { get; set; }
+		public Guid groupSubjectUuid { get; set; }
 	}
 	public class UpdateProjectDto
 	{

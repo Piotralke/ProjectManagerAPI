@@ -40,6 +40,9 @@ public class ProjectProposalRepository : IProjectProposalRepository
 	{
 		return _context.ProjectProposals
 			.Include(p => p.subject)
+			.ThenInclude(s => s.group)
+			.ThenInclude(g => g.group)
+			.ThenInclude(gr => gr.members)
 			.Include(p => p.proposalSquad)
 			.ThenInclude(s=>s.user)
 			.Where(p => p.subjectUuid == subjectId)
@@ -49,6 +52,9 @@ public class ProjectProposalRepository : IProjectProposalRepository
 	{
 		return _context.ProjectProposals
 			.Include(p=>p.subject)
+			.ThenInclude(s=>s.group)
+			.ThenInclude(g=>g.group)
+			.ThenInclude(gr=>gr.members)
 			.Include(p=>p.proposalSquad)
 			.ThenInclude(s => s.user)
 			.Where(p=>p.subject.teacherUuid == teacherId)

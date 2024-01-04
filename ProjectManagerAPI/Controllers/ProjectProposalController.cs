@@ -36,10 +36,6 @@ public class ProjectProposalController : ControllerBase
 	public ActionResult<ProjectProposal> GetSubjectProposalForUser([FromQuery]Guid subjectId, [FromQuery]Guid userId)
 	{
 		var result = _projectProposalService.GetSubjectProposalForUser(subjectId, userId);
-		if (result == null)
-		{
-			return NotFound();
-		}
 		return Ok(result);
 	}
 	[HttpGet("get-by-subject/{subjectId}")]

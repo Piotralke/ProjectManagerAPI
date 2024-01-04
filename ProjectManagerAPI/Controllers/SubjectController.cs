@@ -33,7 +33,6 @@ public class SubjectController : ControllerBase
 		}
 		return Ok(subject);
 	}
-
 	[HttpGet("get-student-subjects/{studentId}")]
 	public ActionResult<List<Subject>> GetStudentSubjects([FromRoute] Guid studentId)
 	{
