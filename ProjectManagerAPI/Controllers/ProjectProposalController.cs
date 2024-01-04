@@ -53,6 +53,17 @@ public class ProjectProposalController : ControllerBase
 		return Ok(projectProposals);
 	}
 
+	[HttpGet("get-all-teacher-proposals/{teacherId}")]
+	public ActionResult<IEnumerable<ProjectProposal>> GetAllTeacherProposals([FromRoute] Guid teacherId)
+	{
+		var projectProposals = _projectProposalService.GetAllTeacherProposals(teacherId);
+		if(projectProposals == null)
+		{
+			return NotFound();
+		}
+		return Ok(projectProposals);
+	}
+
 	[HttpGet("{projectProposalId}/get-squads")]
 	public ActionResult<IEnumerable<ProposalSquad>> GetProposalSquadsByProjectProposal([FromRoute] Guid projectProposalId)
 	{

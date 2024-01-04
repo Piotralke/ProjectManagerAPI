@@ -44,6 +44,14 @@ public class ProjectProposalRepository : IProjectProposalRepository
 			.Where(p => p.subjectUuid == subjectId)
 			.ToList();
 	}
+	IEnumerable<ProjectProposal> GetAllTeacherProposals(Guid teacherId)
+	{
+		return _context.ProjectProposals
+			.Include(p=>p.subject)
+			.Include(p=>p.proposalSquad)
+			.Where(p=>p.subject.teacherUuid == teacherId)
+			.ToList();
+	}
 	public IEnumerable<ProposalSquad> GetProposalSquadsByProjectProposal(Guid projectProposalId)
 	{
 		return _context.ProposalSquads

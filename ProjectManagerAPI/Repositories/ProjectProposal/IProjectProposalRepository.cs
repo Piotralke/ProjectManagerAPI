@@ -6,6 +6,7 @@ public interface IProjectProposalRepository
 	ProjectProposal GetProjectProposalById(Guid proposalId);
 	ProjectProposal GetSubjectProposalForUser(Guid subjectId, Guid userId);
 	IEnumerable<ProjectProposal> GetProjectProposalsBySubject(Guid subjectId);
+	IEnumerable<ProjectProposal> GetAllTeacherProposals(Guid teacherId);
 	IEnumerable<ProposalSquad> GetProposalSquadsByProjectProposal(Guid projectProposalId);
 	void AddProjectProposalSquad(ProposalSquad proposalSquad);
 	void AddProjectProposal(ProjectProposal proposal);
