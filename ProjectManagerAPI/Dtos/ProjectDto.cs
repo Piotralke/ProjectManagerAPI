@@ -1,5 +1,6 @@
 ﻿using ProjectManagerAPI.Data.Enum;
 using ProjectManagerAPI.Models;
+using System.Text.Json.Serialization;
 
 namespace ProjectManagerAPI.Dtos
 {
@@ -11,6 +12,7 @@ namespace ProjectManagerAPI.Dtos
 		public ProjectStatus status { get; set; }
 		public DateTime createdAt { get; set; }
 		public bool isPrivate { get; set; }
+		public Guid ownerUuid { get; set; }
 		
 		public ProjectDto(Project project)
 		{
@@ -20,6 +22,7 @@ namespace ProjectManagerAPI.Dtos
 			status = project.status;
 			createdAt = project.createdAt;
 			isPrivate = project.isPrivate;
+			ownerUuid = project.ownerUuid;
 		}
 	}
 	public class CreateProjectDto
@@ -29,7 +32,8 @@ namespace ProjectManagerAPI.Dtos
 		public Guid ownerUuid { get; set; }
 		public List<Guid> members { get; set; }
 		public bool isPrivate { get; set; }
-		public Guid groupSubjectUuid { get; set; }
+		[JsonPropertyName("groupSubjectUuid")]
+		public Guid? groupSubjectUuid { get; set; }
 	}
 	public class UpdateProjectDto
 	{
@@ -41,5 +45,14 @@ namespace ProjectManagerAPI.Dtos
 	{
 		public Guid projectUuid { get; set; }
 		public Guid memberUuid { get; set; }
+	}
+	public class RateProjectDto
+	{
+		[JsonPropertyName("projectUuid")]
+		public Guid projectUuid { get; set; }
+		[JsonPropertyName("gradeValue")]
+		public string gradeValue { get; set; }
+		[JsonPropertyName("comment")]
+		public string? comment { get; set; }
 	}
 }

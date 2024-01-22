@@ -24,13 +24,6 @@ namespace ProjectManagerAPI.Controllers
 			_ganntTaskService = ganntTaskService;
 		}
 
-		[HttpGet]
-		public ActionResult<IEnumerable<ProjectDto>> GetAllProjects()
-		{
-			var projects = _projectService.GetAllProjects();
-			return Ok(projects);
-		}
-
 		[HttpGet("{uuid}")]
 		public ActionResult<ProjectDto> GetProject(Guid uuid)
 		{
@@ -61,28 +54,6 @@ namespace ProjectManagerAPI.Controllers
 				return CreatedAtAction("GetProject", new { uuid = createdProject.uuid }, createdProject);
 			}
 			return BadRequest("Failed to create user.");
-		}
-
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		[HttpDelete("{id}")]
-		public void  Delete(int id)
-		{
-		}
-
-		[HttpDelete("{projectId}/RemoveMmeber/{memberId}")]
-		public ActionResult RemoveProjectMember(Guid projectId, Guid memberId)
-		{
-			_projectService.RemoveProjectMember(projectId, memberId);
-			if(_projectService.SaveChanges())
-			{
-				return NoContent();
-			}
-			return BadRequest("Failed to delete project member");
-
 		}
 		[HttpPost("AddProjectMember")]
 		public ActionResult AddProjectMember([FromBody] CreateProjectMemberDto member)
@@ -169,6 +140,10 @@ namespace ProjectManagerAPI.Controllers
 				if (eventType == EventType.TASK)
 				{
 					eventTime = projectEvent.dueTo;
+					if (projectEvent.status == EventStatus.FINISHED)
+					{
+						continue;
+					}
 				}
 				else if (eventType == EventType.EVENT)
 				{
@@ -214,7 +189,7 @@ namespace ProjectManagerAPI.Controllers
 			return BadRequest("Failed to create event");
 		}
 		[HttpPut("UpdateProjectEvent")]
-		public ActionResult UpdateProjectEvent([FromBody]UpdateProjectEventDto updateProject)
+		public ActionResult UpdateProjectEvent([FromBody] UpdateProjectEventDto updateProject)
 		{
 			_projectEventService.UpdateEvent(updateProject);
 			if (_projectEventService.SaveChanges())
@@ -222,16 +197,6 @@ namespace ProjectManagerAPI.Controllers
 				return Ok();
 			}
 			return BadRequest("Failed to update event");
-		}
-		[HttpDelete("DeleteProjectEvent/{eventId}")]
-		public ActionResult DeleteProjectEvent([FromRoute] Guid eventId)	//jak beda podpieci uzytkownicy do zadania to trzeba sprawdzac i usuwac dowiazania
-		{
-			_projectEventService.DeleteEvent(eventId);
-			if( _projectEventService.SaveChanges())
-			{
-				return Ok();
-			}
-			return BadRequest("Failed to delete event");
 		}
 
 		[HttpGet("GetProjectGanttTasks/{projectId}")]
@@ -256,7 +221,7 @@ namespace ProjectManagerAPI.Controllers
 
 		}
 		[HttpGet("GetGroupSubjectProjects")]
-		public ActionResult<IEnumerable<ProjectDto>> GetGroupSubjectProjects([FromRoute] Guid GroupId, [FromRoute] Guid SubjectId)
+		public ActionResult<IEnumerable<ProjectDto>> GetGroupSubjectProjects([FromQuery] Guid GroupId, [FromQuery] Guid SubjectId)
 		{
 			var result = _projectService.GetGroupSubjectProjects(GroupId, SubjectId);
 			if (result == null)
@@ -270,6 +235,33 @@ namespace ProjectManagerAPI.Controllers
 		{
 			var result =  _projectService.GetUserProjectForSubject(userId, subjectId);
 			if( result == null)
+			{
+				return NotFound();
+			}
+			return Ok(result);
+		}
+		[HttpPost("RateProject")]
+		public ActionResult RateProject([FromBody] RateProjectDto rateProjectDto)
+		{
+			ProjectGrade grade = new ProjectGrade
+			{
+				uuid = Guid.NewGuid(),
+				projectUuid = rateProjectDto.projectUuid,
+				comment = rateProjectDto.comment,
+				value = rateProjectDto.gradeValue
+			};
+			_projectService.RateProject(grade);
+			if(_projectService.SaveChanges())
+			{
+				return Ok();
+			}
+			return BadRequest("Failed to rate project");
+		}
+		[HttpGet("GetProjectGrade/{projectId}")]
+		public ActionResult<ProjectGrade> GetProjectGrade([FromRoute] Guid projectId)
+		{
+			var result = _projectService.GetProjectGrade(projectId);
+			if(result == null)
 			{
 				return NotFound();
 			}

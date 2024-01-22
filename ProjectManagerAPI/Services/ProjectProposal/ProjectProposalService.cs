@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using ProjectManagerAPI.Data.Enum;
 using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 
@@ -44,7 +45,16 @@ public class ProjectProposalService : IProjectProposalService
 	{
 		_projectProposalRepository.AddProjectProposal(proposal);
 	}
-
+	public void SetProposalState(UpdateProjectProposalStateDto proposalState)
+	{
+		var proposalToUpdate = GetProjectProposalById(proposalState.uuid);
+		if (proposalToUpdate == null)
+		{
+			throw new Exception("Could not find project with given ID");
+		}
+		proposalToUpdate.state = proposalState.state;
+		_projectProposalRepository.UpdateProjectProposal(proposalToUpdate);
+	}
 	public void UpdateProjectProposal(UpdateProjectProposalDto proposal)
 	{
 		var proposalToUpdate = GetProjectProposalById(proposal.uuid);
@@ -52,13 +62,11 @@ public class ProjectProposalService : IProjectProposalService
 		{
 			throw new Exception("Could not find project with given ID");
 		}
-		if (!proposal.title.IsNullOrEmpty())
-			proposalToUpdate.title = proposal.title;
-		if (!proposal.description.IsNullOrEmpty())
-			proposalToUpdate.description = proposal.description;
-		proposalToUpdate.state = proposal.state;
+		proposalToUpdate.title = proposal.title;
+		proposalToUpdate.description = proposal.description;
+		proposalToUpdate.state = ProjectManagerAPI.Data.Enum.ProposalState.EDITED;
 		proposalToUpdate.editedAt = DateTime.UtcNow;
-
+		_projectProposalRepository.UpdateProposalSquad(proposal.MembersIds, proposal.uuid);
 		_projectProposalRepository.UpdateProjectProposal(proposalToUpdate);
 	}
 

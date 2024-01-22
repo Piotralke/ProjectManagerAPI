@@ -8,6 +8,7 @@ public class MessageAttachmentService : IMessageAttachmentService
 	{
 		_messageAttachmentRepository = messageAttachmentRepository;
 	}
+
 	public IEnumerable<MessageAttachment> GetMessageAttachments(Guid messageUuid)
 	{
 		return _messageAttachmentRepository.GetMessageAttachments(messageUuid);

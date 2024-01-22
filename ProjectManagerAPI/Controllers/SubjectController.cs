@@ -16,13 +16,6 @@ public class SubjectController : ControllerBase
 		_subjectService = subjectService;
 	}
 
-	[HttpGet]
-	public ActionResult<IEnumerable<Subject>> GetAllSubjects()
-	{
-		var subjects = _subjectService.GetAllSubjects();
-		return Ok(subjects);
-	}
-
 	[HttpGet("{uuid}")]
 	public ActionResult<Subject> GetSubject(Guid uuid)
 	{
@@ -93,17 +86,5 @@ public class SubjectController : ControllerBase
 			return CreatedAtAction("GetSubject", new { uuid = createdSubject.uuid }, createdSubject);
 		}
 		return BadRequest("Failed to create subject.");
-	}
-
-	[HttpPut("{id}")]
-	public void Put(int id, [FromBody] string value)
-	{
-		// Implementacja aktualizacji, jeśli potrzebna
-	}
-
-	[HttpDelete("{id}")]
-	public void Delete(int id)
-	{
-		// Implementacja usuwania, jeśli potrzebna
 	}
 }

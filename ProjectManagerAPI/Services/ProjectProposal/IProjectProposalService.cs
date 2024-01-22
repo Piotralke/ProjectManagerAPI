@@ -1,4 +1,5 @@
-﻿using ProjectManagerAPI.Dtos;
+﻿using ProjectManagerAPI.Data.Enum;
+using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 
 public interface IProjectProposalService
@@ -12,6 +13,7 @@ public interface IProjectProposalService
 	void AddProjectProposalSquad(ProposalSquad proposalSquad);
 	void AddProjectProposal(ProjectProposal proposal);
 	void UpdateProjectProposal(UpdateProjectProposalDto proposal);
+	void SetProposalState(UpdateProjectProposalStateDto proposalState);
 	void DeleteProjectProposal(Guid proposalId);
 	bool SaveChanges();
 }

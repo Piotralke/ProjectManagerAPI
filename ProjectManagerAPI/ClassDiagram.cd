@@ -1,0 +1,692 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="ProjectManagerAPI.Data.ApplicationDbContext" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAhAGAAAAAAAAgAAAAAEEAAEABgAAIACAAAEQBABQA=</HashCode>
+      <FileName>Data\ApplicationDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GanntPreviousTaskRepository" BaseTypeListCollapsed="true">
+    <Position X="0.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAQAAQAAAABAJAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\GanntPreviousTask\GanntPreviousTaskRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GanntTasksRepository" BaseTypeListCollapsed="true">
+    <Position X="2.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAABBABAIAAAAAAAAIAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\GanntTasks\GanntTasksRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GroupRepository" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAAAQAAEAAAABAAAAAAAAAAAAAAgAAAEAACAEAAAAAA=</HashCode>
+      <FileName>Repositories\Group\GroupRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MessageRepository" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAEAAAAAAAAABBBAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Repositories\Message\MessageRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MessageAttachmentRepository" BaseTypeListCollapsed="true">
+    <Position X="18.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAABAAgAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\MessageAttachment\MessageAttachmentRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ProjectRepository" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAABAAAAABAABAAAAAAAAgCAAAAAAAAAQAAIAAAJAAA=</HashCode>
+      <FileName>Repositories\Project\ProjectRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ProjectEventRepository" BaseTypeListCollapsed="true">
+    <Position X="6" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAIBABBAAAAAAACIAEAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Repositories\ProjectEvent\ProjectEventRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ProjectMembersRepository" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gIAAAAAABgAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\ProjectMembers\ProjectMembersRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ProjectProposalRepository" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAJAAAAABIBAAQAAAAACAAAABAAAAAAIABAAIAA=</HashCode>
+      <FileName>Repositories\ProjectProposal\ProjectProposalRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SubjectRepository" BaseTypeListCollapsed="true">
+    <Position X="13.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAACAAAAAAAABABAAAAwJAAAAAIAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\Subject\SubjectRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UserRepository" BaseTypeListCollapsed="true">
+    <Position X="22" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgABAAAAAAAAQAAAAAAAAAAAAABABAACAAAAEAAAAA=</HashCode>
+      <FileName>Repositories\User\UserRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_userManager" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UserEventsRepository" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAACAAAAARAABABAAAAAAAAAAAAAAAAAgAAAAACA=</HashCode>
+      <FileName>Repositories\UserEvents\UserEventsRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UserProjectNoteRepository" BaseTypeListCollapsed="true">
+    <Position X="15" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAABABAAAAAAAEAAAAAAAgAAAAAAAAAAAABA=</HashCode>
+      <FileName>Repositories\UserProjectNote\UserProjectNoteRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Identity.UserManager&lt;TUser&gt;" Collapsed="true">
+    <Position X="21.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="ProjectManagerAPI.Services.Auth.AuthService" BaseTypeListCollapsed="true">
+    <Position X="16" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAACAA=</HashCode>
+      <FileName>Services\Auth\AuthService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_configuration" />
+      <Field Name="_userManager" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GanntTaskService" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAACAAAAAABAAAAAAAAAAAABCAAQAACAAAAAAAAAI=</HashCode>
+      <FileName>Services\GanntTasks\GanntTaskService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_previousTaskRepository" />
+      <Field Name="_tasksRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GroupService" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAQAAMAAAAAAAAAAAAAAAAAAAgAAAEAACAEAAAAAA=</HashCode>
+      <FileName>Services\Group\GroupService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_groupRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MessageService" BaseTypeListCollapsed="true">
+    <Position X="20" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gQgAAAAAAAAAAAAAACAAAAAAAAAAAAAACAAEAAAAAAA=</HashCode>
+      <FileName>Services\Message\MessageService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_messageAttachmentRepository" />
+      <Field Name="_messageRepository" />
+      <Field Name="_userService" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MessageAttachmentService" BaseTypeListCollapsed="true">
+    <Position X="17.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAABAAAAAAAAAAEAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\MessageAttachments\MessageAttachmentService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_messageAttachmentRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ProjectService" BaseTypeListCollapsed="true">
+    <Position X="10.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAgBBBABAAAAAAABgCAAAAAgAAAwAAIAAAJAAA=</HashCode>
+      <FileName>Services\Project\ProjectService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_projectMembersRepository" />
+      <Field Name="_repository" />
+      <Field Name="_userRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ProjectEventService" BaseTypeListCollapsed="true">
+    <Position X="6" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAIACBBAAAAAAACIAECgAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Services\ProjectEvents\ProjectEventService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_projectEventRepository" />
+      <Field Name="_projectRepository" />
+      <Field Name="_userEventsRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ProjectProposalService" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAJAAAAAAIBAAQAAAAACAgAABAAAAAAIABAAIAA=</HashCode>
+      <FileName>Services\ProjectProposal\ProjectProposalService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_projectProposalRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SubjectService" BaseTypeListCollapsed="true">
+    <Position X="12.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAACAAAAAAAAAABAAAAyJAAAAAIAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Subject\SubjectService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_subjectRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UserService" BaseTypeListCollapsed="true">
+    <Position X="22" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgARQAgAAAAAQAAAABAAAAAAAABABAEAAAAAEAAAAA=</HashCode>
+      <FileName>Services\User\UserService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_signInManager" />
+      <Field Name="_userManager" />
+      <Field Name="_userRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UserEventService" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAACAAAAAQAAAABAAAAAAAAACAACAAAAgAAAAACA=</HashCode>
+      <FileName>Services\UserEvents\UserEventService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_userEventsRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UserProjectNoteService" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAABAAAAAAAAAEAAAAAAAgAAgAAAAAAAAABA=</HashCode>
+      <FileName>Services\UserProjectNote\UserProjectNoteService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_userProjectNoteRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Identity.SignInManager&lt;TUser&gt;" Collapsed="true">
+    <Position X="21.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="ProjectManagerAPI.Controllers.ChatController">
+    <Position X="18.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgABAAACAAEAAIAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Controllers\ChatController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_attachmentService" />
+      <Field Name="_messageService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ProjectManagerAPI.Controllers.GroupController">
+    <Position X="2.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAUAAEAAAAAAAAAAAAAAAAAAAAAAAEAACAEAAAAAQ=</HashCode>
+      <FileName>Controllers\GroupController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_groupService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ProjectManagerAPI.Controllers.ProjectController">
+    <Position X="10.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAEAABBABBAAAAIAABICAAAAACCAEAggAAAAACBA=</HashCode>
+      <FileName>Controllers\ProjectController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_ganntTaskService" />
+      <Field Name="_projectEventService" />
+      <Field Name="_projectService" />
+      <Field Name="_userEventService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ProjectManagerAPI.Controllers.UserProjectNoteController">
+    <Position X="14.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAEAAAAAAAgAAAAAAAAAACAAA=</HashCode>
+      <FileName>Controllers\UserProjectNoteController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_userProjectNoteService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ProjectProposalController">
+    <Position X="8" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAIBAAAAAAAACAAAABAAAAAAIAAACIAA=</HashCode>
+      <FileName>Controllers\ProjectProposalController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_projectProposalService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SubjectController">
+    <Position X="12.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAgAAAAAAAAABAAAAQBAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\SubjectController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_subjectService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="UserController">
+    <Position X="20.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQBAIIAEAAACAAgABAAAggAQABAAAAAAAUAAAAAAA=</HashCode>
+      <FileName>Controllers\UserController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_authService" />
+      <Field Name="_signInManager" />
+      <Field Name="_userManager" />
+      <Field Name="_userService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="UserEventsController">
+    <Position X="4.5" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAAgkAAAAABA=</HashCode>
+      <FileName>Controllers\UserEventsController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_projectEventService" />
+      <Field Name="_projectService" />
+      <Field Name="_userEventService" />
+      <Field Name="_userService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.GanntPreviousTask" Collapsed="true">
+    <Position X="0.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAABAAAAAAAAAAAAAAAAAAAAAIAAAAAABgAAA=</HashCode>
+      <FileName>Models\GanntPreviousTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.GanntTasks" Collapsed="true">
+    <Position X="0.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QIAAAAAAQBAAAAAAICAAAAAAAAgBAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Models\GanntTasks.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.Group" Collapsed="true">
+    <Position X="2.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAABAAAAAAAAAAAAAAAAAEAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Group.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.GroupMembers" Collapsed="true">
+    <Position X="2.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAABAAAAAAAAEAAABAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Models\GroupMembers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.GroupSubjects" Collapsed="true">
+    <Position X="2.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAABAAAAAAAAEAAACAAAAAAAAAAAAhAAAAAAA=</HashCode>
+      <FileName>Models\GroupSubjects.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.Message" Collapsed="true">
+    <Position X="18.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIgCAAAAABAAIAAAAAAAAAAAAAgAAAAQAAAAAAQgAAA=</HashCode>
+      <FileName>Models\Message.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.MessageAttachment" Collapsed="true">
+    <Position X="18.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABIAAAAAAAAAAgAAAAAAAEAAAEAAAAAAACA=</HashCode>
+      <FileName>Models\MessageAttachment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.Project" Collapsed="true">
+    <Position X="10.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARAAAAAQBAAoAAAIAAAAAAAAAAAAA4BgQiAAAAAIAA=</HashCode>
+      <FileName>Models\Project.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.ProjectEvents" Collapsed="true">
+    <Position X="10.25" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQBAAAAQBAAAAAAICAgAAAAAAgBAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Models\ProjectEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.ProjectGrade" Collapsed="true">
+    <Position X="10.25" Y="17.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAAAABAAAAAAAAAAAAAAAAgAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ProjectGrade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.ProjectMembers" Collapsed="true">
+    <Position X="10.25" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAABAAAAAAAAAAAABAAAgAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Models\ProjectMembers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.ProjectProposal" Collapsed="true">
+    <Position X="8" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQBAAAEAAIAAAAACAAAAgAAIEAAAgAAAAAAA=</HashCode>
+      <FileName>Models\ProjectProposal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.ProposalSquad" Collapsed="true">
+    <Position X="8" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQBAAAAAAAAAAAABAAAAAAAAQAAAAAAAAAQA=</HashCode>
+      <FileName>Models\ProposalSquad.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.Subject" Collapsed="true">
+    <Position X="12.5" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAABEAAAAAAAAAAAAAAAAEAAACAAAAAAABAAA=</HashCode>
+      <FileName>Models\Subject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.UserEvents" Collapsed="true">
+    <Position X="4.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAABAAABAAAAAAAAAAAIAAQA=</HashCode>
+      <FileName>Models\UserEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectManagerAPI.Models.UserProjectNote" Collapsed="true">
+    <Position X="14.5" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAABAAAAAAAAAAAABAAAgAACAAAAAAAAAAAQA=</HashCode>
+      <FileName>Models\UserProjectNote.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="User" Collapsed="true">
+    <Position X="20.5" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wAAAAAAAIAAAICAAAAAEAAAAAhAEAAYBAAABIAAAAAA=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IMessageAttachmentRepository" Collapsed="true">
+    <Position X="18.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAgAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\MessageAttachment\IMessageAttachmentRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IGanntPreviousTaskRepository" Collapsed="true">
+    <Position X="0.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAQAAQAAAAAAJAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\GanntPreviousTask\IGanntPreviousTaskRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IGanntTasksRepository" Collapsed="true">
+    <Position X="2.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAABBAAAIAAAAAAAAIAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\GanntTasks\IGanntTasksRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IGroupRepository" Collapsed="true">
+    <Position X="4.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAAAQAAEAAAAAAAAAAAAAAAAAAAgAAAEAACAEAAAAAA=</HashCode>
+      <FileName>Repositories\Group\IGroupRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IMessageRepository" Collapsed="true">
+    <Position X="20.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAEAAAAAAAAAABBAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Repositories\Message\IMessageRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ProjectManagerAPI.Services.IUserService" Collapsed="true">
+    <Position X="22" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAQQAAAAAAAQAAAAAAAAAAAAABABAEAAAAAEAAAAA=</HashCode>
+      <FileName>Services\User\IUserService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ProjectManagerAPI.Repositories.IUserRepository" Collapsed="true">
+    <Position X="22" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAQAAAAAAAAAAAAABABAACAAAAEAAAAA=</HashCode>
+      <FileName>Repositories\User\IUserRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Microsoft.Extensions.Configuration.IConfiguration" Collapsed="true">
+    <Position X="16.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="IUserProjectNoteRepository" Collapsed="true">
+    <Position X="15" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAABAAAAAAAAAEAAAAAAAgAAAAAAAAAAAABA=</HashCode>
+      <FileName>Repositories\UserProjectNote\IUserProjectNoteRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ISubjectRepository" Collapsed="true">
+    <Position X="13.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAACAAAAAAAAAABAAAAwJAAAAAIAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\Subject\ISubjectRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IProjectMembersRepository" Collapsed="true">
+    <Position X="9.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gIAAAAAABgAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\ProjectMembers\IProjectMembersRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IProjectRepository" Collapsed="true">
+    <Position X="11.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAABAAAAABAAAAAAAAAAAgCAAAAAAAAAQAAIAAAJAAA=</HashCode>
+      <FileName>Repositories\Project\IProjectRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IProjectProposalRepository" Collapsed="true">
+    <Position X="7.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAJAAAAAAIBAAQAAAAACAAAABAAAAAAIABAAIAA=</HashCode>
+      <FileName>Repositories\ProjectProposal\IProjectProposalRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IProjectEventRepository" Collapsed="true">
+    <Position X="6" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAIAABBAAAAAAACIAEAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Repositories\ProjectEvent\IProjectEventRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IUserEventsRepository" Collapsed="true">
+    <Position X="5.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAACAAAAAQAABABAAAAAAAAAAAAAAAAAgAAAAACA=</HashCode>
+      <FileName>Repositories\UserEvents\IUserEventsRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IMessageAttachmentService" Collapsed="true">
+    <Position X="17.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAEAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\MessageAttachments\IMessageAttachmentService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IMessageService" Collapsed="true">
+    <Position X="19" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAACAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Services\Message\IMessageService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IGroupService" Collapsed="true">
+    <Position X="2.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAQAAEAAAAAAAAAAAAAAAAAAAgAAAEAACAEAAAAAA=</HashCode>
+      <FileName>Services\Group\IGroupService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IProjectProposalService" Collapsed="true">
+    <Position X="8" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAJAAAAAAIBAAQAAAAACAAAABAAAAAAIABAAIAA=</HashCode>
+      <FileName>Services\ProjectProposal\IProjectProposalService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IGanntTaskService" Collapsed="true">
+    <Position X="0.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAACAAAAAAAAAAAAAAAAAAABCAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\GanntTasks\IGanntTaskService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IProjectEventService" Collapsed="true">
+    <Position X="6.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAIAABBAAAAAAACIAEAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Services\ProjectEvents\IProjectEventService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IProjectService" Collapsed="true">
+    <Position X="10.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAABBAABAAAAAAABgCAAAAAgAAAQAAIAAAJAAA=</HashCode>
+      <FileName>Services\Project\IProjectService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IUserEventService" Collapsed="true">
+    <Position X="4.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAACAAAAAQAAAABAAAAAAAAAAAACAAAAgAAAAACA=</HashCode>
+      <FileName>Services\UserEvents\IUserEventService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ISubjectService" Collapsed="true">
+    <Position X="12.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAACAAAAAAAAAABAAAAwJAAAAAIAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Subject\ISubjectService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IUserProjectNoteService" Collapsed="true">
+    <Position X="14.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAABAAAAAAAAAEAAAAAAAgAAAAAAAAAAAABA=</HashCode>
+      <FileName>Services\UserProjectNote\IUserProjectNoteService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ProjectManagerAPI.Services.Auth.IAuthService" Collapsed="true">
+    <Position X="16" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Services\Auth\IAuthService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -13,7 +13,8 @@ namespace ProjectManagerAPI.Dtos
         public string description { get; set; }
         public DateTime dueTo { get; set; }
         public DateTime? startTime { get; set; }
-        public EventStatus status { get; set; }
+		public DateTime? endDate { get; set; }
+		public EventStatus status { get; set; }
         public EventType type { get; set; }
         public Guid projectUuid { get; set; }
         public string? projectTitle { get; set; }
@@ -27,7 +28,9 @@ namespace ProjectManagerAPI.Dtos
             status= ev.status;
             type= ev.type;
             projectUuid= ev.projectUuid;
-        }
+			endDate = ev.endDate;
+
+		}
     }
     public class CreateProjectEventDto
     {
@@ -46,21 +49,7 @@ namespace ProjectManagerAPI.Dtos
         [JsonPropertyName("members")]
         public List<Guid> members { get; set; }
         public CreateProjectEventDto() { }
-        //public CreateProjectEventDto(
-        //    string title,
-        //    string description,
-        //    DateTime dueTo,
-        //    DateTime startTime,
-        //    EventType type, 
-        //    Guid projectUuid)
-        //{
-        //    title = title;
-        //    description = description;
-        //    dueTo = dueTo;
-        //    startTime = startTime;
-        //    type = type;
-        //    projectUuid = projectUuid;
-        //}
+
         public CreateProjectEventDto(ProjectEvents ev)
         {
             title = ev.title;
@@ -74,10 +63,6 @@ namespace ProjectManagerAPI.Dtos
     public class UpdateProjectEventDto
     {
         public Guid uuid { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public DateTime dueTo { get; set; }
-        public DateTime? startTime { get; set; }
         public EventStatus status { get; set; }
 
     }

@@ -56,7 +56,6 @@ public class GanntTaskService : IGanntTaskService
 				_previousTaskRepository.AddGanntTask(previousTask);
 			}
 		}
-		_tasksRepository.SaveChanges();
 	}
 
 	public void DeleteTask(Guid taskUuid)

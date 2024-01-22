@@ -271,7 +271,6 @@ namespace ProjectManagerAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("content")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("createdAt")
@@ -374,6 +373,9 @@ namespace ProjectManagerAPI.Migrations
                     b.Property<DateTime>("dueTo")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("endDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("projectUuid")
                         .HasColumnType("uuid");
 
@@ -395,6 +397,30 @@ namespace ProjectManagerAPI.Migrations
                     b.HasIndex("projectUuid");
 
                     b.ToTable("ProjectEvents");
+                });
+
+            modelBuilder.Entity("ProjectManagerAPI.Models.ProjectGrade", b =>
+                {
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("comment")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("projectUuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("uuid");
+
+                    b.HasIndex("projectUuid")
+                        .IsUnique();
+
+                    b.ToTable("ProjectGrades");
                 });
 
             modelBuilder.Entity("ProjectManagerAPI.Models.ProjectMembers", b =>
@@ -803,6 +829,17 @@ namespace ProjectManagerAPI.Migrations
                     b.Navigation("project");
                 });
 
+            modelBuilder.Entity("ProjectManagerAPI.Models.ProjectGrade", b =>
+                {
+                    b.HasOne("ProjectManagerAPI.Models.Project", "project")
+                        .WithOne("grade")
+                        .HasForeignKey("ProjectManagerAPI.Models.ProjectGrade", "projectUuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("project");
+                });
+
             modelBuilder.Entity("ProjectManagerAPI.Models.ProjectMembers", b =>
                 {
                     b.HasOne("ProjectManagerAPI.Models.Project", "project")
@@ -935,6 +972,8 @@ namespace ProjectManagerAPI.Migrations
             modelBuilder.Entity("ProjectManagerAPI.Models.Project", b =>
                 {
                     b.Navigation("events");
+
+                    b.Navigation("grade");
 
                     b.Navigation("members");
 

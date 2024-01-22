@@ -163,14 +163,6 @@ public class UserController : ControllerBase
 			return Unauthorized("Invalid email or password " + loginDto.Email + ";" + loginDto.Password );
 		}
 
-		// Użyj SignInManager do zalogowania użytkownika
-		var signInResult = await _signInManager.PasswordSignInAsync(user, loginDto.Password, isPersistent: false, lockoutOnFailure: false);
-
-		if (!signInResult.Succeeded)
-		{
-			return Unauthorized("Invalid email or password");
-		}
-
 		var token = await _authService.GenerateJwtToken(user);
 
 		return Ok(new { Token = token });

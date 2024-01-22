@@ -7,7 +7,7 @@ namespace ProjectManagerAPI.Models
 	{
 		[Key]
 		public Guid uuid { get; set; }
-		public string content { get; set; }
+		public string? content { get; set; }
 		[Required]
 		public bool hasAttachment { get; set; }
 		public Project project { get; set; }

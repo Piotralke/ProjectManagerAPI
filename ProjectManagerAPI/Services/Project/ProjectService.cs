@@ -122,5 +122,16 @@ public class ProjectService : IProjectService
 		}
 		return result;
 	}
+	public void RateProject(ProjectGrade projectGrade)
+	{
+		_repository.RateProject(projectGrade);
+		var project = _repository.GetProjectById(projectGrade.projectUuid);
+		project.status = ProjectManagerAPI.Data.Enum.ProjectStatus.FINISHED;
+		_repository.UpdateProject(project);
+	}
+	public ProjectGrade GetProjectGrade (Guid projectId) 
+	{
+		return _repository.GetProjectGrade(projectId);
+	}
 
 }

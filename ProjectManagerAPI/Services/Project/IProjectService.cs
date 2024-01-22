@@ -16,4 +16,6 @@ public interface IProjectService
 	void AddProjectMember(ProjectMembers member);
 	void RemoveProjectMember(Guid projectId, Guid memberId);
     Task<IEnumerable<UserDto>> GetProjectMembers(Guid projectId);
+	void RateProject(ProjectGrade projectGrade);
+	ProjectGrade GetProjectGrade(Guid projectId);
 }

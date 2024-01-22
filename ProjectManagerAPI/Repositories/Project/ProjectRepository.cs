@@ -58,7 +58,15 @@ public class ProjectRepository : IProjectRepository
 			_context.Projects.Remove(project);
         }
     }
-	public bool SaveChanges()
+	public void RateProject(ProjectGrade projectGrade)
+	{
+		_context.ProjectGrades.Add(projectGrade);
+	}
+	public ProjectGrade GetProjectGrade(Guid projectId)
+	{
+		return _context.ProjectGrades.FirstOrDefault(p=>p.projectUuid == projectId);
+	}
+	public bool SaveChanges() 
 	{
 		return _context.SaveChanges() > 0;
 	}

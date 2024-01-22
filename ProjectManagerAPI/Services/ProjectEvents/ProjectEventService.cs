@@ -1,4 +1,5 @@
-﻿using ProjectManagerAPI.Dtos;
+﻿using ProjectManagerAPI.Data.Enum;
+using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 
 public class ProjectEventService : IProjectEventService
@@ -96,12 +97,10 @@ public class ProjectEventService : IProjectEventService
         {
             throw new Exception("Event not found");
         }
-        ev.title = projectEvent.title;
-        ev.description = projectEvent.description;
-        ev.dueTo = projectEvent.dueTo;
-        ev.startTime = projectEvent.startTime;
         ev.status = projectEvent.status;
-		
+        if (projectEvent.status == EventStatus.FINISHED)
+            ev.endDate = DateTime.UtcNow;
+
         _projectEventRepository.UpdateEvent(ev);
 
 	}

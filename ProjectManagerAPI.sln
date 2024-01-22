@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManagerAPI", "ProjectManagerAPI\ProjectManagerAPI.csproj", "{5F681A5F-BE57-4617-A947-CFDEECA85D62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManagerAPI", "ProjectManagerAPI\ProjectManagerAPI.csproj", "{5F681A5F-BE57-4617-A947-CFDEECA85D62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManagerAPITests", "ProjectManagerAPITests\ProjectManagerAPITests.csproj", "{DE5E8692-B2CD-4242-87D0-7D2F01C51559}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{5F681A5F-BE57-4617-A947-CFDEECA85D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F681A5F-BE57-4617-A947-CFDEECA85D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F681A5F-BE57-4617-A947-CFDEECA85D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE5E8692-B2CD-4242-87D0-7D2F01C51559}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE5E8692-B2CD-4242-87D0-7D2F01C51559}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE5E8692-B2CD-4242-87D0-7D2F01C51559}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE5E8692-B2CD-4242-87D0-7D2F01C51559}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

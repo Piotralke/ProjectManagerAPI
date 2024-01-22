@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProjectManagerAPI.Data.Enum;
 using ProjectManagerAPI.Dtos;
 using ProjectManagerAPI.Models;
 using System;
@@ -13,13 +14,6 @@ public class ProjectProposalController : ControllerBase
 	public ProjectProposalController(IProjectProposalService projectProposalService)
 	{
 		_projectProposalService = projectProposalService;
-	}
-
-	[HttpGet]
-	public ActionResult<IEnumerable<ProjectProposal>> GetAllProjectProposals()
-	{
-		var projectProposals = _projectProposalService.GetAllProjectProposals();
-		return Ok(projectProposals);
 	}
 
 	[HttpGet("{proposalId}")]
@@ -124,16 +118,14 @@ public class ProjectProposalController : ControllerBase
 		}
 		return Ok();
 	}
-
-
-	[HttpDelete("{proposalId}")]
-	public ActionResult DeleteProjectProposal([FromRoute] Guid proposalId)
+	[HttpPut("update-status")]
+	public ActionResult SetProposalStatus([FromBody] UpdateProjectProposalStateDto proposalState)
 	{
-		_projectProposalService.DeleteProjectProposal(proposalId);
-		if (_projectProposalService.SaveChanges())
+		_projectProposalService.SetProposalState(proposalState);
+		if (!_projectProposalService.SaveChanges())
 		{
-			return Ok();
+			return BadRequest("Could not update the proposal");
 		}
-		return BadRequest("Failed to delete project proposal.");
+		return Ok();
 	}
 }

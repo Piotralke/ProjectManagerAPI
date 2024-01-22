@@ -89,7 +89,23 @@ public class ProjectProposalRepository : IProjectProposalRepository
 			_context.ProjectProposals.Remove(proposal);
 		}
 	}
-
+	public void UpdateProposalSquad(List<Guid> memberIds, Guid proposalId)
+	{
+		var proposalSquads = _context.ProposalSquads.Where(p=>p.projectProposalUuid.Equals(proposalId)).ToList();
+		_context.ProposalSquads.RemoveRange(proposalSquads);
+		List<ProposalSquad> data = new List<ProposalSquad>();
+		foreach(var member in  memberIds)
+		{
+			ProposalSquad proposalSquad = new ProposalSquad
+			{
+				uuid = new Guid(),
+				projectProposalUuid = proposalId,
+				userUuid = member
+			};
+			data.Add(proposalSquad);
+		}
+		_context.ProposalSquads.AddRange(data);
+	}
 	public bool SaveChanges()
 	{
 		return _context.SaveChanges() > 0;

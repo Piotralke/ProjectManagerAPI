@@ -18,6 +18,7 @@ namespace ProjectManagerAPI.Models
 		public User owner { get; set; }
 		public Guid? groupSubjectUuid { get; set; }
 		public GroupSubjects? groupSubject { get; set; }
+		public ProjectGrade? grade { get; set; }
 		public ICollection<User> pinnedUsers { get; set; }
 		public ICollection<ProjectMembers> members { get; set; }
 		public ICollection<ProjectEvents> events { get; set; }
